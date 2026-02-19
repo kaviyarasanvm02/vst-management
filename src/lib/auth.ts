@@ -1,6 +1,7 @@
 import NextAuth from "next-auth"
 import Credentials from "next-auth/providers/credentials"
-import { z } from "zod"
+import { LoginSchema } from '@/lib/schemas';
+import { authConfig } from '@/auth.config';
 import prisma from "@/lib/db"
 import bcrypt from "bcryptjs"
 
@@ -8,6 +9,7 @@ async function getUser(email: string) {
     try {
         const user = await prisma.user.findUnique({
             where: { email },
+            include: { role: true, branch: true },
         })
         return user
     } catch (error) {
@@ -17,26 +19,31 @@ async function getUser(email: string) {
 }
 
 export const { auth, signIn, signOut, handlers } = NextAuth({
-    pages: {
-        signIn: "/auth/login",
-    },
+    ...authConfig,
     callbacks: {
-        async session({ session, token }) {
-            if (token.sub && session.user) {
-                session.user.id = token.sub
+        ...authConfig.callbacks,
+        async jwt({ token, trigger }) {
+            if (!token.sub) return token
+
+            // Always refresh role/branch from DB on sign-in or token rotation,
+            // so role changes in the DB take effect without requiring a full logout.
+            if (token.email && (trigger === 'signIn' || trigger === 'update' || !token.role)) {
+                const dbUser = await getUser(token.email);
+                if (dbUser) {
+                    token.id = dbUser.id
+                    token.role = dbUser.role
+                    token.branch = dbUser.branch?.name || dbUser.branchLegacy
+                    token.image = dbUser.image
+                }
             }
-            return session
-        },
-        async jwt({ token }) {
+
             return token
         },
     },
     providers: [
         Credentials({
             async authorize(credentials) {
-                const parsedCredentials = z
-                    .object({ email: z.string().email(), password: z.string().min(6) })
-                    .safeParse(credentials)
+                const parsedCredentials = LoginSchema.safeParse(credentials)
 
                 if (parsedCredentials.success) {
                     const { email, password } = parsedCredentials.data
@@ -44,7 +51,12 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
                     if (!user) return null
                     const passwordsMatch = await bcrypt.compare(password, user.password)
 
-                    if (passwordsMatch) return user
+                    if (passwordsMatch) {
+                        return {
+                            ...user,
+                            branch: user.branch?.name || user.branchLegacy || null,
+                        }
+                    }
                 }
 
                 console.log("Invalid credentials")

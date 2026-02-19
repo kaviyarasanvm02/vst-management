@@ -3,261 +3,267 @@
 import { createTimesheet } from '@/app/lib/timesheet-actions';
 import { useFormStatus } from 'react-dom';
 import { Button } from '@/components/ui/button';
-import { useFormState } from 'react-dom';
-import { BriefcaseIcon, MapPinIcon } from '@heroicons/react/24/outline';
+import { useActionState } from 'react';
+import { BriefcaseIcon, MapPinIcon, ClockIcon, PencilSquareIcon, CalendarIcon } from '@heroicons/react/24/outline';
 import { useState, useEffect } from 'react';
+import dayjs from 'dayjs';
 
-// MUI Imports
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { TimePicker } from '@mui/x-date-pickers/TimePicker';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import TextField from '@mui/material/TextField';
-import InputAdornment from '@mui/material/InputAdornment';
-import dayjs, { Dayjs } from 'dayjs';
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export default function CreateTimesheetForm({ projects }: { projects: any[] }) {
+    const initialState = { message: '', errors: {} };
+    const [state, dispatch] = useActionState(createTimesheet, initialState);
 
-// Custom MUI Theme for Brand Colors
-const theme = createTheme({
-    palette: {
-        primary: {
-            main: '#f59e0b', // Amber-500
-        },
-        secondary: {
-            main: '#0f172a', // Slate-900 (Dark Blue)
-        },
-    },
-    components: {
-        MuiOutlinedInput: {
-            styleOverrides: {
-                root: {
-                    borderRadius: '0.5rem', // Match Tailwind rounded-lg
-                    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                        borderWidth: '1px',
-                    },
-                    backgroundColor: '#fff',
+    // Controlled state
+    const [date, setDate] = useState<string>(dayjs().format('YYYY-MM-DD'));
+    const [startTime, setStartTime] = useState<string>('');
+    const [endTime, setEndTime] = useState<string>('');
+    const [hours, setHours] = useState<string>('');
+
+    // Project state
+    const [projectName, setProjectName] = useState<string>('');
+    const [location, setLocation] = useState<string>('KalayarKoil office');
+
+    // Calculate hours helper
+    const calculateHours = (startStr: string, endStr: string) => {
+        if (startStr && endStr) {
+            const start = dayjs(`2000-01-01 ${startStr}`);
+            const end = dayjs(`2000-01-01 ${endStr}`);
+
+            if (end.isValid() && start.isValid()) {
+                const diffInMinutes = end.diff(start, 'minute');
+                const diffInHours = diffInMinutes / 60;
+                if (diffInHours > 0) {
+                    setHours(diffInHours.toFixed(2));
+                } else {
+                    setHours('');
                 }
             }
         }
-    }
-});
-
-export default function CreateTimesheetForm({ projects }: { projects: any[] }) {
-    const initialState = { message: '', errors: {} };
-    const [state, dispatch] = useFormState(createTimesheet, initialState);
-
-    // Controlled state for MUI components
-    const [date, setDate] = useState<Dayjs | null>(dayjs());
-    const [startTime, setStartTime] = useState<Dayjs | null>(null);
-    const [endTime, setEndTime] = useState<Dayjs | null>(null);
-    const [hours, setHours] = useState<string>('');
-
-    // Auto-calculate hours when start or end time changes
-    useEffect(() => {
-        if (startTime && endTime) {
-            const diffInMinutes = endTime.diff(startTime, 'minute');
-            const diffInHours = diffInMinutes / 60;
-            if (diffInHours > 0) {
-                setHours(diffInHours.toFixed(2));
-            } else {
-                setHours(''); // or handle negative time error
-            }
-        }
-    }, [startTime, endTime]);
+    };
 
     return (
-        <ThemeProvider theme={theme}>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <form action={dispatch} className="max-w-xl mx-auto">
-                    {/* Hidden Inputs for Server Action 'FormData' */}
-                    <input type="hidden" name="date" value={date ? date.format('YYYY-MM-DD') : ''} />
-                    <input type="hidden" name="hours" value={hours} />
+        <form action={dispatch} className="max-w-xl mx-auto">
+            {/* Hidden Inputs for Server Action 'FormData' */}
+            <input type="hidden" name="date" value={date} />
+            <input type="hidden" name="hours" value={hours} />
 
-                    <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
-                        <div className="border-b border-slate-100 bg-slate-50/50 px-6 py-4">
-                            <h2 className="text-base font-semibold text-slate-900">New Timesheet Entry</h2>
-                            <p className="text-sm text-slate-500">Fill in the details below to log your work.</p>
+            <div className="glass-card rounded-2xl overflow-hidden p-1 bg-white shadow-xl border border-slate-100">
+                <div className="bg-gradient-to-r from-indigo-50 to-violet-50 px-8 py-6 border-b border-indigo-100/50">
+                    <h2 className="text-xl font-bold text-slate-900 flex items-center gap-3">
+                        <div className="h-10 w-10 rounded-xl bg-indigo-600 flex items-center justify-center text-white shadow-lg shadow-indigo-500/30">
+                            <PencilSquareIcon className="h-6 w-6" />
                         </div>
+                        New Entry
+                    </h2>
+                    <p className="text-sm text-slate-500 mt-2 pl-[3.25rem]">Log your daily activity for accurate tracking.</p>
+                </div>
 
-                        <div className="p-6 space-y-6">
-                            {/* Date (MUI DatePicker) */}
-                            <div>
-                                <label className="block text-sm font-medium text-slate-700 mb-1">
-                                    Date
-                                </label>
-                                <DatePicker
+                <div className="p-8 space-y-8 bg-white/50 backdrop-blur-sm">
+                    {/* Section 1: When & What */}
+                    <div className="space-y-5">
+                        <h3 className="text-xs font-bold text-indigo-500 uppercase tracking-widest mb-4 flex items-center gap-2">
+                            <CalendarIcon className="h-4 w-4" />
+                            <span>Project & Date</span>
+                        </h3>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                            {/* Date */}
+                            <div className="md:col-span-1">
+                                <label htmlFor="date-input" className="block text-sm font-bold text-slate-700 mb-2">Date</label>
+                                <input
+                                    id="date-input"
+                                    type="date"
+                                    required
                                     value={date}
-                                    onChange={(newValue) => setDate(newValue)}
-                                    slotProps={{
-                                        textField: {
-                                            fullWidth: true,
-                                            size: 'small',
-                                            required: true,
-                                            error: !!state?.errors?.date,
-                                        }
-                                    }}
+                                    onChange={(e) => setDate(e.target.value)}
+                                    className="block w-full rounded-xl border-slate-200 bg-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm py-2.5"
                                 />
+                                {state?.errors?.date && (
+                                    <p className="mt-1 text-sm text-red-600">{state.errors.date}</p>
+                                )}
                             </div>
 
                             {/* Project */}
-                            <div>
-                                <label htmlFor="projectId" className="block text-sm font-medium text-slate-700 mb-1">
-                                    Project
-                                </label>
-                                <div className="relative group">
-                                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none z-10">
-                                        <BriefcaseIcon className="h-5 w-5 text-slate-400 group-focus-within:text-amber-500 transition-colors" />
+                            <div className="md:col-span-2">
+                                <label htmlFor="projectName" className="block text-sm font-bold text-slate-700 mb-2">Project</label>
+                                <div className="relative">
+                                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <BriefcaseIcon className="h-5 w-5 text-slate-400" />
                                     </div>
-                                    <select
-                                        id="projectId"
-                                        name="projectId"
-                                        className="block w-full pl-10 pr-10 py-2.5 rounded-lg border border-gray-300 text-slate-900 text-sm focus:border-amber-500 focus:ring-1 focus:ring-amber-500 shadow-sm appearance-none transition-all hover:border-amber-400 bg-white"
-                                        defaultValue=""
+                                    <input
+                                        id="projectName"
+                                        name="projectName"
+                                        type="text"
+                                        list="projects-list"
                                         required
-                                    >
-                                        <option value="" disabled>Select a project</option>
-                                        {projects.map((project) => (
-                                            <option key={project.id} value={project.id}>
-                                                {project.name}
-                                            </option>
+                                        placeholder="Type project name..."
+                                        value={projectName}
+                                        onChange={(e) => setProjectName(e.target.value)}
+                                        className="block w-full pl-10 rounded-xl border-slate-200 bg-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm py-2.5"
+                                    />
+                                    <datalist id="projects-list">
+                                        {projects.map((p) => (
+                                            <option key={p.code} value={p.name} />
                                         ))}
-                                    </select>
-                                    <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                                        <svg className="h-4 w-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
-                                    </div>
+                                    </datalist>
                                 </div>
-                            </div>
-
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                {/* Start Time */}
-                                <div>
-                                    <label className="block text-sm font-medium text-slate-700 mb-1">
-                                        Start Time
-                                    </label>
-                                    <TimePicker
-                                        value={startTime}
-                                        onChange={(newValue) => setStartTime(newValue)}
-                                        slotProps={{ textField: { fullWidth: true, size: 'small' } }}
-                                    />
-                                </div>
-
-                                {/* End Time */}
-                                <div>
-                                    <label className="block text-sm font-medium text-slate-700 mb-1">
-                                        End Time
-                                    </label>
-                                    <TimePicker
-                                        value={endTime}
-                                        onChange={(newValue) => setEndTime(newValue)}
-                                        slotProps={{ textField: { fullWidth: true, size: 'small' } }}
-                                    />
-                                </div>
-                            </div>
-
-                            {/* Activity */}
-                            <div>
-                                <label htmlFor="activity" className="block text-sm font-medium text-slate-700 mb-1">
-                                    Activity
-                                </label>
-                                <TextField
-                                    id="activity"
-                                    name="activity"
-                                    placeholder="e.g. Development, Meeting"
-                                    fullWidth
-                                    size="small"
-                                    variant="outlined"
-                                    required
-                                />
-                            </div>
-
-                            {/* Description */}
-                            <div>
-                                <label htmlFor="description" className="block text-sm font-medium text-slate-700 mb-1">
-                                    Description
-                                </label>
-                                <TextField
-                                    id="description"
-                                    name="description"
-                                    placeholder="What did you work on?"
-                                    multiline
-                                    rows={3}
-                                    fullWidth
-                                    size="small"
-                                    variant="outlined"
-                                    required
-                                />
-                            </div>
-
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                {/* Location */}
-                                <div>
-                                    <label htmlFor="location" className="block text-sm font-medium text-slate-700 mb-1">
-                                        Location
-                                    </label>
-                                    <div className="relative group">
-                                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none z-10">
-                                            <MapPinIcon className="h-5 w-5 text-slate-400 group-focus-within:text-amber-500 transition-colors" />
-                                        </div>
-                                        <select
-                                            id="location"
-                                            name="location"
-                                            className="block w-full pl-10 pr-10 py-2.5 rounded-lg border border-gray-300 text-slate-900 text-sm focus:border-amber-500 focus:ring-1 focus:ring-amber-500 shadow-sm appearance-none transition-all hover:border-amber-400 bg-white"
-                                            defaultValue="KalayarKoil office"
-                                            required
-                                        >
-                                            <option value="KalayarKoil office">KalayarKoil office</option>
-                                            <option value="Home">Home</option>
-                                            <option value="Client Site">Client Site</option>
-                                        </select>
-                                        <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                                            <svg className="h-4 w-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {/* Calculated Duration */}
-                                <div>
-                                    <label htmlFor="hours-display" className="block text-sm font-medium text-slate-700 mb-1">
-                                        Total Duration
-                                    </label>
-                                    <TextField
-                                        id="hours-display"
-                                        value={hours}
-                                        // Read-only to enforce use of TimePickers, but technically user can override if we allowed onChange
-                                        // Let's allow manual override in case calculation is off or they just want to type
-                                        onChange={(e) => setHours(e.target.value)}
-                                        type="number"
-                                        placeholder="0.0"
-                                        fullWidth
-                                        size="small"
-                                        required
-                                        InputProps={{
-                                            endAdornment: <InputAdornment position="end">Hrs</InputAdornment>,
-                                            inputProps: { min: 0, step: 0.1 }
-                                        }}
-                                        helperText={startTime && endTime ? "Auto-calculated from Time" : "Enter manually or select Time"}
-                                    />
-                                </div>
-                            </div>
-
-                            <div id="status-error" aria-live="polite" aria-atomic="true">
-                                {state.message && (
-                                    <p className="text-sm text-red-500 flex items-center gap-1" key={state.message}>
-                                        <span className="h-1.5 w-1.5 rounded-full bg-red-500 inline-block" />
-                                        {state.message}
-                                    </p>
+                                <p className="text-xs text-slate-500 mt-1.5 ml-1">Type matching name or enter a new one to create it.</p>
+                                {state?.errors?.projectName && (
+                                    <p className="mt-1 text-sm text-red-600">{state.errors.projectName}</p>
                                 )}
                             </div>
                         </div>
+                    </div>
 
-                        <div className="border-t border-slate-100 bg-slate-50 px-6 py-4 flex justify-end">
-                            <Button type="submit" className="w-full sm:w-auto bg-amber-500 hover:bg-amber-600 text-white">
-                                Save Timesheet
-                            </Button>
+                    {/* Section 2: Time & Location */}
+                    <div className="space-y-5">
+                        <h3 className="text-xs font-bold text-indigo-500 uppercase tracking-widest mb-4 flex items-center gap-2 pt-4 border-t border-slate-100">
+                            <ClockIcon className="h-4 w-4" />
+                            <span>Time & Context</span>
+                        </h3>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                            <div>
+                                <label className="block text-sm font-bold text-slate-700 mb-2">Start Time</label>
+                                <input
+                                    type="time"
+                                    value={startTime}
+                                    onChange={(e) => {
+                                        setStartTime(e.target.value);
+                                        calculateHours(e.target.value, endTime);
+                                    }}
+                                    className="block w-full rounded-xl border-slate-200 bg-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm py-2.5"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-bold text-slate-700 mb-2">End Time</label>
+                                <input
+                                    type="time"
+                                    value={endTime}
+                                    onChange={(e) => {
+                                        setEndTime(e.target.value);
+                                        calculateHours(startTime, e.target.value);
+                                    }}
+                                    className="block w-full rounded-xl border-slate-200 bg-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm py-2.5"
+                                />
+                            </div>
+                        </div>
+
+                        {/* Calculated Duration */}
+                        <div>
+                            <label htmlFor="hours-display" className="block text-sm font-bold text-slate-700 mb-2 flex justify-between items-center">
+                                <span>Duration</span>
+                                {hours && <span className="text-xs font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-lg border border-indigo-100">{hours} HRS</span>}
+                            </label>
+                            <div className="relative">
+                                <input
+                                    id="hours-display"
+                                    value={hours}
+                                    onChange={(e) => setHours(e.target.value)}
+                                    type="number"
+                                    placeholder="0.0"
+                                    required
+                                    min="0"
+                                    step="0.1"
+                                    className="block w-full rounded-xl border-slate-200 bg-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm py-2.5 pr-12"
+                                />
+                                <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                    <span className="text-slate-400 font-medium text-xs">HRS</span>
+                                </div>
+                            </div>
+                            {!hours && <p className="text-xs text-slate-500 mt-1">Enter manually or use time pickers</p>}
+                        </div>
+
+                        {/* Location */}
+                        <div>
+                            <label htmlFor="location" className="block text-sm font-bold text-slate-700 mb-2">Location</label>
+                            <div className="relative">
+                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <MapPinIcon className="h-5 w-5 text-slate-400" />
+                                </div>
+                                <input
+                                    id="location"
+                                    name="location"
+                                    type="text"
+                                    list="locations-list"
+                                    required
+                                    placeholder="Select or type location..."
+                                    value={location}
+                                    onChange={(e) => setLocation(e.target.value)}
+                                    className="block w-full pl-10 rounded-xl border-slate-200 bg-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm py-2.5"
+                                />
+                                <datalist id="locations-list">
+                                    {['KalayarKoil office', 'Bangalore', 'Hubli', 'Chennai', 'Home', 'Client Site'].map((loc) => (
+                                        <option key={loc} value={loc} />
+                                    ))}
+                                </datalist>
+                            </div>
                         </div>
                     </div>
-                </form>
-            </LocalizationProvider>
-        </ThemeProvider>
+
+                    {/* Section 3: Description */}
+                    <div className="space-y-5">
+                        <h3 className="text-xs font-bold text-indigo-500 uppercase tracking-widest mb-4 flex items-center gap-2 pt-4 border-t border-slate-100">
+                            <PencilSquareIcon className="h-4 w-4" />
+                            <span>Description</span>
+                        </h3>
+
+                        <div>
+                            <label htmlFor="activity" className="block text-sm font-bold text-slate-700 mb-2">Activity Name</label>
+                            <input
+                                id="activity"
+                                name="activity"
+                                type="text"
+                                placeholder="e.g. Frontend Development"
+                                required
+                                className="block w-full rounded-xl border-slate-200 bg-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm py-2.5"
+                            />
+                        </div>
+
+                        <div>
+                            <label htmlFor="description" className="block text-sm font-bold text-slate-700 mb-2">Details</label>
+                            <textarea
+                                id="description"
+                                name="description"
+                                placeholder="Briefly describe your work..."
+                                rows={3}
+                                required
+                                className="block w-full rounded-xl border-slate-200 bg-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-3"
+                            />
+                        </div>
+                    </div>
+
+                    {/* Errors & Actions */}
+                    <div id="status-error" aria-live="polite" aria-atomic="true">
+                        {state.message && (
+                            <div className="p-4 bg-red-50 border border-red-100 rounded-xl flex items-center gap-3 animate-pulse">
+                                <div className="flex-shrink-0 h-8 w-8 rounded-full bg-red-100 flex items-center justify-center text-red-600">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" /></svg>
+                                </div>
+                                <p className="text-sm font-medium text-red-800">{state.message}</p>
+                            </div>
+                        )}
+                    </div>
+                </div>
+
+                <div className="border-t border-slate-100 bg-slate-50/50 px-8 py-6 flex justify-end">
+                    <SubmitButton />
+                </div>
+            </div>
+        </form>
+    );
+}
+
+function SubmitButton() {
+    const { pending } = useFormStatus();
+
+    return (
+        <Button
+            type="submit"
+            disabled={pending}
+            className="w-full sm:w-auto bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-6 px-10 rounded-xl shadow-xl shadow-indigo-500/20 transition-all hover:shadow-indigo-500/30 hover:-translate-y-0.5 active:translate-y-0"
+        >
+            {pending ? 'Saving...' : 'Save Entry'}
+        </Button>
     );
 }

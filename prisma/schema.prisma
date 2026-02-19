@@ -3,6 +3,7 @@
 
 generator client {
   provider = "prisma-client-js"
+  output   = "../src/generated/client"
 }
 
 datasource db {
@@ -10,35 +11,107 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id        String      @id @default(cuid())
-  email     String      @unique
-  password  String
-  name      String?
-  role      String      @default("USER") // "USER" | "ADMIN"
-  createdAt DateTime    @default(now())
-  timesheets Timesheet[]
+model Role {
+  id      String  @id @default(cuid())
+  code    String  @unique
+  name    String
+  remarks String?
+  users   User[]
 }
 
+model Customer {
+  id            String    @id @default(cuid())
+  code          String    @unique
+  name          String
+  address       String?
+  remarks       String?
+  contactPerson String?
+  phone         String?
+  email         String?
+  projects      Project[]
+}
+
+model User {
+  id       String  @id @default(cuid())
+  code     String? @unique
+  email    String  @unique
+  password String
+  name     String?
+  image    String? // Path to profile avatar, e.g. /uploads/avatars/xxx.jpg
+
+  roleId String?
+  role   Role?   @relation(fields: [roleId], references: [id])
+
+  branchLegacy String? // Renamed from branch
+  branchId     String?
+  branch       Branch? @relation(fields: [branchId], references: [id])
+  
+  phone     String?
+  createdAt DateTime @default(now())
+
+  timesheets Timesheet[]
+  leaves     Leave[]
+  attendance Attendance[]
+
+  // Project Relations
+  managedProjects    Project[] @relation("ProjectManager")
+  projectMemberships Project[] @relation("ProjectTeam")
+  assignedTasks      Task[]    @relation("AssignedTasks")
+  attendanceRequests AttendanceRequest[]
+
+  @@index([roleId])
+  @@index([branchId])
+}
+
+
+// Wait, replace_file_content replaces a chunk. I should target User model and then append properly.
+// But appending with replace_file_content is hard if I don't want to read the whole file.
+// I will just replace the User model block to add fields, and use write_to_file or a separate replace to append at the end.
+// OR I can use a large replace if I include context.
+// Let's replace the User model first.
+
 model Project {
-  id          String           @id @default(cuid())
+  id          String  @id @default(cuid())
+  code        String  @unique
   name        String
-  client      String?          // Added Client field
   description String?
-  isActive    Boolean          @default(true)
-  entries     TimesheetEntry[]
+  isActive    Boolean @default(true)
+
+  // Customer Relation
+  customerId String?
+  customer   Customer? @relation(fields: [customerId], references: [id])
+
+  // Manager Relation
+  managerId String?
+  manager   User?   @relation("ProjectManager", fields: [managerId], references: [id])
+
+  // Team Members
+  teamMembers User[] @relation("ProjectTeam")
+
+  remarks   String?
+  startDate DateTime?
+  endDate   DateTime?
+
+  entries TimesheetEntry[]
+  tasks   Task[]
+
+  @@index([customerId])
+  @@index([managerId])
 }
 
 model Timesheet {
-  id          String           @id @default(cuid())
-  userId      String
-  user        User             @relation(fields: [userId], references: [id])
-  date        DateTime
-  status      String           @default("PENDING") // PENDING, APPROVED, REJECTED
-  entries     TimesheetEntry[]
-  totalHours  Float            @default(0)
-  createdAt   DateTime         @default(now())
-  updatedAt   DateTime         @updatedAt
+  id         String           @id @default(cuid())
+  userId     String
+  user       User             @relation(fields: [userId], references: [id])
+  date       DateTime
+  status     String           @default("PENDING") // PENDING, APPROVED, REJECTED
+  entries    TimesheetEntry[]
+  totalHours Float            @default(0)
+  createdAt  DateTime         @default(now())
+  updatedAt  DateTime         @updatedAt
+
+  @@index([userId, date])
+  @@index([status])
 }
 
 model TimesheetEntry {
@@ -47,9 +120,104 @@ model TimesheetEntry {
   timesheet   Timesheet @relation(fields: [timesheetId], references: [id], onDelete: Cascade)
   projectId   String
   project     Project   @relation(fields: [projectId], references: [id])
-  taskId      String?   
-  activity    String?   // Added Activity
-  location    String?   // Added Location (e.g. Office, WFH)
+  taskId      String?
+  activity    String? // Added Activity
+  location    String? // Added Location (e.g. Office, WFH)
   description String
   hours       Float
+
+  @@index([timesheetId])
+  @@index([projectId])
+}
+
+model Task {
+  id          String    @id @default(cuid())
+  title       String
+  description String?
+  status      String    @default("OPEN") // OPEN, IN_PROGRESS, COMPLETED
+  priority    String    @default("MEDIUM") // LOW, MEDIUM, HIGH
+  dueDate     DateTime?
+
+  assignedToId String
+  assignedTo   User   @relation("AssignedTasks", fields: [assignedToId], references: [id])
+
+  projectId String
+  project   Project @relation(fields: [projectId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([assignedToId])
+  @@index([projectId])
+  @@index([status])
+}
+
+model Leave {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  date      DateTime
+  type      String   @default("LEAVE") // LEAVE, HOLIDAY, SICK
+  status    String   @default("PENDING") // PENDING, APPROVED, REJECTED
+  reason    String?
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([date])
+}
+
+model Branch {
+  id        String   @id @default(cuid())
+  name      String
+  address   String?
+  latitude  Float
+  longitude Float
+  radius    Float    @default(100) // Meters
+  shiftStart String  @default("09:00")
+  shiftEnd   String  @default("18:00")
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  users     User[]
+}
+
+model Attendance {
+  id          String    @id @default(cuid())
+  userId      String
+  user        User      @relation(fields: [userId], references: [id])
+  date        DateTime
+  clockIn     DateTime
+  clockInLat  Float?
+  clockInLng  Float?
+  clockOut    DateTime?
+  clockOutLat Float?
+  clockOutLng Float?
+  status      String    @default("PRESENT") // PRESENT, LATE, ABSENT, HALF_DAY
+  ipAddress   String?
+  punchMode   String    @default("OFFICE") // OFFICE, WFH, FIELD
+  punchInNote String?   // Daily Goal
+  punchOutNote String?  // Work Summary
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([userId])
+  @@index([date])
+}
+
+model AttendanceRequest {
+  id            String    @id @default(cuid())
+  userId        String
+  user          User      @relation(fields: [userId], references: [id])
+  attendanceId  String?   // Optional: if editing an existing record
+  date          DateTime
+  requestType   String    // PUNCH_IN, PUNCH_OUT, CORRECTION
+  newTime       DateTime
+  reason        String
+  status        String    @default("PENDING") // PENDING, APPROVED, REJECTED
+  adminRemarks  String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@index([userId])
+  @@index([status])
 }

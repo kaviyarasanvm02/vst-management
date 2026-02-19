@@ -1,6 +1,7 @@
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from '../generated/client'
 
 const prismaClientSingleton = () => {
+    console.log('Initializing Prisma Client...', new Date().toISOString())
     return new PrismaClient()
 }
 

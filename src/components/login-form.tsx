@@ -4,75 +4,97 @@ import {
     AtSymbolIcon,
     KeyIcon,
     ExclamationCircleIcon,
-    ArrowRightIcon
+    ArrowRightIcon,
+    CheckCircleIcon
 } from '@heroicons/react/24/outline';
+import { useActionState } from 'react';
 import { useFormStatus } from 'react-dom';
 import { authenticate } from '@/app/lib/actions';
-import { Button } from '@/components/ui/button';
+import { useSearchParams } from 'next/navigation';
+import Link from 'next/link';
 
 export default function LoginForm() {
-    const [errorMessage, dispatch] = useFormState(authenticate, undefined);
+    const [errorMessage, dispatch] = useActionState(authenticate, undefined);
+    const searchParams = useSearchParams();
+    const isRegistered = searchParams.get('registered') === 'true';
 
     return (
-        <form action={dispatch} className="space-y-3">
-            <div className="flex-1 rounded-lg bg-gray-50 px-6 pb-4 pt-8">
-                <h1 className="mb-3 text-2xl font-bold font-sans text-gray-900 font-display">
-                    Please log in to continue.
-                </h1>
-                <div className="w-full">
-                    <div>
-                        <label
-                            className="mb-3 mt-5 block text-xs font-medium text-gray-900"
-                            htmlFor="email"
-                        >
-                            Email
-                        </label>
-                        <div className="relative">
-                            <input
-                                className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
-                                id="email"
-                                type="email"
-                                name="email"
-                                placeholder="Enter your email address"
-                                required
-                            />
-                            <AtSymbolIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
-                        </div>
-                    </div>
-                    <div className="mt-4">
-                        <label
-                            className="mb-3 mt-5 block text-xs font-medium text-gray-900"
-                            htmlFor="password"
-                        >
-                            Password
-                        </label>
-                        <div className="relative">
-                            <input
-                                className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
-                                id="password"
-                                type="password"
-                                name="password"
-                                placeholder="Enter password"
-                                required
-                                minLength={6}
-                            />
-                            <KeyIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
-                        </div>
-                    </div>
+        <form action={dispatch} className="space-y-6">
+            {isRegistered && (
+                <div className="rounded-md bg-emerald-50 border border-emerald-200 p-3 flex items-center gap-2 text-emerald-700 text-sm">
+                    <CheckCircleIcon className="h-5 w-5 flex-shrink-0 text-emerald-500" />
+                    <p>Registration successful! Please log in.</p>
                 </div>
-                <LoginButton />
-                <div
-                    className="flex h-8 items-end space-x-1"
-                    aria-live="polite"
-                    aria-atomic="true"
+            )}
+
+            <div>
+                <label
+                    className="mb-2 block text-sm font-medium text-slate-900"
+                    htmlFor="email"
                 >
-                    {errorMessage && (
-                        <>
-                            <ExclamationCircleIcon className="h-5 w-5 text-red-500" />
-                            <p className="text-sm text-red-500">{errorMessage}</p>
-                        </>
-                    )}
+                    Email Method
+                </label>
+                <div className="relative">
+                    <input
+                        className="peer block w-full rounded-lg border border-slate-300 bg-white py-3 pl-10 text-sm text-slate-900 placeholder:text-slate-400 focus:border-slate-500 focus:ring-2 focus:ring-slate-500/20 focus:outline-none transition-all"
+                        id="email"
+                        type="email"
+                        name="email"
+                        placeholder="Enter your email address"
+                        required
+                    />
+                    <AtSymbolIcon className="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400 peer-focus:text-slate-500 transition-colors" />
                 </div>
+            </div>
+
+            <div>
+                <label
+                    className="mb-2 block text-sm font-medium text-slate-900"
+                    htmlFor="password"
+                >
+                    Password
+                </label>
+                <div className="relative">
+                    <input
+                        className="peer block w-full rounded-lg border border-slate-300 bg-white py-3 pl-10 text-sm text-slate-900 placeholder:text-slate-400 focus:border-slate-500 focus:ring-2 focus:ring-slate-500/20 focus:outline-none transition-all"
+                        id="password"
+                        type="password"
+                        name="password"
+                        placeholder="Enter password"
+                        required
+                        minLength={6}
+                    />
+                    <KeyIcon className="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400 peer-focus:text-slate-500 transition-colors" />
+                </div>
+                <div className="flex justify-end mt-1">
+                    <Link href="#" className="text-xs font-medium text-slate-600 hover:text-slate-500">
+                        Forgot password?
+                    </Link>
+                </div>
+            </div>
+
+            <LoginButton />
+
+            <div className="text-center mt-6">
+                <p className="text-sm text-slate-600">
+                    Don&apos;t have an account?{' '}
+                    <Link href="/auth/signup" className="font-semibold text-slate-900 hover:text-slate-700 transition-colors">
+                        Sign up
+                    </Link>
+                </p>
+            </div>
+
+            <div
+                className="flex h-8 items-end space-x-1"
+                aria-live="polite"
+                aria-atomic="true"
+            >
+                {errorMessage && (
+                    <>
+                        <ExclamationCircleIcon className="h-5 w-5 text-red-500" />
+                        <p className="text-sm text-red-500">{errorMessage}</p>
+                    </>
+                )}
             </div>
         </form>
     );
@@ -82,11 +104,12 @@ function LoginButton() {
     const { pending } = useFormStatus();
 
     return (
-        <Button className="mt-4 w-full" aria-disabled={pending}>
-            Log in <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" />
-        </Button>
+        <button
+            disabled={pending}
+            className="flex w-full items-center justify-center rounded-lg bg-slate-900 px-4 py-3 text-sm font-semibold text-white shadow-md transition-all hover:bg-slate-800 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 disabled:opacity-70 disabled:cursor-not-allowed"
+        >
+            {pending ? 'Logging in...' : 'Sign in'}
+            {!pending && <ArrowRightIcon className="ml-2 h-4 w-4" />}
+        </button>
     );
 }
-
-// NOTE: useFormState requires react-dom setup which is fine in Next 14.
-import { useFormState } from 'react-dom';

@@ -1,92 +1,135 @@
 import Link from 'next/link';
-import { fetchUserTimesheets } from '@/app/lib/timesheet-actions';
-import { format } from 'date-fns';
+import { fetchUserTimesheets, fetchEmployeesWithStats } from '@/app/lib/timesheet-actions';
+import {
+    PlusIcon,
+    MagnifyingGlassIcon,
+    FunnelIcon as FilterIcon
+} from '@heroicons/react/24/outline'; // Removed unused icons
 
-export default async function Page() {
-    const timesheets = await fetchUserTimesheets();
+import { auth } from '@/lib/auth';
+import { TimesheetFilter } from '@/components/dashboard/timesheet-filter';
+import CalendarView from '@/components/timesheet/calendar-view';
+import clsx from 'clsx';
+import { EmployeeCard } from '@/components/dashboard/employee-card';
+import { TimesheetList } from '@/components/timesheet/timesheet-list';
+import { UserCircleIcon } from '@heroicons/react/24/outline';
+import Pagination from '@/components/ui/pagination';
+import { CopyEntryButton } from '@/components/timesheet/copy-entry-button';
+
+export default async function Page(props: {
+    searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
+    const searchParams = await props.searchParams;
+    const session = await auth();
+    const isAdmin = session?.user?.role?.code === 'ADMIN';
+
+    // Admin View: Employee Cards
+    if (isAdmin) {
+        const now = new Date();
+        const month = typeof searchParams.month === 'string' ? searchParams.month : (now.getMonth() + 1).toString();
+        const year = typeof searchParams.year === 'string' ? searchParams.year : now.getFullYear().toString();
+
+        const employees = await fetchEmployeesWithStats(month, year);
+
+        return (
+            <div className="w-full max-w-7xl mx-auto space-y-8 pb-10">
+                <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+                    <div>
+                        <h1 className="text-3xl font-bold tracking-tight text-slate-900 font-display">Employee Overview</h1>
+                        <p className="text-slate-500 mt-2">Select an employee to view their detailed timesheets.</p>
+                    </div>
+                    <TimesheetFilter />
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {employees.map((emp) => (
+                        <EmployeeCard key={emp.id} employee={emp} />
+                    ))}
+
+                    {employees.length === 0 && (
+                        <div className="col-span-full py-16 text-center bg-white/50 rounded-3xl border border-dashed border-slate-200 backdrop-blur-sm">
+                            <div className="h-16 w-16 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <UserCircleIcon className="h-8 w-8 text-slate-400" />
+                            </div>
+                            <h3 className="text-lg font-bold text-slate-900">No Employees Found</h3>
+                            <p className="text-slate-500 mt-2 max-w-sm mx-auto">Try adjusting the filters to see more results or add new users to the system.</p>
+                        </div>
+                    )}
+                </div>
+            </div>
+        );
+    }
+
+    // Employee View: My Timesheets (Redesigned)
+    const page = Number(searchParams.page) || 1;
+    const { timesheets, totalPages } = await fetchUserTimesheets({
+        page,
+        limit: 10,
+        month: typeof searchParams.month === 'string' ? searchParams.month : undefined,
+        year: typeof searchParams.year === 'string' ? searchParams.year : undefined,
+    });
 
     return (
-        <div className="w-full max-w-7xl mx-auto">
-            <div className="flex w-full items-center justify-between mb-6">
+        <div className="w-full max-w-5xl mx-auto space-y-8 pb-10">
+            {/* Header */}
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
                 <div>
-                    <h1 className="text-2xl font-bold text-slate-800">My Timesheets</h1>
-                    <p className="text-sm text-slate-500 mt-1">Manage and track your daily work entries.</p>
+                    <h1 className="text-3xl font-bold tracking-tight text-slate-900 font-display">My Timesheets</h1>
+                    <p className="text-slate-500 mt-2">Track specific projects and tasks.</p>
                 </div>
-                <Link
-                    href="/dashboard/timesheet/create"
-                    className="flex items-center gap-2 rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-medium text-white shadow-lg shadow-blue-600/20 transition-all hover:bg-blue-500 hover:scale-[1.02] active:scale-[0.98]"
-                >
-                    <span className="hidden md:block">Log Time</span>
-                    <span className="md:hidden">+</span>
-                </Link>
+                {!isAdmin && (
+                    <div className="flex items-center gap-3">
+                        <CopyEntryButton />
+                        <Link
+                            href="/dashboard/timesheet/create"
+                            className="flex items-center justify-center gap-2 rounded-xl bg-indigo-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/30 transition-all hover:bg-indigo-700 hover:shadow-indigo-500/40 hover:-translate-y-0.5 active:translate-y-0"
+                        >
+                            <PlusIcon className="h-5 w-5" />
+                            <span>Log Time</span>
+                        </Link>
+                    </div>
+                )}
             </div>
 
-            <div className="rounded-xl border border-slate-200 bg-white shadow-sm overflow-hidden">
-                <div className="overflow-x-auto">
-                    <table className="min-w-full divide-y divide-slate-200">
-                        <thead className="bg-slate-50">
-                            <tr>
-                                <th scope="col" className="px-6 py-4 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Date</th>
-                                <th scope="col" className="px-6 py-4 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Client</th>
-                                <th scope="col" className="px-6 py-4 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Project</th>
-                                <th scope="col" className="px-6 py-4 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Activity</th>
-                                <th scope="col" className="px-6 py-4 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Description</th>
-                                <th scope="col" className="px-6 py-4 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Duration</th>
-                                <th scope="col" className="px-6 py-4 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Location</th>
-                                <th scope="col" className="px-6 py-4 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Status</th>
-                            </tr>
-                        </thead>
-                        <tbody className="bg-white divide-y divide-slate-200">
-                            {timesheets.length === 0 ? (
-                                <tr>
-                                    <td colSpan={8} className="px-6 py-12 text-center text-slate-400">
-                                        No timesheet entries found. Start by logging your time!
-                                    </td>
-                                </tr>
-                            ) : (
-                                timesheets.map((ts) => (
-                                    ts.entries.map((entry) => (
-                                        <tr key={entry.id} className="hover:bg-slate-50 transition-colors">
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-900">
-                                                {format(ts.date, 'dd-MMM-yy')}
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-600">
-                                                {entry.project.client || <span className="text-slate-400 italic">Internal</span>}
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-900 font-medium">
-                                                {entry.project.name}
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-600">
-                                                {entry.activity}
-                                            </td>
-                                            <td className="px-6 py-4 text-sm text-slate-600 max-w-xs truncate">
-                                                {entry.description}
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm font-mono font-medium text-slate-700">
-                                                {entry.hours} Hrs
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-600">
-                                                {entry.location}
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap">
-                                                <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium 
-                                    ${ts.status === 'APPROVED'
-                                                        ? 'bg-emerald-100 text-emerald-800 border border-emerald-200'
-                                                        : ts.status === 'PENDING'
-                                                            ? 'bg-amber-100 text-amber-800 border border-amber-200'
-                                                            : 'bg-red-100 text-red-800 border border-red-200'
-                                                    }`}>
-                                                    {ts.status === 'APPROVED' ? 'Completed' : 'Pending'}
-                                                </span>
-                                            </td>
-                                        </tr>
-                                    ))
-                                ))
-                            )}
-                        </tbody>
-                    </table>
+            {/* Filter Bar */}
+            <div className="glass-card p-1.5 rounded-2xl flex items-center justify-between gap-2">
+                <div className="hidden sm:block">
+                    <TimesheetFilter />
+                </div>
+
+                <div className="flex bg-slate-100 p-1 rounded-lg">
+                    <Link
+                        href={{ pathname: '/dashboard/timesheet', query: { ...searchParams, view: 'list' } }}
+                        className={clsx(
+                            "px-3 py-1.5 text-xs font-bold rounded-md transition-all",
+                            !searchParams.view || searchParams.view === 'list' ? "bg-white text-indigo-600 shadow-sm" : "text-slate-500 hover:text-slate-700"
+                        )}
+                    >
+                        List
+                    </Link>
+                    <Link
+                        href={{ pathname: '/dashboard/timesheet', query: { ...searchParams, view: 'calendar' } }}
+                        className={clsx(
+                            "px-3 py-1.5 text-xs font-bold rounded-md transition-all",
+                            searchParams.view === 'calendar' ? "bg-white text-indigo-600 shadow-sm" : "text-slate-500 hover:text-slate-700"
+                        )}
+                    >
+                        Calendar
+                    </Link>
                 </div>
             </div>
-        </div>
+
+            {/* Timesheet List or Calendar */}
+            {
+                searchParams.view === 'calendar' ? (
+                    <CalendarView timesheets={timesheets} />
+                ) : (
+                    <>
+                        <TimesheetList timesheets={timesheets} />
+                        <Pagination totalPages={totalPages} />
+                    </>
+                )
+            }
+        </div >
     );
 }
