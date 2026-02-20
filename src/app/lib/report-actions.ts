@@ -39,7 +39,7 @@ export async function fetchReportStats(
             where: dateFilter,
             include: {
                 entries: { include: { project: { include: { customer: true } } } },
-                user: true,
+                user: { include: { branch: true } },
             },
         }),
         prisma.project.count({ where: { isActive: true } }),
@@ -54,6 +54,7 @@ export async function fetchReportStats(
                     where: dateFilter,
                     include: { entries: true },
                 },
+                branch: true,
             },
         }),
     ]);
@@ -87,7 +88,7 @@ export async function fetchReportStats(
     const empHours = hoursByEmployee
         .map(u => ({
             name: u.name || u.email,
-            branch: u.branch || '—',
+            branch: (u as any).branch?.name || (u as any).branchLegacy || '—',
             hours: u.timesheets.reduce((acc, ts) =>
                 acc + ts.entries.reduce((a, e) => a + e.hours, 0), 0),
         }))

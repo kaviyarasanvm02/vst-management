@@ -35,16 +35,24 @@ export function AttendanceCard({ todayAttendance, branches }: { todayAttendance:
     }, []);
 
     // Geolocation
-    const getLocation = () => {
+    const getLocation = (highAccuracy = true) => {
+        if (typeof window !== 'undefined' && !window.isSecureContext && window.location.hostname !== 'localhost') {
+            setGeoError('Geolocation requires a secure connection (HTTPS).');
+            return;
+        }
+
         if (!navigator.geolocation) {
             setGeoError('Geolocation is not supported by your browser');
             return;
         }
 
+        console.log(`Requesting location (High Accuracy: ${highAccuracy})...`);
+
         navigator.geolocation.getCurrentPosition(
             (position) => {
                 const lat = position.coords.latitude;
                 const lng = position.coords.longitude;
+                console.log('Location received:', lat, lng);
                 setLocation({ lat, lng });
                 setGeoError(null);
 
@@ -65,23 +73,35 @@ export function AttendanceCard({ todayAttendance, branches }: { todayAttendance:
                 }
             },
             (error) => {
-                console.error('Error getting location:', error);
+                // Log detailed error info to console
+                console.error('Geolocation Error Details:', {
+                    code: error.code,
+                    message: error.message,
+                    originalError: error
+                });
+
+                if (highAccuracy) {
+                    console.log('High accuracy failed, retrying with low accuracy...');
+                    getLocation(false); // Retry with low accuracy
+                    return;
+                }
+
                 switch (error.code) {
-                    case error.PERMISSION_DENIED:
-                        setGeoError('Location permission denied. Please enable it.');
+                    case 1: // PERMISSION_DENIED
+                        setGeoError('Location permission denied. Please enable it in your browser settings.');
                         break;
-                    case error.POSITION_UNAVAILABLE:
-                        setGeoError('Location information is unavailable.');
+                    case 2: // POSITION_UNAVAILABLE
+                        setGeoError('Location information is unavailable. Try moving to an open area.');
                         break;
-                    case error.TIMEOUT:
+                    case 3: // TIMEOUT
                         setGeoError('The request to get user location timed out.');
                         break;
                     default:
-                        setGeoError('An unknown error occurred getting location.');
+                        setGeoError(`Location Error: ${error.message || 'Unknown error'}`);
                         break;
                 }
             },
-            { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+            { enableHighAccuracy: highAccuracy, timeout: 10000, maximumAge: 0 }
         );
     };
 
@@ -100,11 +120,12 @@ export function AttendanceCard({ todayAttendance, branches }: { todayAttendance:
             return;
         }
 
-        // Optional Frontend check
-        if (punchMode === 'OFFICE' && nearestBranch && distance !== null && distance > nearestBranch.radius) {
-            toast.error(`You are too far from ${nearestBranch.name} (${Math.round(distance)}m).`);
-            return;
-        }
+        // Optional Frontend check - REMOVED strictly for "Too Far" blocking
+        // We now allow punching in from anywhere.
+        // if (punchMode === 'OFFICE' && nearestBranch && distance !== null && distance > nearestBranch.radius) {
+        //     toast.error(`You are too far from ${nearestBranch.name} (${Math.round(distance)}m).`);
+        //     return;
+        // }
 
         if (!note.trim()) {
             toast.error('Please enter your daily goal.');
@@ -271,18 +292,20 @@ export function AttendanceCard({ todayAttendance, branches }: { todayAttendance:
 
                         <button
                             onClick={handlePunchIn}
-                            disabled={loading || !!geoError || (punchMode === 'OFFICE' && !!(distance !== null && nearestBranch && distance > nearestBranch.radius)) || !note.trim()}
+                            disabled={loading || !!geoError || !note.trim()}
                             className={clsx(
                                 "w-full rounded-xl py-4 px-8 font-bold text-white text-lg shadow-lg transition-all transform hover:-translate-y-1 active:scale-95",
-                                punchMode !== 'OFFICE' || (distance !== null && nearestBranch && distance <= nearestBranch.radius) ? "bg-indigo-600 hover:bg-indigo-700 shadow-indigo-600/30" : "bg-slate-300 cursor-not-allowed",
-                                loading && "opacity-70 cursor-not-allowed"
+                                !(loading || !!geoError || !note.trim())
+                                    ? "bg-indigo-600 hover:bg-indigo-700 shadow-indigo-600/30"
+                                    : "bg-slate-300 cursor-not-allowed transform-none hover:translate-y-0 active:scale-100 shadow-none",
+                                loading && "opacity-70"
                             )}
                         >
                             {loading ? 'Punching In...' : 'Punch In'}
                         </button>
                         {punchMode === 'OFFICE' && distance !== null && nearestBranch && distance > nearestBranch.radius && (
                             <p className="text-center text-xs text-amber-600 mt-2 font-medium">
-                                Move closer to branch to punch in.
+                                Note: You are currently far from the branch, but punch-in is allowed.
                             </p>
                         )}
                     </div>

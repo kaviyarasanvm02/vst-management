@@ -38,6 +38,7 @@ export async function fetchEmployeeMonthlyReport(
         where: { id: userId },
         include: {
             role: true,
+            branch: true,
             timesheets: {
                 where: { date: { gte: startDate, lte: endDate } },
                 include: {
@@ -81,7 +82,7 @@ export async function fetchEmployeeMonthlyReport(
             id: user.id,
             name: user.name || user.email,
             email: user.email,
-            branch: user.branch || '—',
+            branch: (user as any).branch?.name || (user as any).branchLegacy || '—',
             role: user.role?.name || '—',
         },
         month,
@@ -101,7 +102,13 @@ export async function fetchAllEmployeesForReport() {
     if ((session?.user as any)?.role?.code !== 'ADMIN') return [];
 
     return prisma.user.findMany({
-        select: { id: true, name: true, email: true, branch: true },
+        select: {
+            id: true,
+            name: true,
+            email: true,
+            branch: { select: { name: true } },
+            branchLegacy: true
+        },
         orderBy: { name: 'asc' }
     });
 }

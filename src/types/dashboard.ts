@@ -4,6 +4,7 @@ import { TimesheetWithDetails } from '@/types';
 export interface EmployeeWithStats extends User {
     role: Role | null;
     totalHours: number;
+    currentLocation?: string; // Dynamic location based on latest attendance
     _count: {
         timesheets: number;
     };

@@ -92,7 +92,7 @@ export default async function Page() {
 
                     {isAdmin ? (
                         <Link
-                            href="/dashboard/timesheet"
+                            href="/dashboard/timesheets"
                             className="inline-flex items-center gap-2 rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-indigo-700 transition-colors shadow-sm"
                         >
                             <DocumentTextIcon className="h-4 w-4" />
@@ -100,7 +100,7 @@ export default async function Page() {
                         </Link>
                     ) : (
                         <Link
-                            href="/dashboard/timesheet/create"
+                            href="/dashboard/timesheets/create"
                             className="inline-flex items-center gap-2 rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-indigo-700 transition-colors shadow-sm"
                         >
                             <PlusIcon className="h-4 w-4" />
@@ -207,7 +207,7 @@ export default async function Page() {
                             {isAdmin ? 'Recent Submissions' : 'Recent Entries'}
                         </h2>
                         <Link
-                            href="/dashboard/timesheet"
+                            href="/dashboard/timesheets"
                             className="text-xs font-semibold text-indigo-600 hover:text-indigo-700 flex items-center gap-1"
                         >
                             View all <ArrowRightIcon className="h-3.5 w-3.5" />
@@ -249,7 +249,7 @@ export default async function Page() {
                                 </p>
                                 {!isAdmin && (
                                     <Link
-                                        href="/dashboard/timesheet/create"
+                                        href="/dashboard/timesheets/create"
                                         className="mt-4 text-xs font-semibold text-indigo-600 hover:underline"
                                     >
                                         Log time now →
@@ -271,7 +271,7 @@ export default async function Page() {
                         </p>
                     </div>
                     <Link
-                        href="/dashboard/timesheet"
+                        href="/dashboard/timesheets"
                         className="text-xs font-semibold text-amber-700 hover:text-amber-900 flex items-center gap-1 shrink-0"
                     >
                         Review <ArrowRightIcon className="h-3.5 w-3.5" />

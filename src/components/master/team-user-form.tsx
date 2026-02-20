@@ -9,6 +9,7 @@ const inputClass = "block w-full rounded-lg border border-slate-300 bg-white px-
 const labelClass = "block text-xs font-semibold text-slate-600 mb-1 uppercase tracking-wide";
 
 interface Role { id: string; name: string; }
+interface Branch { id: string; name: string; }
 
 function SubmitButton() {
     const { pending } = useFormStatus();
@@ -20,7 +21,7 @@ function SubmitButton() {
     );
 }
 
-export default function TeamUserForm({ roles }: { roles: Role[] }) {
+export default function TeamUserForm({ roles, branches }: { roles: Role[], branches: Branch[] }) {
     const [state, formAction] = useActionState(createUser, null);
     return (
         <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
@@ -43,7 +44,13 @@ export default function TeamUserForm({ roles }: { roles: Role[] }) {
                             {roles.map(r => <option key={r.id} value={r.id}>{r.name}</option>)}
                         </select>
                     </div>
-                    <div><label className={labelClass}>Branch</label><input name="branch" className={inputClass} placeholder="e.g., Chennai" /></div>
+                    <div>
+                        <label className={labelClass}>Branch</label>
+                        <select name="branchId" className={inputClass}>
+                            <option value="">Select Branch</option>
+                            {branches.map(b => <option key={b.id} value={b.id}>{b.name}</option>)}
+                        </select>
+                    </div>
                 </div>
                 <p className="text-xs text-amber-600 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">
                     ⚠️ Default password: <strong>Password@123</strong>. User should change it on first login.

@@ -64,18 +64,27 @@ export async function punchIn(lat: number, lng: number, mode: string = 'OFFICE',
                 console.log(`User at [${lat}, ${lng}], Check Branch ${branch.name}: Dist ${dist}m, Radius ${branch.radius}m`);
 
                 if (dist <= branch.radius) {
-                    // Found a valid branch
+                    // Found a valid branch within radius
                     validBranch = branch;
-                    break; // Stop at the first valid branch
+                    break;
                 }
 
                 if (dist < minDistance) {
                     minDistance = dist;
+                    validBranch = branch; // Update nearest branch even if outside radius
                 }
             }
 
+            // Fallback: If no branch within radius, use the nearest/last checked provided validBranch is set (which it will be if branches > 0)
+            // We already check branches.length === 0 above.
+
+            // RELAXED CHECK: We allow punch in from anywhere, but we might want to flag it?
+            // For now, based on user request "if i punch any place after i select punch in then only its detect my location",
+            // we will just proceed with the found validBranch (which is the nearest one).
+
             if (!validBranch) {
-                return { error: `You are too far from any branch. Nearest is ${Math.round(minDistance)}m away.` };
+                // Should theoretically not happen if branches > 0 and logic holds, but safe fallback
+                validBranch = branches[0];
             }
         } else {
             // WFH or FIELD mode - skip geo-fencing and use user's assigned branch for shift times
@@ -368,7 +377,7 @@ export async function processAttendanceRequest(requestId: string, status: 'APPRO
                 where: { id: requestId },
                 data: { status, adminRemarks: remarks ?? null },
             });
-            revalidatePath('/admin/attendance-requests');
+            revalidatePath('/admin/management/attendance-requests');
             return { success: 'Request rejected.' };
         }
 
@@ -422,7 +431,7 @@ export async function processAttendanceRequest(requestId: string, status: 'APPRO
             data: { status, adminRemarks: remarks ?? null },
         });
 
-        revalidatePath('/admin/attendance-requests');
+        revalidatePath('/admin/management/attendance-requests');
         revalidatePath('/dashboard/attendance');
         return { success: 'Request approved and attendance updated.' };
     } catch (error) {

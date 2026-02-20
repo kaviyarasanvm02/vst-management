@@ -48,7 +48,7 @@ export async function createTask(prevState: any, formData: FormData) {
         return createError('Database Error: Failed to Create Task.');
     }
 
-    revalidatePath('/admin/tasks');
+    revalidatePath('/admin/management/tasks');
     return { message: 'Task Created Successfully' };
 }
 
@@ -81,7 +81,7 @@ export async function updateTaskStatus(id: string, status: string) {
             where: { id },
             data: { status }
         });
-        revalidatePath('/admin/tasks');
+        revalidatePath('/admin/management/tasks');
         return { message: 'Status Updated' };
     } catch (error) {
         return { message: 'Database Error' };
@@ -96,7 +96,7 @@ export async function deleteTask(id: string) {
         await prisma.task.delete({
             where: { id }
         });
-        revalidatePath('/admin/tasks');
+        revalidatePath('/admin/management/tasks');
         return { message: 'Task Deleted' };
     } catch (error) {
         return { message: 'Database Error' };

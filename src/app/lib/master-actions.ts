@@ -21,6 +21,12 @@ export async function fetchCustomers() {
     } catch { return []; }
 }
 
+export async function fetchBranches() {
+    try {
+        return await prisma.branch.findMany({ orderBy: { name: 'asc' } });
+    } catch { return []; }
+}
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function createCustomer(prevState: any, formData: FormData) {
     try { await requireAdmin(); } catch { return createError('Unauthorized'); }
@@ -127,7 +133,7 @@ export async function createRole(prevState: any, formData: FormData) {
 export async function fetchAllUsers() {
     try {
         return await prisma.user.findMany({
-            include: { role: true },
+            include: { role: true, branch: true },
             orderBy: { name: 'asc' }
         });
     } catch { return []; }
@@ -152,7 +158,7 @@ export async function createUser(prevState: any, formData: FormData) {
                 email: email.trim().toLowerCase(),
                 password: defaultPassword,
                 roleId: formData.get('roleId') as string || undefined,
-                branch: formData.get('branch') as string || undefined,
+                branchId: formData.get('branchId') as string || undefined,
             }
         });
         revalidatePath('/admin/master');

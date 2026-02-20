@@ -57,7 +57,11 @@ model User {
   managedProjects    Project[]           @relation("ProjectManager")
   projectMemberships Project[]           @relation("ProjectTeam")
   assignedTasks      Task[]              @relation("AssignedTasks")
-  attendanceRequests AttendanceRequest[]
+  attendanceRequest  AttendanceRequest[]
+
+  // Payroll Relations
+  salaryStructure SalaryStructure?
+  payrolls        Payroll[]
 
   @@index([roleId])
   @@index([branchId])
@@ -181,20 +185,23 @@ model Branch {
 }
 
 model Attendance {
-  id          String    @id @default(cuid())
-  userId      String
-  user        User      @relation(fields: [userId], references: [id])
-  date        DateTime
-  clockIn     DateTime
-  clockInLat  Float?
-  clockInLng  Float?
-  clockOut    DateTime?
-  clockOutLat Float?
-  clockOutLng Float?
-  status      String    @default("PRESENT") // PRESENT, LATE, ABSENT, HALF_DAY
-  ipAddress   String?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  id           String    @id @default(cuid())
+  userId       String
+  user         User      @relation(fields: [userId], references: [id])
+  date         DateTime
+  clockIn      DateTime
+  clockInLat   Float?
+  clockInLng   Float?
+  clockOut     DateTime?
+  clockOutLat  Float?
+  clockOutLng  Float?
+  status       String    @default("PRESENT") // PRESENT, LATE, ABSENT, HALF_DAY
+  ipAddress    String?
+  punchMode    String    @default("OFFICE") // OFFICE, WFH, FIELD
+  punchInNote  String? // Daily Goal
+  punchOutNote String? // Work Summary
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
 
   @@index([userId])
   @@index([date])
@@ -216,4 +223,69 @@ model AttendanceRequest {
 
   @@index([userId])
   @@index([status])
+}
+
+model SalaryStructure {
+  id               String @id @default(cuid())
+  userId           String @unique
+  user             User   @relation(fields: [userId], references: [id])
+  basic            Float  @default(0)
+  hra              Float  @default(0)
+  allowances       Float  @default(0)
+  specialAllowance Float  @default(0)
+  pf               Float  @default(0) // Employee Contribution
+  pt               Float  @default(0) // Professional Tax
+  deductions       Float  @default(0) // Other Deductions
+  netSalary        Float  @default(0) // Approximate Net (for reference)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Payroll {
+  id          String @id @default(cuid())
+  userId      String
+  user        User   @relation(fields: [userId], references: [id])
+  month       String // Format: "YYYY-MM"
+  year        Int
+  monthNumber Int
+
+  basic         Float
+  hra           Float
+  allowances    Float
+  grossEarnings Float
+
+  pf              Float
+  pt              Float
+  deductions      Float
+  totalDeductions Float
+
+  netSalary Float
+
+  totalDays   Int
+  presentDays Float
+  absentDays  Float
+  lopDays     Float // Loss of Pay Days
+  lopAmount   Float
+
+  status      String    @default("DRAFT") // DRAFT, PROCESSED, PAID
+  generatedAt DateTime  @default(now())
+  paidAt      DateTime?
+
+  items PayrollItem[]
+
+  @@unique([userId, month])
+  @@index([month])
+  @@index([status])
+}
+
+model PayrollItem {
+  id        String  @id @default(cuid())
+  payrollId String
+  payroll   Payroll @relation(fields: [payrollId], references: [id], onDelete: Cascade)
+  label     String
+  amount    Float
+  type      String // EARNING, DEDUCTION
+
+  @@index([payrollId])
 }

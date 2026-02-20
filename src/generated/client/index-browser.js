@@ -258,6 +258,54 @@ exports.Prisma.AttendanceRequestScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.SalaryStructureScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  basic: 'basic',
+  hra: 'hra',
+  allowances: 'allowances',
+  specialAllowance: 'specialAllowance',
+  pf: 'pf',
+  pt: 'pt',
+  deductions: 'deductions',
+  netSalary: 'netSalary',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.PayrollScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  month: 'month',
+  year: 'year',
+  monthNumber: 'monthNumber',
+  basic: 'basic',
+  hra: 'hra',
+  allowances: 'allowances',
+  grossEarnings: 'grossEarnings',
+  pf: 'pf',
+  pt: 'pt',
+  deductions: 'deductions',
+  totalDeductions: 'totalDeductions',
+  netSalary: 'netSalary',
+  totalDays: 'totalDays',
+  presentDays: 'presentDays',
+  absentDays: 'absentDays',
+  lopDays: 'lopDays',
+  lopAmount: 'lopAmount',
+  status: 'status',
+  generatedAt: 'generatedAt',
+  paidAt: 'paidAt'
+};
+
+exports.Prisma.PayrollItemScalarFieldEnum = {
+  id: 'id',
+  payrollId: 'payrollId',
+  label: 'label',
+  amount: 'amount',
+  type: 'type'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -285,7 +333,10 @@ exports.Prisma.ModelName = {
   Leave: 'Leave',
   Branch: 'Branch',
   Attendance: 'Attendance',
-  AttendanceRequest: 'AttendanceRequest'
+  AttendanceRequest: 'AttendanceRequest',
+  SalaryStructure: 'SalaryStructure',
+  Payroll: 'Payroll',
+  PayrollItem: 'PayrollItem'
 };
 
 /**

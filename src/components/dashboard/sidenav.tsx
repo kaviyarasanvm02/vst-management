@@ -20,25 +20,29 @@ import {
     CalendarDaysIcon,
     ClipboardDocumentListIcon,
     ClockIcon,
+    CurrencyRupeeIcon,
+    MapPinIcon
 } from '@heroicons/react/24/outline';
 
 
-const ADMIN_ONLY = ['Assign Tasks', 'Customer', 'Project', 'Team User', 'Roles', 'Reports', 'Attendance Requests', 'Attendance Reports'];
+const ADMIN_ONLY = ['Assign Tasks', 'Customer', 'Project', 'Team User', 'Roles', 'Attendance Requests', 'Reports', 'Payroll', 'Location Reports'];
 const EMPLOYEE_ONLY = ['My Tasks'];
 
 const links = [
     { name: 'Dashboard', href: '/dashboard', icon: HomeIcon },
-    { name: 'Timesheets', href: '/dashboard/timesheet', icon: DocumentDuplicateIcon },
-    // Admin-only
-    { name: 'Assign Tasks', href: '/admin/tasks', icon: ArrowRightOnRectangleIcon },
+    { name: 'Timesheets', href: '/dashboard/timesheets', icon: DocumentDuplicateIcon },
+    // Admin-only (Master Data)
     { name: 'Customer', href: '/admin/master/customer', icon: BuildingOffice2Icon },
     { name: 'Project', href: '/admin/master/project', icon: FolderOpenIcon },
     { name: 'Team User', href: '/admin/master/team-user', icon: UserGroupIcon },
     { name: 'Roles', href: '/admin/master/role', icon: ShieldCheckIcon },
-    { name: 'Attendance Requests', href: '/admin/attendance-requests', icon: ClockIcon },
-    { name: 'Attendance Reports', href: '/admin/reports/attendance', icon: ChartBarIcon },
-    { name: 'Reports', href: '/dashboard/reports', icon: ChartBarIcon },
+    { name: 'Attendance Requests', href: '/admin/management/attendance-requests', icon: ClockIcon },
+    // Admin Reports
+    { name: 'Reports', href: '/admin/reports/attendance', icon: ChartBarIcon },
+    { name: 'Payroll', href: '/admin/payroll', icon: CurrencyRupeeIcon },
+    { name: 'Location Reports', href: '/admin/reports/location', icon: MapPinIcon },
     // Employee-only
+    { name: 'Assign Tasks', href: '/admin/management/tasks', icon: ArrowRightOnRectangleIcon },
     { name: 'My Tasks', href: '/dashboard/tasks', icon: ClipboardDocumentListIcon },
     // Common
     { name: 'Leave', href: '/dashboard/leave', icon: CalendarDaysIcon },

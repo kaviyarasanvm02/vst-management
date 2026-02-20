@@ -7,6 +7,7 @@ import { createError } from '@/lib/api';
 import { redirect } from 'next/navigation';
 import { auth } from '@/lib/auth';
 import { TimesheetWithDetails } from '@/types';
+import { getDistanceFromLatLonInMeters } from '@/lib/geo';
 
 
 
@@ -106,8 +107,8 @@ export async function createTimesheet(prevState: any, formData: FormData) {
         return createError('Database Error: Failed to Create Timesheet.');
     }
 
-    revalidatePath('/dashboard/timesheet');
-    redirect('/dashboard/timesheet');
+    revalidatePath('/dashboard/timesheets');
+    redirect('/dashboard/timesheets');
 }
 
 export async function fetchProjects() {
@@ -152,7 +153,7 @@ export async function fetchUserTimesheets(options?: { page?: number; limit?: num
             where: whereClause,
             include: {
                 entries: { include: { project: { include: { customer: true } } } },
-                user: { include: { role: true } }
+                user: { include: { role: true, branch: true } }
             },
             orderBy: { date: 'desc' },
             skip,
@@ -176,7 +177,7 @@ export async function fetchPendingTimesheets(): Promise<TimesheetWithDetails[]> 
     return await prisma.timesheet.findMany({
         where: { status: 'PENDING' },
         include: {
-            user: { include: { role: true } },
+            user: { include: { role: true, branch: true } },
             entries: { include: { project: { include: { customer: true } } } }
         },
         orderBy: { date: 'asc' },
@@ -194,7 +195,7 @@ export async function updateTimesheetStatus(id: string, status: 'APPROVED' | 'RE
             data: { status }
         });
         revalidatePath('/admin/approvals');
-        revalidatePath('/dashboard/timesheet');
+        revalidatePath('/dashboard/timesheets');
     } catch (error) {
         return { message: 'Failed to update status' };
     }
@@ -318,10 +319,29 @@ export async function fetchEmployeesWithStats(month?: string, year?: string): Pr
         };
     }
 
+    // 1. Fetch branches for location calculation
+    const branches = await prisma.branch.findMany({ where: { isActive: true } });
+
+    // 2. Fetch users with stats AND latest attendance
+    const today = new Date();
+    const startOfToday = new Date(today.setHours(0, 0, 0, 0));
+    const endOfToday = new Date(today.setHours(23, 59, 59, 999));
+
     const users = await prisma.user.findMany({
         where: {},
         include: {
             role: true,
+            branch: true,
+            attendance: {
+                where: {
+                    date: {
+                        gte: startOfToday,
+                        lte: endOfToday
+                    }
+                },
+                take: 1,
+                orderBy: { clockIn: 'desc' }
+            },
             timesheets: {
                 where: dateFilter,
                 select: {
@@ -332,17 +352,51 @@ export async function fetchEmployeesWithStats(month?: string, year?: string): Pr
         orderBy: { name: 'asc' }
     });
 
-    // Calculate stats
+    // Calculate stats and location
     return users.map(user => {
         const totalHours = user.timesheets.reduce((acc, ts) => acc + ts.totalHours, 0);
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { timesheets, ...userWithoutTimesheets } = user;
+        const { timesheets, attendance, ...userCore } = user;
+
+        let currentLocation = undefined;
+        // If user has attendance today
+        if (attendance && attendance.length > 0) {
+            const latest = attendance[0];
+            // If they are strictly PRESENT/LATE and have coordinates
+            if ((latest.status === 'PRESENT' || latest.status === 'LATE') && !latest.clockOut) {
+                if (latest.clockInLat && latest.clockInLng) {
+                    // Find nearest branch
+                    let nearest = null;
+                    let minDistance = Infinity;
+
+                    for (const branch of branches) {
+                        const dist = getDistanceFromLatLonInMeters(latest.clockInLat, latest.clockInLng, branch.latitude, branch.longitude);
+                        if (dist < minDistance) {
+                            minDistance = dist;
+                            nearest = branch;
+                        }
+                    }
+
+                    // If within reasonable distance (e.g. 2km?) or just nearest?
+                    // User request implies they want to see "Kalaiyarkovil" even if punched in.
+                    // We'll just show the nearest branch name.
+                    if (nearest) {
+                        currentLocation = nearest.name;
+                    }
+                } else if (latest.punchMode === 'WFH') {
+                    currentLocation = 'Work From Home';
+                } else if (latest.punchMode === 'FIELD') {
+                    currentLocation = 'On Field';
+                }
+            }
+        }
 
         return {
-            ...userWithoutTimesheets,
+            ...userCore,
             totalHours,
+            currentLocation,
             _count: {
-                timesheets: user.timesheets.length // existing logic used length of filtered timesheets
+                timesheets: user.timesheets.length
             }
         };
     });
@@ -367,7 +421,7 @@ export async function fetchUserTimesheetsById(userId: string) {
         },
         include: {
             entries: { include: { project: { include: { customer: true } } } },
-            user: { include: { role: true } }
+            user: { include: { role: true, branch: true } }
         },
         orderBy: { date: 'desc' },
     });
@@ -422,6 +476,6 @@ export async function copyYesterdayEntries(): Promise<{ success?: string; error?
         }
     });
 
-    revalidatePath('/dashboard/timesheet');
+    revalidatePath('/dashboard/timesheets');
     return { success: `Copied ${lastTimesheet.entries.length} entries from ${lastTimesheet.date.toDateString()} (${newTimesheet.id})` };
 }

@@ -19,7 +19,12 @@ export async function fetchAllUsers() {
                 name: true,
                 email: true,
                 role: true,
-                branch: true,
+                branch: {
+                    select: {
+                        name: true
+                    }
+                },
+                branchLegacy: true,
                 createdAt: true
             }
         });

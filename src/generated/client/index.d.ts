@@ -68,6 +68,21 @@ export type Attendance = $Result.DefaultSelection<Prisma.$AttendancePayload>
  * 
  */
 export type AttendanceRequest = $Result.DefaultSelection<Prisma.$AttendanceRequestPayload>
+/**
+ * Model SalaryStructure
+ * 
+ */
+export type SalaryStructure = $Result.DefaultSelection<Prisma.$SalaryStructurePayload>
+/**
+ * Model Payroll
+ * 
+ */
+export type Payroll = $Result.DefaultSelection<Prisma.$PayrollPayload>
+/**
+ * Model PayrollItem
+ * 
+ */
+export type PayrollItem = $Result.DefaultSelection<Prisma.$PayrollItemPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -301,6 +316,36 @@ export class PrismaClient<
     * ```
     */
   get attendanceRequest(): Prisma.AttendanceRequestDelegate<ExtArgs>;
+
+  /**
+   * `prisma.salaryStructure`: Exposes CRUD operations for the **SalaryStructure** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more SalaryStructures
+    * const salaryStructures = await prisma.salaryStructure.findMany()
+    * ```
+    */
+  get salaryStructure(): Prisma.SalaryStructureDelegate<ExtArgs>;
+
+  /**
+   * `prisma.payroll`: Exposes CRUD operations for the **Payroll** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Payrolls
+    * const payrolls = await prisma.payroll.findMany()
+    * ```
+    */
+  get payroll(): Prisma.PayrollDelegate<ExtArgs>;
+
+  /**
+   * `prisma.payrollItem`: Exposes CRUD operations for the **PayrollItem** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PayrollItems
+    * const payrollItems = await prisma.payrollItem.findMany()
+    * ```
+    */
+  get payrollItem(): Prisma.PayrollItemDelegate<ExtArgs>;
 }
 
 export namespace Prisma {
@@ -752,7 +797,10 @@ export namespace Prisma {
     Leave: 'Leave',
     Branch: 'Branch',
     Attendance: 'Attendance',
-    AttendanceRequest: 'AttendanceRequest'
+    AttendanceRequest: 'AttendanceRequest',
+    SalaryStructure: 'SalaryStructure',
+    Payroll: 'Payroll',
+    PayrollItem: 'PayrollItem'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -768,7 +816,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "role" | "customer" | "user" | "project" | "timesheet" | "timesheetEntry" | "task" | "leave" | "branch" | "attendance" | "attendanceRequest"
+      modelProps: "role" | "customer" | "user" | "project" | "timesheet" | "timesheetEntry" | "task" | "leave" | "branch" | "attendance" | "attendanceRequest" | "salaryStructure" | "payroll" | "payrollItem"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1542,6 +1590,216 @@ export namespace Prisma {
           }
         }
       }
+      SalaryStructure: {
+        payload: Prisma.$SalaryStructurePayload<ExtArgs>
+        fields: Prisma.SalaryStructureFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SalaryStructureFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SalaryStructurePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SalaryStructureFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SalaryStructurePayload>
+          }
+          findFirst: {
+            args: Prisma.SalaryStructureFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SalaryStructurePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SalaryStructureFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SalaryStructurePayload>
+          }
+          findMany: {
+            args: Prisma.SalaryStructureFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SalaryStructurePayload>[]
+          }
+          create: {
+            args: Prisma.SalaryStructureCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SalaryStructurePayload>
+          }
+          createMany: {
+            args: Prisma.SalaryStructureCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SalaryStructureCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SalaryStructurePayload>[]
+          }
+          delete: {
+            args: Prisma.SalaryStructureDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SalaryStructurePayload>
+          }
+          update: {
+            args: Prisma.SalaryStructureUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SalaryStructurePayload>
+          }
+          deleteMany: {
+            args: Prisma.SalaryStructureDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SalaryStructureUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.SalaryStructureUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SalaryStructurePayload>
+          }
+          aggregate: {
+            args: Prisma.SalaryStructureAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSalaryStructure>
+          }
+          groupBy: {
+            args: Prisma.SalaryStructureGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SalaryStructureGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SalaryStructureCountArgs<ExtArgs>
+            result: $Utils.Optional<SalaryStructureCountAggregateOutputType> | number
+          }
+        }
+      }
+      Payroll: {
+        payload: Prisma.$PayrollPayload<ExtArgs>
+        fields: Prisma.PayrollFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PayrollFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PayrollPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PayrollFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PayrollPayload>
+          }
+          findFirst: {
+            args: Prisma.PayrollFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PayrollPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PayrollFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PayrollPayload>
+          }
+          findMany: {
+            args: Prisma.PayrollFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PayrollPayload>[]
+          }
+          create: {
+            args: Prisma.PayrollCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PayrollPayload>
+          }
+          createMany: {
+            args: Prisma.PayrollCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PayrollCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PayrollPayload>[]
+          }
+          delete: {
+            args: Prisma.PayrollDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PayrollPayload>
+          }
+          update: {
+            args: Prisma.PayrollUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PayrollPayload>
+          }
+          deleteMany: {
+            args: Prisma.PayrollDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PayrollUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.PayrollUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PayrollPayload>
+          }
+          aggregate: {
+            args: Prisma.PayrollAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePayroll>
+          }
+          groupBy: {
+            args: Prisma.PayrollGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PayrollGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PayrollCountArgs<ExtArgs>
+            result: $Utils.Optional<PayrollCountAggregateOutputType> | number
+          }
+        }
+      }
+      PayrollItem: {
+        payload: Prisma.$PayrollItemPayload<ExtArgs>
+        fields: Prisma.PayrollItemFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PayrollItemFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PayrollItemPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PayrollItemFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PayrollItemPayload>
+          }
+          findFirst: {
+            args: Prisma.PayrollItemFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PayrollItemPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PayrollItemFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PayrollItemPayload>
+          }
+          findMany: {
+            args: Prisma.PayrollItemFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PayrollItemPayload>[]
+          }
+          create: {
+            args: Prisma.PayrollItemCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PayrollItemPayload>
+          }
+          createMany: {
+            args: Prisma.PayrollItemCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PayrollItemCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PayrollItemPayload>[]
+          }
+          delete: {
+            args: Prisma.PayrollItemDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PayrollItemPayload>
+          }
+          update: {
+            args: Prisma.PayrollItemUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PayrollItemPayload>
+          }
+          deleteMany: {
+            args: Prisma.PayrollItemDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PayrollItemUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.PayrollItemUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PayrollItemPayload>
+          }
+          aggregate: {
+            args: Prisma.PayrollItemAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePayrollItem>
+          }
+          groupBy: {
+            args: Prisma.PayrollItemGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PayrollItemGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PayrollItemCountArgs<ExtArgs>
+            result: $Utils.Optional<PayrollItemCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1771,7 +2029,8 @@ export namespace Prisma {
     managedProjects: number
     projectMemberships: number
     assignedTasks: number
-    attendanceRequests: number
+    attendanceRequest: number
+    payrolls: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1781,7 +2040,8 @@ export namespace Prisma {
     managedProjects?: boolean | UserCountOutputTypeCountManagedProjectsArgs
     projectMemberships?: boolean | UserCountOutputTypeCountProjectMembershipsArgs
     assignedTasks?: boolean | UserCountOutputTypeCountAssignedTasksArgs
-    attendanceRequests?: boolean | UserCountOutputTypeCountAttendanceRequestsArgs
+    attendanceRequest?: boolean | UserCountOutputTypeCountAttendanceRequestArgs
+    payrolls?: boolean | UserCountOutputTypeCountPayrollsArgs
   }
 
   // Custom InputTypes
@@ -1840,8 +2100,15 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountAttendanceRequestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserCountOutputTypeCountAttendanceRequestArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: AttendanceRequestWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountPayrollsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PayrollWhereInput
   }
 
 
@@ -1953,6 +2220,37 @@ export namespace Prisma {
    */
   export type BranchCountOutputTypeCountUsersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: UserWhereInput
+  }
+
+
+  /**
+   * Count Type PayrollCountOutputType
+   */
+
+  export type PayrollCountOutputType = {
+    items: number
+  }
+
+  export type PayrollCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    items?: boolean | PayrollCountOutputTypeCountItemsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * PayrollCountOutputType without action
+   */
+  export type PayrollCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PayrollCountOutputType
+     */
+    select?: PayrollCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * PayrollCountOutputType without action
+   */
+  export type PayrollCountOutputTypeCountItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PayrollItemWhereInput
   }
 
 
@@ -4100,7 +4398,9 @@ export namespace Prisma {
     managedProjects?: boolean | User$managedProjectsArgs<ExtArgs>
     projectMemberships?: boolean | User$projectMembershipsArgs<ExtArgs>
     assignedTasks?: boolean | User$assignedTasksArgs<ExtArgs>
-    attendanceRequests?: boolean | User$attendanceRequestsArgs<ExtArgs>
+    attendanceRequest?: boolean | User$attendanceRequestArgs<ExtArgs>
+    salaryStructure?: boolean | User$salaryStructureArgs<ExtArgs>
+    payrolls?: boolean | User$payrollsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -4143,7 +4443,9 @@ export namespace Prisma {
     managedProjects?: boolean | User$managedProjectsArgs<ExtArgs>
     projectMemberships?: boolean | User$projectMembershipsArgs<ExtArgs>
     assignedTasks?: boolean | User$assignedTasksArgs<ExtArgs>
-    attendanceRequests?: boolean | User$attendanceRequestsArgs<ExtArgs>
+    attendanceRequest?: boolean | User$attendanceRequestArgs<ExtArgs>
+    salaryStructure?: boolean | User$salaryStructureArgs<ExtArgs>
+    payrolls?: boolean | User$payrollsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4162,7 +4464,9 @@ export namespace Prisma {
       managedProjects: Prisma.$ProjectPayload<ExtArgs>[]
       projectMemberships: Prisma.$ProjectPayload<ExtArgs>[]
       assignedTasks: Prisma.$TaskPayload<ExtArgs>[]
-      attendanceRequests: Prisma.$AttendanceRequestPayload<ExtArgs>[]
+      attendanceRequest: Prisma.$AttendanceRequestPayload<ExtArgs>[]
+      salaryStructure: Prisma.$SalaryStructurePayload<ExtArgs> | null
+      payrolls: Prisma.$PayrollPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -4548,7 +4852,9 @@ export namespace Prisma {
     managedProjects<T extends User$managedProjectsArgs<ExtArgs> = {}>(args?: Subset<T, User$managedProjectsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findMany"> | Null>
     projectMemberships<T extends User$projectMembershipsArgs<ExtArgs> = {}>(args?: Subset<T, User$projectMembershipsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findMany"> | Null>
     assignedTasks<T extends User$assignedTasksArgs<ExtArgs> = {}>(args?: Subset<T, User$assignedTasksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findMany"> | Null>
-    attendanceRequests<T extends User$attendanceRequestsArgs<ExtArgs> = {}>(args?: Subset<T, User$attendanceRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttendanceRequestPayload<ExtArgs>, T, "findMany"> | Null>
+    attendanceRequest<T extends User$attendanceRequestArgs<ExtArgs> = {}>(args?: Subset<T, User$attendanceRequestArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttendanceRequestPayload<ExtArgs>, T, "findMany"> | Null>
+    salaryStructure<T extends User$salaryStructureArgs<ExtArgs> = {}>(args?: Subset<T, User$salaryStructureArgs<ExtArgs>>): Prisma__SalaryStructureClient<$Result.GetResult<Prisma.$SalaryStructurePayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    payrolls<T extends User$payrollsArgs<ExtArgs> = {}>(args?: Subset<T, User$payrollsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PayrollPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5057,9 +5363,9 @@ export namespace Prisma {
   }
 
   /**
-   * User.attendanceRequests
+   * User.attendanceRequest
    */
-  export type User$attendanceRequestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type User$attendanceRequestArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the AttendanceRequest
      */
@@ -5074,6 +5380,41 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: AttendanceRequestScalarFieldEnum | AttendanceRequestScalarFieldEnum[]
+  }
+
+  /**
+   * User.salaryStructure
+   */
+  export type User$salaryStructureArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SalaryStructure
+     */
+    select?: SalaryStructureSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SalaryStructureInclude<ExtArgs> | null
+    where?: SalaryStructureWhereInput
+  }
+
+  /**
+   * User.payrolls
+   */
+  export type User$payrollsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Payroll
+     */
+    select?: PayrollSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PayrollInclude<ExtArgs> | null
+    where?: PayrollWhereInput
+    orderBy?: PayrollOrderByWithRelationInput | PayrollOrderByWithRelationInput[]
+    cursor?: PayrollWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PayrollScalarFieldEnum | PayrollScalarFieldEnum[]
   }
 
   /**
@@ -13355,6 +13696,3309 @@ export namespace Prisma {
 
 
   /**
+   * Model SalaryStructure
+   */
+
+  export type AggregateSalaryStructure = {
+    _count: SalaryStructureCountAggregateOutputType | null
+    _avg: SalaryStructureAvgAggregateOutputType | null
+    _sum: SalaryStructureSumAggregateOutputType | null
+    _min: SalaryStructureMinAggregateOutputType | null
+    _max: SalaryStructureMaxAggregateOutputType | null
+  }
+
+  export type SalaryStructureAvgAggregateOutputType = {
+    basic: number | null
+    hra: number | null
+    allowances: number | null
+    specialAllowance: number | null
+    pf: number | null
+    pt: number | null
+    deductions: number | null
+    netSalary: number | null
+  }
+
+  export type SalaryStructureSumAggregateOutputType = {
+    basic: number | null
+    hra: number | null
+    allowances: number | null
+    specialAllowance: number | null
+    pf: number | null
+    pt: number | null
+    deductions: number | null
+    netSalary: number | null
+  }
+
+  export type SalaryStructureMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    basic: number | null
+    hra: number | null
+    allowances: number | null
+    specialAllowance: number | null
+    pf: number | null
+    pt: number | null
+    deductions: number | null
+    netSalary: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type SalaryStructureMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    basic: number | null
+    hra: number | null
+    allowances: number | null
+    specialAllowance: number | null
+    pf: number | null
+    pt: number | null
+    deductions: number | null
+    netSalary: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type SalaryStructureCountAggregateOutputType = {
+    id: number
+    userId: number
+    basic: number
+    hra: number
+    allowances: number
+    specialAllowance: number
+    pf: number
+    pt: number
+    deductions: number
+    netSalary: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type SalaryStructureAvgAggregateInputType = {
+    basic?: true
+    hra?: true
+    allowances?: true
+    specialAllowance?: true
+    pf?: true
+    pt?: true
+    deductions?: true
+    netSalary?: true
+  }
+
+  export type SalaryStructureSumAggregateInputType = {
+    basic?: true
+    hra?: true
+    allowances?: true
+    specialAllowance?: true
+    pf?: true
+    pt?: true
+    deductions?: true
+    netSalary?: true
+  }
+
+  export type SalaryStructureMinAggregateInputType = {
+    id?: true
+    userId?: true
+    basic?: true
+    hra?: true
+    allowances?: true
+    specialAllowance?: true
+    pf?: true
+    pt?: true
+    deductions?: true
+    netSalary?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type SalaryStructureMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    basic?: true
+    hra?: true
+    allowances?: true
+    specialAllowance?: true
+    pf?: true
+    pt?: true
+    deductions?: true
+    netSalary?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type SalaryStructureCountAggregateInputType = {
+    id?: true
+    userId?: true
+    basic?: true
+    hra?: true
+    allowances?: true
+    specialAllowance?: true
+    pf?: true
+    pt?: true
+    deductions?: true
+    netSalary?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type SalaryStructureAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SalaryStructure to aggregate.
+     */
+    where?: SalaryStructureWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SalaryStructures to fetch.
+     */
+    orderBy?: SalaryStructureOrderByWithRelationInput | SalaryStructureOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SalaryStructureWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SalaryStructures from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SalaryStructures.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned SalaryStructures
+    **/
+    _count?: true | SalaryStructureCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: SalaryStructureAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: SalaryStructureSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SalaryStructureMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SalaryStructureMaxAggregateInputType
+  }
+
+  export type GetSalaryStructureAggregateType<T extends SalaryStructureAggregateArgs> = {
+        [P in keyof T & keyof AggregateSalaryStructure]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSalaryStructure[P]>
+      : GetScalarType<T[P], AggregateSalaryStructure[P]>
+  }
+
+
+
+
+  export type SalaryStructureGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SalaryStructureWhereInput
+    orderBy?: SalaryStructureOrderByWithAggregationInput | SalaryStructureOrderByWithAggregationInput[]
+    by: SalaryStructureScalarFieldEnum[] | SalaryStructureScalarFieldEnum
+    having?: SalaryStructureScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SalaryStructureCountAggregateInputType | true
+    _avg?: SalaryStructureAvgAggregateInputType
+    _sum?: SalaryStructureSumAggregateInputType
+    _min?: SalaryStructureMinAggregateInputType
+    _max?: SalaryStructureMaxAggregateInputType
+  }
+
+  export type SalaryStructureGroupByOutputType = {
+    id: string
+    userId: string
+    basic: number
+    hra: number
+    allowances: number
+    specialAllowance: number
+    pf: number
+    pt: number
+    deductions: number
+    netSalary: number
+    createdAt: Date
+    updatedAt: Date
+    _count: SalaryStructureCountAggregateOutputType | null
+    _avg: SalaryStructureAvgAggregateOutputType | null
+    _sum: SalaryStructureSumAggregateOutputType | null
+    _min: SalaryStructureMinAggregateOutputType | null
+    _max: SalaryStructureMaxAggregateOutputType | null
+  }
+
+  type GetSalaryStructureGroupByPayload<T extends SalaryStructureGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SalaryStructureGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SalaryStructureGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SalaryStructureGroupByOutputType[P]>
+            : GetScalarType<T[P], SalaryStructureGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SalaryStructureSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    basic?: boolean
+    hra?: boolean
+    allowances?: boolean
+    specialAllowance?: boolean
+    pf?: boolean
+    pt?: boolean
+    deductions?: boolean
+    netSalary?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["salaryStructure"]>
+
+  export type SalaryStructureSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    basic?: boolean
+    hra?: boolean
+    allowances?: boolean
+    specialAllowance?: boolean
+    pf?: boolean
+    pt?: boolean
+    deductions?: boolean
+    netSalary?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["salaryStructure"]>
+
+  export type SalaryStructureSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    basic?: boolean
+    hra?: boolean
+    allowances?: boolean
+    specialAllowance?: boolean
+    pf?: boolean
+    pt?: boolean
+    deductions?: boolean
+    netSalary?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type SalaryStructureInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type SalaryStructureIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $SalaryStructurePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "SalaryStructure"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      basic: number
+      hra: number
+      allowances: number
+      specialAllowance: number
+      pf: number
+      pt: number
+      deductions: number
+      netSalary: number
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["salaryStructure"]>
+    composites: {}
+  }
+
+  type SalaryStructureGetPayload<S extends boolean | null | undefined | SalaryStructureDefaultArgs> = $Result.GetResult<Prisma.$SalaryStructurePayload, S>
+
+  type SalaryStructureCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<SalaryStructureFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: SalaryStructureCountAggregateInputType | true
+    }
+
+  export interface SalaryStructureDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['SalaryStructure'], meta: { name: 'SalaryStructure' } }
+    /**
+     * Find zero or one SalaryStructure that matches the filter.
+     * @param {SalaryStructureFindUniqueArgs} args - Arguments to find a SalaryStructure
+     * @example
+     * // Get one SalaryStructure
+     * const salaryStructure = await prisma.salaryStructure.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SalaryStructureFindUniqueArgs>(args: SelectSubset<T, SalaryStructureFindUniqueArgs<ExtArgs>>): Prisma__SalaryStructureClient<$Result.GetResult<Prisma.$SalaryStructurePayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one SalaryStructure that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {SalaryStructureFindUniqueOrThrowArgs} args - Arguments to find a SalaryStructure
+     * @example
+     * // Get one SalaryStructure
+     * const salaryStructure = await prisma.salaryStructure.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SalaryStructureFindUniqueOrThrowArgs>(args: SelectSubset<T, SalaryStructureFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SalaryStructureClient<$Result.GetResult<Prisma.$SalaryStructurePayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first SalaryStructure that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SalaryStructureFindFirstArgs} args - Arguments to find a SalaryStructure
+     * @example
+     * // Get one SalaryStructure
+     * const salaryStructure = await prisma.salaryStructure.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SalaryStructureFindFirstArgs>(args?: SelectSubset<T, SalaryStructureFindFirstArgs<ExtArgs>>): Prisma__SalaryStructureClient<$Result.GetResult<Prisma.$SalaryStructurePayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first SalaryStructure that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SalaryStructureFindFirstOrThrowArgs} args - Arguments to find a SalaryStructure
+     * @example
+     * // Get one SalaryStructure
+     * const salaryStructure = await prisma.salaryStructure.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SalaryStructureFindFirstOrThrowArgs>(args?: SelectSubset<T, SalaryStructureFindFirstOrThrowArgs<ExtArgs>>): Prisma__SalaryStructureClient<$Result.GetResult<Prisma.$SalaryStructurePayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more SalaryStructures that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SalaryStructureFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all SalaryStructures
+     * const salaryStructures = await prisma.salaryStructure.findMany()
+     * 
+     * // Get first 10 SalaryStructures
+     * const salaryStructures = await prisma.salaryStructure.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const salaryStructureWithIdOnly = await prisma.salaryStructure.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SalaryStructureFindManyArgs>(args?: SelectSubset<T, SalaryStructureFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SalaryStructurePayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a SalaryStructure.
+     * @param {SalaryStructureCreateArgs} args - Arguments to create a SalaryStructure.
+     * @example
+     * // Create one SalaryStructure
+     * const SalaryStructure = await prisma.salaryStructure.create({
+     *   data: {
+     *     // ... data to create a SalaryStructure
+     *   }
+     * })
+     * 
+     */
+    create<T extends SalaryStructureCreateArgs>(args: SelectSubset<T, SalaryStructureCreateArgs<ExtArgs>>): Prisma__SalaryStructureClient<$Result.GetResult<Prisma.$SalaryStructurePayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many SalaryStructures.
+     * @param {SalaryStructureCreateManyArgs} args - Arguments to create many SalaryStructures.
+     * @example
+     * // Create many SalaryStructures
+     * const salaryStructure = await prisma.salaryStructure.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SalaryStructureCreateManyArgs>(args?: SelectSubset<T, SalaryStructureCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many SalaryStructures and returns the data saved in the database.
+     * @param {SalaryStructureCreateManyAndReturnArgs} args - Arguments to create many SalaryStructures.
+     * @example
+     * // Create many SalaryStructures
+     * const salaryStructure = await prisma.salaryStructure.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many SalaryStructures and only return the `id`
+     * const salaryStructureWithIdOnly = await prisma.salaryStructure.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SalaryStructureCreateManyAndReturnArgs>(args?: SelectSubset<T, SalaryStructureCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SalaryStructurePayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a SalaryStructure.
+     * @param {SalaryStructureDeleteArgs} args - Arguments to delete one SalaryStructure.
+     * @example
+     * // Delete one SalaryStructure
+     * const SalaryStructure = await prisma.salaryStructure.delete({
+     *   where: {
+     *     // ... filter to delete one SalaryStructure
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SalaryStructureDeleteArgs>(args: SelectSubset<T, SalaryStructureDeleteArgs<ExtArgs>>): Prisma__SalaryStructureClient<$Result.GetResult<Prisma.$SalaryStructurePayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one SalaryStructure.
+     * @param {SalaryStructureUpdateArgs} args - Arguments to update one SalaryStructure.
+     * @example
+     * // Update one SalaryStructure
+     * const salaryStructure = await prisma.salaryStructure.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SalaryStructureUpdateArgs>(args: SelectSubset<T, SalaryStructureUpdateArgs<ExtArgs>>): Prisma__SalaryStructureClient<$Result.GetResult<Prisma.$SalaryStructurePayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more SalaryStructures.
+     * @param {SalaryStructureDeleteManyArgs} args - Arguments to filter SalaryStructures to delete.
+     * @example
+     * // Delete a few SalaryStructures
+     * const { count } = await prisma.salaryStructure.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SalaryStructureDeleteManyArgs>(args?: SelectSubset<T, SalaryStructureDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SalaryStructures.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SalaryStructureUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many SalaryStructures
+     * const salaryStructure = await prisma.salaryStructure.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SalaryStructureUpdateManyArgs>(args: SelectSubset<T, SalaryStructureUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one SalaryStructure.
+     * @param {SalaryStructureUpsertArgs} args - Arguments to update or create a SalaryStructure.
+     * @example
+     * // Update or create a SalaryStructure
+     * const salaryStructure = await prisma.salaryStructure.upsert({
+     *   create: {
+     *     // ... data to create a SalaryStructure
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the SalaryStructure we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SalaryStructureUpsertArgs>(args: SelectSubset<T, SalaryStructureUpsertArgs<ExtArgs>>): Prisma__SalaryStructureClient<$Result.GetResult<Prisma.$SalaryStructurePayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of SalaryStructures.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SalaryStructureCountArgs} args - Arguments to filter SalaryStructures to count.
+     * @example
+     * // Count the number of SalaryStructures
+     * const count = await prisma.salaryStructure.count({
+     *   where: {
+     *     // ... the filter for the SalaryStructures we want to count
+     *   }
+     * })
+    **/
+    count<T extends SalaryStructureCountArgs>(
+      args?: Subset<T, SalaryStructureCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SalaryStructureCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a SalaryStructure.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SalaryStructureAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SalaryStructureAggregateArgs>(args: Subset<T, SalaryStructureAggregateArgs>): Prisma.PrismaPromise<GetSalaryStructureAggregateType<T>>
+
+    /**
+     * Group by SalaryStructure.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SalaryStructureGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SalaryStructureGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SalaryStructureGroupByArgs['orderBy'] }
+        : { orderBy?: SalaryStructureGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SalaryStructureGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSalaryStructureGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the SalaryStructure model
+   */
+  readonly fields: SalaryStructureFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for SalaryStructure.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SalaryStructureClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the SalaryStructure model
+   */ 
+  interface SalaryStructureFieldRefs {
+    readonly id: FieldRef<"SalaryStructure", 'String'>
+    readonly userId: FieldRef<"SalaryStructure", 'String'>
+    readonly basic: FieldRef<"SalaryStructure", 'Float'>
+    readonly hra: FieldRef<"SalaryStructure", 'Float'>
+    readonly allowances: FieldRef<"SalaryStructure", 'Float'>
+    readonly specialAllowance: FieldRef<"SalaryStructure", 'Float'>
+    readonly pf: FieldRef<"SalaryStructure", 'Float'>
+    readonly pt: FieldRef<"SalaryStructure", 'Float'>
+    readonly deductions: FieldRef<"SalaryStructure", 'Float'>
+    readonly netSalary: FieldRef<"SalaryStructure", 'Float'>
+    readonly createdAt: FieldRef<"SalaryStructure", 'DateTime'>
+    readonly updatedAt: FieldRef<"SalaryStructure", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * SalaryStructure findUnique
+   */
+  export type SalaryStructureFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SalaryStructure
+     */
+    select?: SalaryStructureSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SalaryStructureInclude<ExtArgs> | null
+    /**
+     * Filter, which SalaryStructure to fetch.
+     */
+    where: SalaryStructureWhereUniqueInput
+  }
+
+  /**
+   * SalaryStructure findUniqueOrThrow
+   */
+  export type SalaryStructureFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SalaryStructure
+     */
+    select?: SalaryStructureSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SalaryStructureInclude<ExtArgs> | null
+    /**
+     * Filter, which SalaryStructure to fetch.
+     */
+    where: SalaryStructureWhereUniqueInput
+  }
+
+  /**
+   * SalaryStructure findFirst
+   */
+  export type SalaryStructureFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SalaryStructure
+     */
+    select?: SalaryStructureSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SalaryStructureInclude<ExtArgs> | null
+    /**
+     * Filter, which SalaryStructure to fetch.
+     */
+    where?: SalaryStructureWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SalaryStructures to fetch.
+     */
+    orderBy?: SalaryStructureOrderByWithRelationInput | SalaryStructureOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SalaryStructures.
+     */
+    cursor?: SalaryStructureWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SalaryStructures from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SalaryStructures.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SalaryStructures.
+     */
+    distinct?: SalaryStructureScalarFieldEnum | SalaryStructureScalarFieldEnum[]
+  }
+
+  /**
+   * SalaryStructure findFirstOrThrow
+   */
+  export type SalaryStructureFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SalaryStructure
+     */
+    select?: SalaryStructureSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SalaryStructureInclude<ExtArgs> | null
+    /**
+     * Filter, which SalaryStructure to fetch.
+     */
+    where?: SalaryStructureWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SalaryStructures to fetch.
+     */
+    orderBy?: SalaryStructureOrderByWithRelationInput | SalaryStructureOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SalaryStructures.
+     */
+    cursor?: SalaryStructureWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SalaryStructures from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SalaryStructures.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SalaryStructures.
+     */
+    distinct?: SalaryStructureScalarFieldEnum | SalaryStructureScalarFieldEnum[]
+  }
+
+  /**
+   * SalaryStructure findMany
+   */
+  export type SalaryStructureFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SalaryStructure
+     */
+    select?: SalaryStructureSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SalaryStructureInclude<ExtArgs> | null
+    /**
+     * Filter, which SalaryStructures to fetch.
+     */
+    where?: SalaryStructureWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SalaryStructures to fetch.
+     */
+    orderBy?: SalaryStructureOrderByWithRelationInput | SalaryStructureOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing SalaryStructures.
+     */
+    cursor?: SalaryStructureWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SalaryStructures from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SalaryStructures.
+     */
+    skip?: number
+    distinct?: SalaryStructureScalarFieldEnum | SalaryStructureScalarFieldEnum[]
+  }
+
+  /**
+   * SalaryStructure create
+   */
+  export type SalaryStructureCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SalaryStructure
+     */
+    select?: SalaryStructureSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SalaryStructureInclude<ExtArgs> | null
+    /**
+     * The data needed to create a SalaryStructure.
+     */
+    data: XOR<SalaryStructureCreateInput, SalaryStructureUncheckedCreateInput>
+  }
+
+  /**
+   * SalaryStructure createMany
+   */
+  export type SalaryStructureCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many SalaryStructures.
+     */
+    data: SalaryStructureCreateManyInput | SalaryStructureCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * SalaryStructure createManyAndReturn
+   */
+  export type SalaryStructureCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SalaryStructure
+     */
+    select?: SalaryStructureSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many SalaryStructures.
+     */
+    data: SalaryStructureCreateManyInput | SalaryStructureCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SalaryStructureIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * SalaryStructure update
+   */
+  export type SalaryStructureUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SalaryStructure
+     */
+    select?: SalaryStructureSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SalaryStructureInclude<ExtArgs> | null
+    /**
+     * The data needed to update a SalaryStructure.
+     */
+    data: XOR<SalaryStructureUpdateInput, SalaryStructureUncheckedUpdateInput>
+    /**
+     * Choose, which SalaryStructure to update.
+     */
+    where: SalaryStructureWhereUniqueInput
+  }
+
+  /**
+   * SalaryStructure updateMany
+   */
+  export type SalaryStructureUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update SalaryStructures.
+     */
+    data: XOR<SalaryStructureUpdateManyMutationInput, SalaryStructureUncheckedUpdateManyInput>
+    /**
+     * Filter which SalaryStructures to update
+     */
+    where?: SalaryStructureWhereInput
+  }
+
+  /**
+   * SalaryStructure upsert
+   */
+  export type SalaryStructureUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SalaryStructure
+     */
+    select?: SalaryStructureSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SalaryStructureInclude<ExtArgs> | null
+    /**
+     * The filter to search for the SalaryStructure to update in case it exists.
+     */
+    where: SalaryStructureWhereUniqueInput
+    /**
+     * In case the SalaryStructure found by the `where` argument doesn't exist, create a new SalaryStructure with this data.
+     */
+    create: XOR<SalaryStructureCreateInput, SalaryStructureUncheckedCreateInput>
+    /**
+     * In case the SalaryStructure was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SalaryStructureUpdateInput, SalaryStructureUncheckedUpdateInput>
+  }
+
+  /**
+   * SalaryStructure delete
+   */
+  export type SalaryStructureDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SalaryStructure
+     */
+    select?: SalaryStructureSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SalaryStructureInclude<ExtArgs> | null
+    /**
+     * Filter which SalaryStructure to delete.
+     */
+    where: SalaryStructureWhereUniqueInput
+  }
+
+  /**
+   * SalaryStructure deleteMany
+   */
+  export type SalaryStructureDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SalaryStructures to delete
+     */
+    where?: SalaryStructureWhereInput
+  }
+
+  /**
+   * SalaryStructure without action
+   */
+  export type SalaryStructureDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SalaryStructure
+     */
+    select?: SalaryStructureSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SalaryStructureInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Payroll
+   */
+
+  export type AggregatePayroll = {
+    _count: PayrollCountAggregateOutputType | null
+    _avg: PayrollAvgAggregateOutputType | null
+    _sum: PayrollSumAggregateOutputType | null
+    _min: PayrollMinAggregateOutputType | null
+    _max: PayrollMaxAggregateOutputType | null
+  }
+
+  export type PayrollAvgAggregateOutputType = {
+    year: number | null
+    monthNumber: number | null
+    basic: number | null
+    hra: number | null
+    allowances: number | null
+    grossEarnings: number | null
+    pf: number | null
+    pt: number | null
+    deductions: number | null
+    totalDeductions: number | null
+    netSalary: number | null
+    totalDays: number | null
+    presentDays: number | null
+    absentDays: number | null
+    lopDays: number | null
+    lopAmount: number | null
+  }
+
+  export type PayrollSumAggregateOutputType = {
+    year: number | null
+    monthNumber: number | null
+    basic: number | null
+    hra: number | null
+    allowances: number | null
+    grossEarnings: number | null
+    pf: number | null
+    pt: number | null
+    deductions: number | null
+    totalDeductions: number | null
+    netSalary: number | null
+    totalDays: number | null
+    presentDays: number | null
+    absentDays: number | null
+    lopDays: number | null
+    lopAmount: number | null
+  }
+
+  export type PayrollMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    month: string | null
+    year: number | null
+    monthNumber: number | null
+    basic: number | null
+    hra: number | null
+    allowances: number | null
+    grossEarnings: number | null
+    pf: number | null
+    pt: number | null
+    deductions: number | null
+    totalDeductions: number | null
+    netSalary: number | null
+    totalDays: number | null
+    presentDays: number | null
+    absentDays: number | null
+    lopDays: number | null
+    lopAmount: number | null
+    status: string | null
+    generatedAt: Date | null
+    paidAt: Date | null
+  }
+
+  export type PayrollMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    month: string | null
+    year: number | null
+    monthNumber: number | null
+    basic: number | null
+    hra: number | null
+    allowances: number | null
+    grossEarnings: number | null
+    pf: number | null
+    pt: number | null
+    deductions: number | null
+    totalDeductions: number | null
+    netSalary: number | null
+    totalDays: number | null
+    presentDays: number | null
+    absentDays: number | null
+    lopDays: number | null
+    lopAmount: number | null
+    status: string | null
+    generatedAt: Date | null
+    paidAt: Date | null
+  }
+
+  export type PayrollCountAggregateOutputType = {
+    id: number
+    userId: number
+    month: number
+    year: number
+    monthNumber: number
+    basic: number
+    hra: number
+    allowances: number
+    grossEarnings: number
+    pf: number
+    pt: number
+    deductions: number
+    totalDeductions: number
+    netSalary: number
+    totalDays: number
+    presentDays: number
+    absentDays: number
+    lopDays: number
+    lopAmount: number
+    status: number
+    generatedAt: number
+    paidAt: number
+    _all: number
+  }
+
+
+  export type PayrollAvgAggregateInputType = {
+    year?: true
+    monthNumber?: true
+    basic?: true
+    hra?: true
+    allowances?: true
+    grossEarnings?: true
+    pf?: true
+    pt?: true
+    deductions?: true
+    totalDeductions?: true
+    netSalary?: true
+    totalDays?: true
+    presentDays?: true
+    absentDays?: true
+    lopDays?: true
+    lopAmount?: true
+  }
+
+  export type PayrollSumAggregateInputType = {
+    year?: true
+    monthNumber?: true
+    basic?: true
+    hra?: true
+    allowances?: true
+    grossEarnings?: true
+    pf?: true
+    pt?: true
+    deductions?: true
+    totalDeductions?: true
+    netSalary?: true
+    totalDays?: true
+    presentDays?: true
+    absentDays?: true
+    lopDays?: true
+    lopAmount?: true
+  }
+
+  export type PayrollMinAggregateInputType = {
+    id?: true
+    userId?: true
+    month?: true
+    year?: true
+    monthNumber?: true
+    basic?: true
+    hra?: true
+    allowances?: true
+    grossEarnings?: true
+    pf?: true
+    pt?: true
+    deductions?: true
+    totalDeductions?: true
+    netSalary?: true
+    totalDays?: true
+    presentDays?: true
+    absentDays?: true
+    lopDays?: true
+    lopAmount?: true
+    status?: true
+    generatedAt?: true
+    paidAt?: true
+  }
+
+  export type PayrollMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    month?: true
+    year?: true
+    monthNumber?: true
+    basic?: true
+    hra?: true
+    allowances?: true
+    grossEarnings?: true
+    pf?: true
+    pt?: true
+    deductions?: true
+    totalDeductions?: true
+    netSalary?: true
+    totalDays?: true
+    presentDays?: true
+    absentDays?: true
+    lopDays?: true
+    lopAmount?: true
+    status?: true
+    generatedAt?: true
+    paidAt?: true
+  }
+
+  export type PayrollCountAggregateInputType = {
+    id?: true
+    userId?: true
+    month?: true
+    year?: true
+    monthNumber?: true
+    basic?: true
+    hra?: true
+    allowances?: true
+    grossEarnings?: true
+    pf?: true
+    pt?: true
+    deductions?: true
+    totalDeductions?: true
+    netSalary?: true
+    totalDays?: true
+    presentDays?: true
+    absentDays?: true
+    lopDays?: true
+    lopAmount?: true
+    status?: true
+    generatedAt?: true
+    paidAt?: true
+    _all?: true
+  }
+
+  export type PayrollAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Payroll to aggregate.
+     */
+    where?: PayrollWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Payrolls to fetch.
+     */
+    orderBy?: PayrollOrderByWithRelationInput | PayrollOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PayrollWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Payrolls from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Payrolls.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Payrolls
+    **/
+    _count?: true | PayrollCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: PayrollAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: PayrollSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PayrollMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PayrollMaxAggregateInputType
+  }
+
+  export type GetPayrollAggregateType<T extends PayrollAggregateArgs> = {
+        [P in keyof T & keyof AggregatePayroll]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePayroll[P]>
+      : GetScalarType<T[P], AggregatePayroll[P]>
+  }
+
+
+
+
+  export type PayrollGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PayrollWhereInput
+    orderBy?: PayrollOrderByWithAggregationInput | PayrollOrderByWithAggregationInput[]
+    by: PayrollScalarFieldEnum[] | PayrollScalarFieldEnum
+    having?: PayrollScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PayrollCountAggregateInputType | true
+    _avg?: PayrollAvgAggregateInputType
+    _sum?: PayrollSumAggregateInputType
+    _min?: PayrollMinAggregateInputType
+    _max?: PayrollMaxAggregateInputType
+  }
+
+  export type PayrollGroupByOutputType = {
+    id: string
+    userId: string
+    month: string
+    year: number
+    monthNumber: number
+    basic: number
+    hra: number
+    allowances: number
+    grossEarnings: number
+    pf: number
+    pt: number
+    deductions: number
+    totalDeductions: number
+    netSalary: number
+    totalDays: number
+    presentDays: number
+    absentDays: number
+    lopDays: number
+    lopAmount: number
+    status: string
+    generatedAt: Date
+    paidAt: Date | null
+    _count: PayrollCountAggregateOutputType | null
+    _avg: PayrollAvgAggregateOutputType | null
+    _sum: PayrollSumAggregateOutputType | null
+    _min: PayrollMinAggregateOutputType | null
+    _max: PayrollMaxAggregateOutputType | null
+  }
+
+  type GetPayrollGroupByPayload<T extends PayrollGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PayrollGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PayrollGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PayrollGroupByOutputType[P]>
+            : GetScalarType<T[P], PayrollGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PayrollSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    month?: boolean
+    year?: boolean
+    monthNumber?: boolean
+    basic?: boolean
+    hra?: boolean
+    allowances?: boolean
+    grossEarnings?: boolean
+    pf?: boolean
+    pt?: boolean
+    deductions?: boolean
+    totalDeductions?: boolean
+    netSalary?: boolean
+    totalDays?: boolean
+    presentDays?: boolean
+    absentDays?: boolean
+    lopDays?: boolean
+    lopAmount?: boolean
+    status?: boolean
+    generatedAt?: boolean
+    paidAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    items?: boolean | Payroll$itemsArgs<ExtArgs>
+    _count?: boolean | PayrollCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["payroll"]>
+
+  export type PayrollSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    month?: boolean
+    year?: boolean
+    monthNumber?: boolean
+    basic?: boolean
+    hra?: boolean
+    allowances?: boolean
+    grossEarnings?: boolean
+    pf?: boolean
+    pt?: boolean
+    deductions?: boolean
+    totalDeductions?: boolean
+    netSalary?: boolean
+    totalDays?: boolean
+    presentDays?: boolean
+    absentDays?: boolean
+    lopDays?: boolean
+    lopAmount?: boolean
+    status?: boolean
+    generatedAt?: boolean
+    paidAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["payroll"]>
+
+  export type PayrollSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    month?: boolean
+    year?: boolean
+    monthNumber?: boolean
+    basic?: boolean
+    hra?: boolean
+    allowances?: boolean
+    grossEarnings?: boolean
+    pf?: boolean
+    pt?: boolean
+    deductions?: boolean
+    totalDeductions?: boolean
+    netSalary?: boolean
+    totalDays?: boolean
+    presentDays?: boolean
+    absentDays?: boolean
+    lopDays?: boolean
+    lopAmount?: boolean
+    status?: boolean
+    generatedAt?: boolean
+    paidAt?: boolean
+  }
+
+  export type PayrollInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    items?: boolean | Payroll$itemsArgs<ExtArgs>
+    _count?: boolean | PayrollCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type PayrollIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $PayrollPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Payroll"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      items: Prisma.$PayrollItemPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      month: string
+      year: number
+      monthNumber: number
+      basic: number
+      hra: number
+      allowances: number
+      grossEarnings: number
+      pf: number
+      pt: number
+      deductions: number
+      totalDeductions: number
+      netSalary: number
+      totalDays: number
+      presentDays: number
+      absentDays: number
+      lopDays: number
+      lopAmount: number
+      status: string
+      generatedAt: Date
+      paidAt: Date | null
+    }, ExtArgs["result"]["payroll"]>
+    composites: {}
+  }
+
+  type PayrollGetPayload<S extends boolean | null | undefined | PayrollDefaultArgs> = $Result.GetResult<Prisma.$PayrollPayload, S>
+
+  type PayrollCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<PayrollFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: PayrollCountAggregateInputType | true
+    }
+
+  export interface PayrollDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Payroll'], meta: { name: 'Payroll' } }
+    /**
+     * Find zero or one Payroll that matches the filter.
+     * @param {PayrollFindUniqueArgs} args - Arguments to find a Payroll
+     * @example
+     * // Get one Payroll
+     * const payroll = await prisma.payroll.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PayrollFindUniqueArgs>(args: SelectSubset<T, PayrollFindUniqueArgs<ExtArgs>>): Prisma__PayrollClient<$Result.GetResult<Prisma.$PayrollPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one Payroll that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {PayrollFindUniqueOrThrowArgs} args - Arguments to find a Payroll
+     * @example
+     * // Get one Payroll
+     * const payroll = await prisma.payroll.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PayrollFindUniqueOrThrowArgs>(args: SelectSubset<T, PayrollFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PayrollClient<$Result.GetResult<Prisma.$PayrollPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first Payroll that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PayrollFindFirstArgs} args - Arguments to find a Payroll
+     * @example
+     * // Get one Payroll
+     * const payroll = await prisma.payroll.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PayrollFindFirstArgs>(args?: SelectSubset<T, PayrollFindFirstArgs<ExtArgs>>): Prisma__PayrollClient<$Result.GetResult<Prisma.$PayrollPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first Payroll that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PayrollFindFirstOrThrowArgs} args - Arguments to find a Payroll
+     * @example
+     * // Get one Payroll
+     * const payroll = await prisma.payroll.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PayrollFindFirstOrThrowArgs>(args?: SelectSubset<T, PayrollFindFirstOrThrowArgs<ExtArgs>>): Prisma__PayrollClient<$Result.GetResult<Prisma.$PayrollPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more Payrolls that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PayrollFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Payrolls
+     * const payrolls = await prisma.payroll.findMany()
+     * 
+     * // Get first 10 Payrolls
+     * const payrolls = await prisma.payroll.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const payrollWithIdOnly = await prisma.payroll.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PayrollFindManyArgs>(args?: SelectSubset<T, PayrollFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PayrollPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a Payroll.
+     * @param {PayrollCreateArgs} args - Arguments to create a Payroll.
+     * @example
+     * // Create one Payroll
+     * const Payroll = await prisma.payroll.create({
+     *   data: {
+     *     // ... data to create a Payroll
+     *   }
+     * })
+     * 
+     */
+    create<T extends PayrollCreateArgs>(args: SelectSubset<T, PayrollCreateArgs<ExtArgs>>): Prisma__PayrollClient<$Result.GetResult<Prisma.$PayrollPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many Payrolls.
+     * @param {PayrollCreateManyArgs} args - Arguments to create many Payrolls.
+     * @example
+     * // Create many Payrolls
+     * const payroll = await prisma.payroll.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PayrollCreateManyArgs>(args?: SelectSubset<T, PayrollCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Payrolls and returns the data saved in the database.
+     * @param {PayrollCreateManyAndReturnArgs} args - Arguments to create many Payrolls.
+     * @example
+     * // Create many Payrolls
+     * const payroll = await prisma.payroll.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Payrolls and only return the `id`
+     * const payrollWithIdOnly = await prisma.payroll.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PayrollCreateManyAndReturnArgs>(args?: SelectSubset<T, PayrollCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PayrollPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a Payroll.
+     * @param {PayrollDeleteArgs} args - Arguments to delete one Payroll.
+     * @example
+     * // Delete one Payroll
+     * const Payroll = await prisma.payroll.delete({
+     *   where: {
+     *     // ... filter to delete one Payroll
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PayrollDeleteArgs>(args: SelectSubset<T, PayrollDeleteArgs<ExtArgs>>): Prisma__PayrollClient<$Result.GetResult<Prisma.$PayrollPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one Payroll.
+     * @param {PayrollUpdateArgs} args - Arguments to update one Payroll.
+     * @example
+     * // Update one Payroll
+     * const payroll = await prisma.payroll.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PayrollUpdateArgs>(args: SelectSubset<T, PayrollUpdateArgs<ExtArgs>>): Prisma__PayrollClient<$Result.GetResult<Prisma.$PayrollPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more Payrolls.
+     * @param {PayrollDeleteManyArgs} args - Arguments to filter Payrolls to delete.
+     * @example
+     * // Delete a few Payrolls
+     * const { count } = await prisma.payroll.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PayrollDeleteManyArgs>(args?: SelectSubset<T, PayrollDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Payrolls.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PayrollUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Payrolls
+     * const payroll = await prisma.payroll.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PayrollUpdateManyArgs>(args: SelectSubset<T, PayrollUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Payroll.
+     * @param {PayrollUpsertArgs} args - Arguments to update or create a Payroll.
+     * @example
+     * // Update or create a Payroll
+     * const payroll = await prisma.payroll.upsert({
+     *   create: {
+     *     // ... data to create a Payroll
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Payroll we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PayrollUpsertArgs>(args: SelectSubset<T, PayrollUpsertArgs<ExtArgs>>): Prisma__PayrollClient<$Result.GetResult<Prisma.$PayrollPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of Payrolls.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PayrollCountArgs} args - Arguments to filter Payrolls to count.
+     * @example
+     * // Count the number of Payrolls
+     * const count = await prisma.payroll.count({
+     *   where: {
+     *     // ... the filter for the Payrolls we want to count
+     *   }
+     * })
+    **/
+    count<T extends PayrollCountArgs>(
+      args?: Subset<T, PayrollCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PayrollCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Payroll.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PayrollAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PayrollAggregateArgs>(args: Subset<T, PayrollAggregateArgs>): Prisma.PrismaPromise<GetPayrollAggregateType<T>>
+
+    /**
+     * Group by Payroll.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PayrollGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PayrollGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PayrollGroupByArgs['orderBy'] }
+        : { orderBy?: PayrollGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PayrollGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPayrollGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Payroll model
+   */
+  readonly fields: PayrollFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Payroll.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PayrollClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    items<T extends Payroll$itemsArgs<ExtArgs> = {}>(args?: Subset<T, Payroll$itemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PayrollItemPayload<ExtArgs>, T, "findMany"> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Payroll model
+   */ 
+  interface PayrollFieldRefs {
+    readonly id: FieldRef<"Payroll", 'String'>
+    readonly userId: FieldRef<"Payroll", 'String'>
+    readonly month: FieldRef<"Payroll", 'String'>
+    readonly year: FieldRef<"Payroll", 'Int'>
+    readonly monthNumber: FieldRef<"Payroll", 'Int'>
+    readonly basic: FieldRef<"Payroll", 'Float'>
+    readonly hra: FieldRef<"Payroll", 'Float'>
+    readonly allowances: FieldRef<"Payroll", 'Float'>
+    readonly grossEarnings: FieldRef<"Payroll", 'Float'>
+    readonly pf: FieldRef<"Payroll", 'Float'>
+    readonly pt: FieldRef<"Payroll", 'Float'>
+    readonly deductions: FieldRef<"Payroll", 'Float'>
+    readonly totalDeductions: FieldRef<"Payroll", 'Float'>
+    readonly netSalary: FieldRef<"Payroll", 'Float'>
+    readonly totalDays: FieldRef<"Payroll", 'Int'>
+    readonly presentDays: FieldRef<"Payroll", 'Float'>
+    readonly absentDays: FieldRef<"Payroll", 'Float'>
+    readonly lopDays: FieldRef<"Payroll", 'Float'>
+    readonly lopAmount: FieldRef<"Payroll", 'Float'>
+    readonly status: FieldRef<"Payroll", 'String'>
+    readonly generatedAt: FieldRef<"Payroll", 'DateTime'>
+    readonly paidAt: FieldRef<"Payroll", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Payroll findUnique
+   */
+  export type PayrollFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Payroll
+     */
+    select?: PayrollSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PayrollInclude<ExtArgs> | null
+    /**
+     * Filter, which Payroll to fetch.
+     */
+    where: PayrollWhereUniqueInput
+  }
+
+  /**
+   * Payroll findUniqueOrThrow
+   */
+  export type PayrollFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Payroll
+     */
+    select?: PayrollSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PayrollInclude<ExtArgs> | null
+    /**
+     * Filter, which Payroll to fetch.
+     */
+    where: PayrollWhereUniqueInput
+  }
+
+  /**
+   * Payroll findFirst
+   */
+  export type PayrollFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Payroll
+     */
+    select?: PayrollSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PayrollInclude<ExtArgs> | null
+    /**
+     * Filter, which Payroll to fetch.
+     */
+    where?: PayrollWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Payrolls to fetch.
+     */
+    orderBy?: PayrollOrderByWithRelationInput | PayrollOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Payrolls.
+     */
+    cursor?: PayrollWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Payrolls from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Payrolls.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Payrolls.
+     */
+    distinct?: PayrollScalarFieldEnum | PayrollScalarFieldEnum[]
+  }
+
+  /**
+   * Payroll findFirstOrThrow
+   */
+  export type PayrollFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Payroll
+     */
+    select?: PayrollSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PayrollInclude<ExtArgs> | null
+    /**
+     * Filter, which Payroll to fetch.
+     */
+    where?: PayrollWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Payrolls to fetch.
+     */
+    orderBy?: PayrollOrderByWithRelationInput | PayrollOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Payrolls.
+     */
+    cursor?: PayrollWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Payrolls from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Payrolls.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Payrolls.
+     */
+    distinct?: PayrollScalarFieldEnum | PayrollScalarFieldEnum[]
+  }
+
+  /**
+   * Payroll findMany
+   */
+  export type PayrollFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Payroll
+     */
+    select?: PayrollSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PayrollInclude<ExtArgs> | null
+    /**
+     * Filter, which Payrolls to fetch.
+     */
+    where?: PayrollWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Payrolls to fetch.
+     */
+    orderBy?: PayrollOrderByWithRelationInput | PayrollOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Payrolls.
+     */
+    cursor?: PayrollWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Payrolls from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Payrolls.
+     */
+    skip?: number
+    distinct?: PayrollScalarFieldEnum | PayrollScalarFieldEnum[]
+  }
+
+  /**
+   * Payroll create
+   */
+  export type PayrollCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Payroll
+     */
+    select?: PayrollSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PayrollInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Payroll.
+     */
+    data: XOR<PayrollCreateInput, PayrollUncheckedCreateInput>
+  }
+
+  /**
+   * Payroll createMany
+   */
+  export type PayrollCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Payrolls.
+     */
+    data: PayrollCreateManyInput | PayrollCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Payroll createManyAndReturn
+   */
+  export type PayrollCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Payroll
+     */
+    select?: PayrollSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many Payrolls.
+     */
+    data: PayrollCreateManyInput | PayrollCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PayrollIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Payroll update
+   */
+  export type PayrollUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Payroll
+     */
+    select?: PayrollSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PayrollInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Payroll.
+     */
+    data: XOR<PayrollUpdateInput, PayrollUncheckedUpdateInput>
+    /**
+     * Choose, which Payroll to update.
+     */
+    where: PayrollWhereUniqueInput
+  }
+
+  /**
+   * Payroll updateMany
+   */
+  export type PayrollUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Payrolls.
+     */
+    data: XOR<PayrollUpdateManyMutationInput, PayrollUncheckedUpdateManyInput>
+    /**
+     * Filter which Payrolls to update
+     */
+    where?: PayrollWhereInput
+  }
+
+  /**
+   * Payroll upsert
+   */
+  export type PayrollUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Payroll
+     */
+    select?: PayrollSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PayrollInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Payroll to update in case it exists.
+     */
+    where: PayrollWhereUniqueInput
+    /**
+     * In case the Payroll found by the `where` argument doesn't exist, create a new Payroll with this data.
+     */
+    create: XOR<PayrollCreateInput, PayrollUncheckedCreateInput>
+    /**
+     * In case the Payroll was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PayrollUpdateInput, PayrollUncheckedUpdateInput>
+  }
+
+  /**
+   * Payroll delete
+   */
+  export type PayrollDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Payroll
+     */
+    select?: PayrollSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PayrollInclude<ExtArgs> | null
+    /**
+     * Filter which Payroll to delete.
+     */
+    where: PayrollWhereUniqueInput
+  }
+
+  /**
+   * Payroll deleteMany
+   */
+  export type PayrollDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Payrolls to delete
+     */
+    where?: PayrollWhereInput
+  }
+
+  /**
+   * Payroll.items
+   */
+  export type Payroll$itemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PayrollItem
+     */
+    select?: PayrollItemSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PayrollItemInclude<ExtArgs> | null
+    where?: PayrollItemWhereInput
+    orderBy?: PayrollItemOrderByWithRelationInput | PayrollItemOrderByWithRelationInput[]
+    cursor?: PayrollItemWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PayrollItemScalarFieldEnum | PayrollItemScalarFieldEnum[]
+  }
+
+  /**
+   * Payroll without action
+   */
+  export type PayrollDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Payroll
+     */
+    select?: PayrollSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PayrollInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model PayrollItem
+   */
+
+  export type AggregatePayrollItem = {
+    _count: PayrollItemCountAggregateOutputType | null
+    _avg: PayrollItemAvgAggregateOutputType | null
+    _sum: PayrollItemSumAggregateOutputType | null
+    _min: PayrollItemMinAggregateOutputType | null
+    _max: PayrollItemMaxAggregateOutputType | null
+  }
+
+  export type PayrollItemAvgAggregateOutputType = {
+    amount: number | null
+  }
+
+  export type PayrollItemSumAggregateOutputType = {
+    amount: number | null
+  }
+
+  export type PayrollItemMinAggregateOutputType = {
+    id: string | null
+    payrollId: string | null
+    label: string | null
+    amount: number | null
+    type: string | null
+  }
+
+  export type PayrollItemMaxAggregateOutputType = {
+    id: string | null
+    payrollId: string | null
+    label: string | null
+    amount: number | null
+    type: string | null
+  }
+
+  export type PayrollItemCountAggregateOutputType = {
+    id: number
+    payrollId: number
+    label: number
+    amount: number
+    type: number
+    _all: number
+  }
+
+
+  export type PayrollItemAvgAggregateInputType = {
+    amount?: true
+  }
+
+  export type PayrollItemSumAggregateInputType = {
+    amount?: true
+  }
+
+  export type PayrollItemMinAggregateInputType = {
+    id?: true
+    payrollId?: true
+    label?: true
+    amount?: true
+    type?: true
+  }
+
+  export type PayrollItemMaxAggregateInputType = {
+    id?: true
+    payrollId?: true
+    label?: true
+    amount?: true
+    type?: true
+  }
+
+  export type PayrollItemCountAggregateInputType = {
+    id?: true
+    payrollId?: true
+    label?: true
+    amount?: true
+    type?: true
+    _all?: true
+  }
+
+  export type PayrollItemAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PayrollItem to aggregate.
+     */
+    where?: PayrollItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PayrollItems to fetch.
+     */
+    orderBy?: PayrollItemOrderByWithRelationInput | PayrollItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PayrollItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PayrollItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PayrollItems.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PayrollItems
+    **/
+    _count?: true | PayrollItemCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: PayrollItemAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: PayrollItemSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PayrollItemMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PayrollItemMaxAggregateInputType
+  }
+
+  export type GetPayrollItemAggregateType<T extends PayrollItemAggregateArgs> = {
+        [P in keyof T & keyof AggregatePayrollItem]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePayrollItem[P]>
+      : GetScalarType<T[P], AggregatePayrollItem[P]>
+  }
+
+
+
+
+  export type PayrollItemGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PayrollItemWhereInput
+    orderBy?: PayrollItemOrderByWithAggregationInput | PayrollItemOrderByWithAggregationInput[]
+    by: PayrollItemScalarFieldEnum[] | PayrollItemScalarFieldEnum
+    having?: PayrollItemScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PayrollItemCountAggregateInputType | true
+    _avg?: PayrollItemAvgAggregateInputType
+    _sum?: PayrollItemSumAggregateInputType
+    _min?: PayrollItemMinAggregateInputType
+    _max?: PayrollItemMaxAggregateInputType
+  }
+
+  export type PayrollItemGroupByOutputType = {
+    id: string
+    payrollId: string
+    label: string
+    amount: number
+    type: string
+    _count: PayrollItemCountAggregateOutputType | null
+    _avg: PayrollItemAvgAggregateOutputType | null
+    _sum: PayrollItemSumAggregateOutputType | null
+    _min: PayrollItemMinAggregateOutputType | null
+    _max: PayrollItemMaxAggregateOutputType | null
+  }
+
+  type GetPayrollItemGroupByPayload<T extends PayrollItemGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PayrollItemGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PayrollItemGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PayrollItemGroupByOutputType[P]>
+            : GetScalarType<T[P], PayrollItemGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PayrollItemSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    payrollId?: boolean
+    label?: boolean
+    amount?: boolean
+    type?: boolean
+    payroll?: boolean | PayrollDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["payrollItem"]>
+
+  export type PayrollItemSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    payrollId?: boolean
+    label?: boolean
+    amount?: boolean
+    type?: boolean
+    payroll?: boolean | PayrollDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["payrollItem"]>
+
+  export type PayrollItemSelectScalar = {
+    id?: boolean
+    payrollId?: boolean
+    label?: boolean
+    amount?: boolean
+    type?: boolean
+  }
+
+  export type PayrollItemInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    payroll?: boolean | PayrollDefaultArgs<ExtArgs>
+  }
+  export type PayrollItemIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    payroll?: boolean | PayrollDefaultArgs<ExtArgs>
+  }
+
+  export type $PayrollItemPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PayrollItem"
+    objects: {
+      payroll: Prisma.$PayrollPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      payrollId: string
+      label: string
+      amount: number
+      type: string
+    }, ExtArgs["result"]["payrollItem"]>
+    composites: {}
+  }
+
+  type PayrollItemGetPayload<S extends boolean | null | undefined | PayrollItemDefaultArgs> = $Result.GetResult<Prisma.$PayrollItemPayload, S>
+
+  type PayrollItemCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<PayrollItemFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: PayrollItemCountAggregateInputType | true
+    }
+
+  export interface PayrollItemDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PayrollItem'], meta: { name: 'PayrollItem' } }
+    /**
+     * Find zero or one PayrollItem that matches the filter.
+     * @param {PayrollItemFindUniqueArgs} args - Arguments to find a PayrollItem
+     * @example
+     * // Get one PayrollItem
+     * const payrollItem = await prisma.payrollItem.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PayrollItemFindUniqueArgs>(args: SelectSubset<T, PayrollItemFindUniqueArgs<ExtArgs>>): Prisma__PayrollItemClient<$Result.GetResult<Prisma.$PayrollItemPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one PayrollItem that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {PayrollItemFindUniqueOrThrowArgs} args - Arguments to find a PayrollItem
+     * @example
+     * // Get one PayrollItem
+     * const payrollItem = await prisma.payrollItem.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PayrollItemFindUniqueOrThrowArgs>(args: SelectSubset<T, PayrollItemFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PayrollItemClient<$Result.GetResult<Prisma.$PayrollItemPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first PayrollItem that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PayrollItemFindFirstArgs} args - Arguments to find a PayrollItem
+     * @example
+     * // Get one PayrollItem
+     * const payrollItem = await prisma.payrollItem.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PayrollItemFindFirstArgs>(args?: SelectSubset<T, PayrollItemFindFirstArgs<ExtArgs>>): Prisma__PayrollItemClient<$Result.GetResult<Prisma.$PayrollItemPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first PayrollItem that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PayrollItemFindFirstOrThrowArgs} args - Arguments to find a PayrollItem
+     * @example
+     * // Get one PayrollItem
+     * const payrollItem = await prisma.payrollItem.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PayrollItemFindFirstOrThrowArgs>(args?: SelectSubset<T, PayrollItemFindFirstOrThrowArgs<ExtArgs>>): Prisma__PayrollItemClient<$Result.GetResult<Prisma.$PayrollItemPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more PayrollItems that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PayrollItemFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PayrollItems
+     * const payrollItems = await prisma.payrollItem.findMany()
+     * 
+     * // Get first 10 PayrollItems
+     * const payrollItems = await prisma.payrollItem.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const payrollItemWithIdOnly = await prisma.payrollItem.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PayrollItemFindManyArgs>(args?: SelectSubset<T, PayrollItemFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PayrollItemPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a PayrollItem.
+     * @param {PayrollItemCreateArgs} args - Arguments to create a PayrollItem.
+     * @example
+     * // Create one PayrollItem
+     * const PayrollItem = await prisma.payrollItem.create({
+     *   data: {
+     *     // ... data to create a PayrollItem
+     *   }
+     * })
+     * 
+     */
+    create<T extends PayrollItemCreateArgs>(args: SelectSubset<T, PayrollItemCreateArgs<ExtArgs>>): Prisma__PayrollItemClient<$Result.GetResult<Prisma.$PayrollItemPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many PayrollItems.
+     * @param {PayrollItemCreateManyArgs} args - Arguments to create many PayrollItems.
+     * @example
+     * // Create many PayrollItems
+     * const payrollItem = await prisma.payrollItem.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PayrollItemCreateManyArgs>(args?: SelectSubset<T, PayrollItemCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many PayrollItems and returns the data saved in the database.
+     * @param {PayrollItemCreateManyAndReturnArgs} args - Arguments to create many PayrollItems.
+     * @example
+     * // Create many PayrollItems
+     * const payrollItem = await prisma.payrollItem.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many PayrollItems and only return the `id`
+     * const payrollItemWithIdOnly = await prisma.payrollItem.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PayrollItemCreateManyAndReturnArgs>(args?: SelectSubset<T, PayrollItemCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PayrollItemPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a PayrollItem.
+     * @param {PayrollItemDeleteArgs} args - Arguments to delete one PayrollItem.
+     * @example
+     * // Delete one PayrollItem
+     * const PayrollItem = await prisma.payrollItem.delete({
+     *   where: {
+     *     // ... filter to delete one PayrollItem
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PayrollItemDeleteArgs>(args: SelectSubset<T, PayrollItemDeleteArgs<ExtArgs>>): Prisma__PayrollItemClient<$Result.GetResult<Prisma.$PayrollItemPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one PayrollItem.
+     * @param {PayrollItemUpdateArgs} args - Arguments to update one PayrollItem.
+     * @example
+     * // Update one PayrollItem
+     * const payrollItem = await prisma.payrollItem.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PayrollItemUpdateArgs>(args: SelectSubset<T, PayrollItemUpdateArgs<ExtArgs>>): Prisma__PayrollItemClient<$Result.GetResult<Prisma.$PayrollItemPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more PayrollItems.
+     * @param {PayrollItemDeleteManyArgs} args - Arguments to filter PayrollItems to delete.
+     * @example
+     * // Delete a few PayrollItems
+     * const { count } = await prisma.payrollItem.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PayrollItemDeleteManyArgs>(args?: SelectSubset<T, PayrollItemDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PayrollItems.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PayrollItemUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PayrollItems
+     * const payrollItem = await prisma.payrollItem.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PayrollItemUpdateManyArgs>(args: SelectSubset<T, PayrollItemUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one PayrollItem.
+     * @param {PayrollItemUpsertArgs} args - Arguments to update or create a PayrollItem.
+     * @example
+     * // Update or create a PayrollItem
+     * const payrollItem = await prisma.payrollItem.upsert({
+     *   create: {
+     *     // ... data to create a PayrollItem
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PayrollItem we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PayrollItemUpsertArgs>(args: SelectSubset<T, PayrollItemUpsertArgs<ExtArgs>>): Prisma__PayrollItemClient<$Result.GetResult<Prisma.$PayrollItemPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of PayrollItems.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PayrollItemCountArgs} args - Arguments to filter PayrollItems to count.
+     * @example
+     * // Count the number of PayrollItems
+     * const count = await prisma.payrollItem.count({
+     *   where: {
+     *     // ... the filter for the PayrollItems we want to count
+     *   }
+     * })
+    **/
+    count<T extends PayrollItemCountArgs>(
+      args?: Subset<T, PayrollItemCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PayrollItemCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PayrollItem.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PayrollItemAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PayrollItemAggregateArgs>(args: Subset<T, PayrollItemAggregateArgs>): Prisma.PrismaPromise<GetPayrollItemAggregateType<T>>
+
+    /**
+     * Group by PayrollItem.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PayrollItemGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PayrollItemGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PayrollItemGroupByArgs['orderBy'] }
+        : { orderBy?: PayrollItemGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PayrollItemGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPayrollItemGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PayrollItem model
+   */
+  readonly fields: PayrollItemFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PayrollItem.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PayrollItemClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    payroll<T extends PayrollDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PayrollDefaultArgs<ExtArgs>>): Prisma__PayrollClient<$Result.GetResult<Prisma.$PayrollPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PayrollItem model
+   */ 
+  interface PayrollItemFieldRefs {
+    readonly id: FieldRef<"PayrollItem", 'String'>
+    readonly payrollId: FieldRef<"PayrollItem", 'String'>
+    readonly label: FieldRef<"PayrollItem", 'String'>
+    readonly amount: FieldRef<"PayrollItem", 'Float'>
+    readonly type: FieldRef<"PayrollItem", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PayrollItem findUnique
+   */
+  export type PayrollItemFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PayrollItem
+     */
+    select?: PayrollItemSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PayrollItemInclude<ExtArgs> | null
+    /**
+     * Filter, which PayrollItem to fetch.
+     */
+    where: PayrollItemWhereUniqueInput
+  }
+
+  /**
+   * PayrollItem findUniqueOrThrow
+   */
+  export type PayrollItemFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PayrollItem
+     */
+    select?: PayrollItemSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PayrollItemInclude<ExtArgs> | null
+    /**
+     * Filter, which PayrollItem to fetch.
+     */
+    where: PayrollItemWhereUniqueInput
+  }
+
+  /**
+   * PayrollItem findFirst
+   */
+  export type PayrollItemFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PayrollItem
+     */
+    select?: PayrollItemSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PayrollItemInclude<ExtArgs> | null
+    /**
+     * Filter, which PayrollItem to fetch.
+     */
+    where?: PayrollItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PayrollItems to fetch.
+     */
+    orderBy?: PayrollItemOrderByWithRelationInput | PayrollItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PayrollItems.
+     */
+    cursor?: PayrollItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PayrollItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PayrollItems.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PayrollItems.
+     */
+    distinct?: PayrollItemScalarFieldEnum | PayrollItemScalarFieldEnum[]
+  }
+
+  /**
+   * PayrollItem findFirstOrThrow
+   */
+  export type PayrollItemFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PayrollItem
+     */
+    select?: PayrollItemSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PayrollItemInclude<ExtArgs> | null
+    /**
+     * Filter, which PayrollItem to fetch.
+     */
+    where?: PayrollItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PayrollItems to fetch.
+     */
+    orderBy?: PayrollItemOrderByWithRelationInput | PayrollItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PayrollItems.
+     */
+    cursor?: PayrollItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PayrollItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PayrollItems.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PayrollItems.
+     */
+    distinct?: PayrollItemScalarFieldEnum | PayrollItemScalarFieldEnum[]
+  }
+
+  /**
+   * PayrollItem findMany
+   */
+  export type PayrollItemFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PayrollItem
+     */
+    select?: PayrollItemSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PayrollItemInclude<ExtArgs> | null
+    /**
+     * Filter, which PayrollItems to fetch.
+     */
+    where?: PayrollItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PayrollItems to fetch.
+     */
+    orderBy?: PayrollItemOrderByWithRelationInput | PayrollItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PayrollItems.
+     */
+    cursor?: PayrollItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PayrollItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PayrollItems.
+     */
+    skip?: number
+    distinct?: PayrollItemScalarFieldEnum | PayrollItemScalarFieldEnum[]
+  }
+
+  /**
+   * PayrollItem create
+   */
+  export type PayrollItemCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PayrollItem
+     */
+    select?: PayrollItemSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PayrollItemInclude<ExtArgs> | null
+    /**
+     * The data needed to create a PayrollItem.
+     */
+    data: XOR<PayrollItemCreateInput, PayrollItemUncheckedCreateInput>
+  }
+
+  /**
+   * PayrollItem createMany
+   */
+  export type PayrollItemCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PayrollItems.
+     */
+    data: PayrollItemCreateManyInput | PayrollItemCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PayrollItem createManyAndReturn
+   */
+  export type PayrollItemCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PayrollItem
+     */
+    select?: PayrollItemSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many PayrollItems.
+     */
+    data: PayrollItemCreateManyInput | PayrollItemCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PayrollItemIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PayrollItem update
+   */
+  export type PayrollItemUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PayrollItem
+     */
+    select?: PayrollItemSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PayrollItemInclude<ExtArgs> | null
+    /**
+     * The data needed to update a PayrollItem.
+     */
+    data: XOR<PayrollItemUpdateInput, PayrollItemUncheckedUpdateInput>
+    /**
+     * Choose, which PayrollItem to update.
+     */
+    where: PayrollItemWhereUniqueInput
+  }
+
+  /**
+   * PayrollItem updateMany
+   */
+  export type PayrollItemUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PayrollItems.
+     */
+    data: XOR<PayrollItemUpdateManyMutationInput, PayrollItemUncheckedUpdateManyInput>
+    /**
+     * Filter which PayrollItems to update
+     */
+    where?: PayrollItemWhereInput
+  }
+
+  /**
+   * PayrollItem upsert
+   */
+  export type PayrollItemUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PayrollItem
+     */
+    select?: PayrollItemSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PayrollItemInclude<ExtArgs> | null
+    /**
+     * The filter to search for the PayrollItem to update in case it exists.
+     */
+    where: PayrollItemWhereUniqueInput
+    /**
+     * In case the PayrollItem found by the `where` argument doesn't exist, create a new PayrollItem with this data.
+     */
+    create: XOR<PayrollItemCreateInput, PayrollItemUncheckedCreateInput>
+    /**
+     * In case the PayrollItem was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PayrollItemUpdateInput, PayrollItemUncheckedUpdateInput>
+  }
+
+  /**
+   * PayrollItem delete
+   */
+  export type PayrollItemDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PayrollItem
+     */
+    select?: PayrollItemSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PayrollItemInclude<ExtArgs> | null
+    /**
+     * Filter which PayrollItem to delete.
+     */
+    where: PayrollItemWhereUniqueInput
+  }
+
+  /**
+   * PayrollItem deleteMany
+   */
+  export type PayrollItemDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PayrollItems to delete
+     */
+    where?: PayrollItemWhereInput
+  }
+
+  /**
+   * PayrollItem without action
+   */
+  export type PayrollItemDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PayrollItem
+     */
+    select?: PayrollItemSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PayrollItemInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -13535,6 +17179,63 @@ export namespace Prisma {
   };
 
   export type AttendanceRequestScalarFieldEnum = (typeof AttendanceRequestScalarFieldEnum)[keyof typeof AttendanceRequestScalarFieldEnum]
+
+
+  export const SalaryStructureScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    basic: 'basic',
+    hra: 'hra',
+    allowances: 'allowances',
+    specialAllowance: 'specialAllowance',
+    pf: 'pf',
+    pt: 'pt',
+    deductions: 'deductions',
+    netSalary: 'netSalary',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type SalaryStructureScalarFieldEnum = (typeof SalaryStructureScalarFieldEnum)[keyof typeof SalaryStructureScalarFieldEnum]
+
+
+  export const PayrollScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    month: 'month',
+    year: 'year',
+    monthNumber: 'monthNumber',
+    basic: 'basic',
+    hra: 'hra',
+    allowances: 'allowances',
+    grossEarnings: 'grossEarnings',
+    pf: 'pf',
+    pt: 'pt',
+    deductions: 'deductions',
+    totalDeductions: 'totalDeductions',
+    netSalary: 'netSalary',
+    totalDays: 'totalDays',
+    presentDays: 'presentDays',
+    absentDays: 'absentDays',
+    lopDays: 'lopDays',
+    lopAmount: 'lopAmount',
+    status: 'status',
+    generatedAt: 'generatedAt',
+    paidAt: 'paidAt'
+  };
+
+  export type PayrollScalarFieldEnum = (typeof PayrollScalarFieldEnum)[keyof typeof PayrollScalarFieldEnum]
+
+
+  export const PayrollItemScalarFieldEnum: {
+    id: 'id',
+    payrollId: 'payrollId',
+    label: 'label',
+    amount: 'amount',
+    type: 'type'
+  };
+
+  export type PayrollItemScalarFieldEnum = (typeof PayrollItemScalarFieldEnum)[keyof typeof PayrollItemScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -13775,7 +17476,9 @@ export namespace Prisma {
     managedProjects?: ProjectListRelationFilter
     projectMemberships?: ProjectListRelationFilter
     assignedTasks?: TaskListRelationFilter
-    attendanceRequests?: AttendanceRequestListRelationFilter
+    attendanceRequest?: AttendanceRequestListRelationFilter
+    salaryStructure?: XOR<SalaryStructureNullableRelationFilter, SalaryStructureWhereInput> | null
+    payrolls?: PayrollListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -13798,7 +17501,9 @@ export namespace Prisma {
     managedProjects?: ProjectOrderByRelationAggregateInput
     projectMemberships?: ProjectOrderByRelationAggregateInput
     assignedTasks?: TaskOrderByRelationAggregateInput
-    attendanceRequests?: AttendanceRequestOrderByRelationAggregateInput
+    attendanceRequest?: AttendanceRequestOrderByRelationAggregateInput
+    salaryStructure?: SalaryStructureOrderByWithRelationInput
+    payrolls?: PayrollOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -13824,7 +17529,9 @@ export namespace Prisma {
     managedProjects?: ProjectListRelationFilter
     projectMemberships?: ProjectListRelationFilter
     assignedTasks?: TaskListRelationFilter
-    attendanceRequests?: AttendanceRequestListRelationFilter
+    attendanceRequest?: AttendanceRequestListRelationFilter
+    salaryStructure?: XOR<SalaryStructureNullableRelationFilter, SalaryStructureWhereInput> | null
+    payrolls?: PayrollListRelationFilter
   }, "id" | "code" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -14530,6 +18237,301 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"AttendanceRequest"> | Date | string
   }
 
+  export type SalaryStructureWhereInput = {
+    AND?: SalaryStructureWhereInput | SalaryStructureWhereInput[]
+    OR?: SalaryStructureWhereInput[]
+    NOT?: SalaryStructureWhereInput | SalaryStructureWhereInput[]
+    id?: StringFilter<"SalaryStructure"> | string
+    userId?: StringFilter<"SalaryStructure"> | string
+    basic?: FloatFilter<"SalaryStructure"> | number
+    hra?: FloatFilter<"SalaryStructure"> | number
+    allowances?: FloatFilter<"SalaryStructure"> | number
+    specialAllowance?: FloatFilter<"SalaryStructure"> | number
+    pf?: FloatFilter<"SalaryStructure"> | number
+    pt?: FloatFilter<"SalaryStructure"> | number
+    deductions?: FloatFilter<"SalaryStructure"> | number
+    netSalary?: FloatFilter<"SalaryStructure"> | number
+    createdAt?: DateTimeFilter<"SalaryStructure"> | Date | string
+    updatedAt?: DateTimeFilter<"SalaryStructure"> | Date | string
+    user?: XOR<UserRelationFilter, UserWhereInput>
+  }
+
+  export type SalaryStructureOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    basic?: SortOrder
+    hra?: SortOrder
+    allowances?: SortOrder
+    specialAllowance?: SortOrder
+    pf?: SortOrder
+    pt?: SortOrder
+    deductions?: SortOrder
+    netSalary?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type SalaryStructureWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId?: string
+    AND?: SalaryStructureWhereInput | SalaryStructureWhereInput[]
+    OR?: SalaryStructureWhereInput[]
+    NOT?: SalaryStructureWhereInput | SalaryStructureWhereInput[]
+    basic?: FloatFilter<"SalaryStructure"> | number
+    hra?: FloatFilter<"SalaryStructure"> | number
+    allowances?: FloatFilter<"SalaryStructure"> | number
+    specialAllowance?: FloatFilter<"SalaryStructure"> | number
+    pf?: FloatFilter<"SalaryStructure"> | number
+    pt?: FloatFilter<"SalaryStructure"> | number
+    deductions?: FloatFilter<"SalaryStructure"> | number
+    netSalary?: FloatFilter<"SalaryStructure"> | number
+    createdAt?: DateTimeFilter<"SalaryStructure"> | Date | string
+    updatedAt?: DateTimeFilter<"SalaryStructure"> | Date | string
+    user?: XOR<UserRelationFilter, UserWhereInput>
+  }, "id" | "userId">
+
+  export type SalaryStructureOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    basic?: SortOrder
+    hra?: SortOrder
+    allowances?: SortOrder
+    specialAllowance?: SortOrder
+    pf?: SortOrder
+    pt?: SortOrder
+    deductions?: SortOrder
+    netSalary?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: SalaryStructureCountOrderByAggregateInput
+    _avg?: SalaryStructureAvgOrderByAggregateInput
+    _max?: SalaryStructureMaxOrderByAggregateInput
+    _min?: SalaryStructureMinOrderByAggregateInput
+    _sum?: SalaryStructureSumOrderByAggregateInput
+  }
+
+  export type SalaryStructureScalarWhereWithAggregatesInput = {
+    AND?: SalaryStructureScalarWhereWithAggregatesInput | SalaryStructureScalarWhereWithAggregatesInput[]
+    OR?: SalaryStructureScalarWhereWithAggregatesInput[]
+    NOT?: SalaryStructureScalarWhereWithAggregatesInput | SalaryStructureScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"SalaryStructure"> | string
+    userId?: StringWithAggregatesFilter<"SalaryStructure"> | string
+    basic?: FloatWithAggregatesFilter<"SalaryStructure"> | number
+    hra?: FloatWithAggregatesFilter<"SalaryStructure"> | number
+    allowances?: FloatWithAggregatesFilter<"SalaryStructure"> | number
+    specialAllowance?: FloatWithAggregatesFilter<"SalaryStructure"> | number
+    pf?: FloatWithAggregatesFilter<"SalaryStructure"> | number
+    pt?: FloatWithAggregatesFilter<"SalaryStructure"> | number
+    deductions?: FloatWithAggregatesFilter<"SalaryStructure"> | number
+    netSalary?: FloatWithAggregatesFilter<"SalaryStructure"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"SalaryStructure"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"SalaryStructure"> | Date | string
+  }
+
+  export type PayrollWhereInput = {
+    AND?: PayrollWhereInput | PayrollWhereInput[]
+    OR?: PayrollWhereInput[]
+    NOT?: PayrollWhereInput | PayrollWhereInput[]
+    id?: StringFilter<"Payroll"> | string
+    userId?: StringFilter<"Payroll"> | string
+    month?: StringFilter<"Payroll"> | string
+    year?: IntFilter<"Payroll"> | number
+    monthNumber?: IntFilter<"Payroll"> | number
+    basic?: FloatFilter<"Payroll"> | number
+    hra?: FloatFilter<"Payroll"> | number
+    allowances?: FloatFilter<"Payroll"> | number
+    grossEarnings?: FloatFilter<"Payroll"> | number
+    pf?: FloatFilter<"Payroll"> | number
+    pt?: FloatFilter<"Payroll"> | number
+    deductions?: FloatFilter<"Payroll"> | number
+    totalDeductions?: FloatFilter<"Payroll"> | number
+    netSalary?: FloatFilter<"Payroll"> | number
+    totalDays?: IntFilter<"Payroll"> | number
+    presentDays?: FloatFilter<"Payroll"> | number
+    absentDays?: FloatFilter<"Payroll"> | number
+    lopDays?: FloatFilter<"Payroll"> | number
+    lopAmount?: FloatFilter<"Payroll"> | number
+    status?: StringFilter<"Payroll"> | string
+    generatedAt?: DateTimeFilter<"Payroll"> | Date | string
+    paidAt?: DateTimeNullableFilter<"Payroll"> | Date | string | null
+    user?: XOR<UserRelationFilter, UserWhereInput>
+    items?: PayrollItemListRelationFilter
+  }
+
+  export type PayrollOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    month?: SortOrder
+    year?: SortOrder
+    monthNumber?: SortOrder
+    basic?: SortOrder
+    hra?: SortOrder
+    allowances?: SortOrder
+    grossEarnings?: SortOrder
+    pf?: SortOrder
+    pt?: SortOrder
+    deductions?: SortOrder
+    totalDeductions?: SortOrder
+    netSalary?: SortOrder
+    totalDays?: SortOrder
+    presentDays?: SortOrder
+    absentDays?: SortOrder
+    lopDays?: SortOrder
+    lopAmount?: SortOrder
+    status?: SortOrder
+    generatedAt?: SortOrder
+    paidAt?: SortOrderInput | SortOrder
+    user?: UserOrderByWithRelationInput
+    items?: PayrollItemOrderByRelationAggregateInput
+  }
+
+  export type PayrollWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId_month?: PayrollUserIdMonthCompoundUniqueInput
+    AND?: PayrollWhereInput | PayrollWhereInput[]
+    OR?: PayrollWhereInput[]
+    NOT?: PayrollWhereInput | PayrollWhereInput[]
+    userId?: StringFilter<"Payroll"> | string
+    month?: StringFilter<"Payroll"> | string
+    year?: IntFilter<"Payroll"> | number
+    monthNumber?: IntFilter<"Payroll"> | number
+    basic?: FloatFilter<"Payroll"> | number
+    hra?: FloatFilter<"Payroll"> | number
+    allowances?: FloatFilter<"Payroll"> | number
+    grossEarnings?: FloatFilter<"Payroll"> | number
+    pf?: FloatFilter<"Payroll"> | number
+    pt?: FloatFilter<"Payroll"> | number
+    deductions?: FloatFilter<"Payroll"> | number
+    totalDeductions?: FloatFilter<"Payroll"> | number
+    netSalary?: FloatFilter<"Payroll"> | number
+    totalDays?: IntFilter<"Payroll"> | number
+    presentDays?: FloatFilter<"Payroll"> | number
+    absentDays?: FloatFilter<"Payroll"> | number
+    lopDays?: FloatFilter<"Payroll"> | number
+    lopAmount?: FloatFilter<"Payroll"> | number
+    status?: StringFilter<"Payroll"> | string
+    generatedAt?: DateTimeFilter<"Payroll"> | Date | string
+    paidAt?: DateTimeNullableFilter<"Payroll"> | Date | string | null
+    user?: XOR<UserRelationFilter, UserWhereInput>
+    items?: PayrollItemListRelationFilter
+  }, "id" | "userId_month">
+
+  export type PayrollOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    month?: SortOrder
+    year?: SortOrder
+    monthNumber?: SortOrder
+    basic?: SortOrder
+    hra?: SortOrder
+    allowances?: SortOrder
+    grossEarnings?: SortOrder
+    pf?: SortOrder
+    pt?: SortOrder
+    deductions?: SortOrder
+    totalDeductions?: SortOrder
+    netSalary?: SortOrder
+    totalDays?: SortOrder
+    presentDays?: SortOrder
+    absentDays?: SortOrder
+    lopDays?: SortOrder
+    lopAmount?: SortOrder
+    status?: SortOrder
+    generatedAt?: SortOrder
+    paidAt?: SortOrderInput | SortOrder
+    _count?: PayrollCountOrderByAggregateInput
+    _avg?: PayrollAvgOrderByAggregateInput
+    _max?: PayrollMaxOrderByAggregateInput
+    _min?: PayrollMinOrderByAggregateInput
+    _sum?: PayrollSumOrderByAggregateInput
+  }
+
+  export type PayrollScalarWhereWithAggregatesInput = {
+    AND?: PayrollScalarWhereWithAggregatesInput | PayrollScalarWhereWithAggregatesInput[]
+    OR?: PayrollScalarWhereWithAggregatesInput[]
+    NOT?: PayrollScalarWhereWithAggregatesInput | PayrollScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Payroll"> | string
+    userId?: StringWithAggregatesFilter<"Payroll"> | string
+    month?: StringWithAggregatesFilter<"Payroll"> | string
+    year?: IntWithAggregatesFilter<"Payroll"> | number
+    monthNumber?: IntWithAggregatesFilter<"Payroll"> | number
+    basic?: FloatWithAggregatesFilter<"Payroll"> | number
+    hra?: FloatWithAggregatesFilter<"Payroll"> | number
+    allowances?: FloatWithAggregatesFilter<"Payroll"> | number
+    grossEarnings?: FloatWithAggregatesFilter<"Payroll"> | number
+    pf?: FloatWithAggregatesFilter<"Payroll"> | number
+    pt?: FloatWithAggregatesFilter<"Payroll"> | number
+    deductions?: FloatWithAggregatesFilter<"Payroll"> | number
+    totalDeductions?: FloatWithAggregatesFilter<"Payroll"> | number
+    netSalary?: FloatWithAggregatesFilter<"Payroll"> | number
+    totalDays?: IntWithAggregatesFilter<"Payroll"> | number
+    presentDays?: FloatWithAggregatesFilter<"Payroll"> | number
+    absentDays?: FloatWithAggregatesFilter<"Payroll"> | number
+    lopDays?: FloatWithAggregatesFilter<"Payroll"> | number
+    lopAmount?: FloatWithAggregatesFilter<"Payroll"> | number
+    status?: StringWithAggregatesFilter<"Payroll"> | string
+    generatedAt?: DateTimeWithAggregatesFilter<"Payroll"> | Date | string
+    paidAt?: DateTimeNullableWithAggregatesFilter<"Payroll"> | Date | string | null
+  }
+
+  export type PayrollItemWhereInput = {
+    AND?: PayrollItemWhereInput | PayrollItemWhereInput[]
+    OR?: PayrollItemWhereInput[]
+    NOT?: PayrollItemWhereInput | PayrollItemWhereInput[]
+    id?: StringFilter<"PayrollItem"> | string
+    payrollId?: StringFilter<"PayrollItem"> | string
+    label?: StringFilter<"PayrollItem"> | string
+    amount?: FloatFilter<"PayrollItem"> | number
+    type?: StringFilter<"PayrollItem"> | string
+    payroll?: XOR<PayrollRelationFilter, PayrollWhereInput>
+  }
+
+  export type PayrollItemOrderByWithRelationInput = {
+    id?: SortOrder
+    payrollId?: SortOrder
+    label?: SortOrder
+    amount?: SortOrder
+    type?: SortOrder
+    payroll?: PayrollOrderByWithRelationInput
+  }
+
+  export type PayrollItemWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: PayrollItemWhereInput | PayrollItemWhereInput[]
+    OR?: PayrollItemWhereInput[]
+    NOT?: PayrollItemWhereInput | PayrollItemWhereInput[]
+    payrollId?: StringFilter<"PayrollItem"> | string
+    label?: StringFilter<"PayrollItem"> | string
+    amount?: FloatFilter<"PayrollItem"> | number
+    type?: StringFilter<"PayrollItem"> | string
+    payroll?: XOR<PayrollRelationFilter, PayrollWhereInput>
+  }, "id">
+
+  export type PayrollItemOrderByWithAggregationInput = {
+    id?: SortOrder
+    payrollId?: SortOrder
+    label?: SortOrder
+    amount?: SortOrder
+    type?: SortOrder
+    _count?: PayrollItemCountOrderByAggregateInput
+    _avg?: PayrollItemAvgOrderByAggregateInput
+    _max?: PayrollItemMaxOrderByAggregateInput
+    _min?: PayrollItemMinOrderByAggregateInput
+    _sum?: PayrollItemSumOrderByAggregateInput
+  }
+
+  export type PayrollItemScalarWhereWithAggregatesInput = {
+    AND?: PayrollItemScalarWhereWithAggregatesInput | PayrollItemScalarWhereWithAggregatesInput[]
+    OR?: PayrollItemScalarWhereWithAggregatesInput[]
+    NOT?: PayrollItemScalarWhereWithAggregatesInput | PayrollItemScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"PayrollItem"> | string
+    payrollId?: StringWithAggregatesFilter<"PayrollItem"> | string
+    label?: StringWithAggregatesFilter<"PayrollItem"> | string
+    amount?: FloatWithAggregatesFilter<"PayrollItem"> | number
+    type?: StringWithAggregatesFilter<"PayrollItem"> | string
+  }
+
   export type RoleCreateInput = {
     id?: string
     code: string
@@ -14682,7 +18684,9 @@ export namespace Prisma {
     managedProjects?: ProjectCreateNestedManyWithoutManagerInput
     projectMemberships?: ProjectCreateNestedManyWithoutTeamMembersInput
     assignedTasks?: TaskCreateNestedManyWithoutAssignedToInput
-    attendanceRequests?: AttendanceRequestCreateNestedManyWithoutUserInput
+    attendanceRequest?: AttendanceRequestCreateNestedManyWithoutUserInput
+    salaryStructure?: SalaryStructureCreateNestedOneWithoutUserInput
+    payrolls?: PayrollCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -14703,7 +18707,9 @@ export namespace Prisma {
     managedProjects?: ProjectUncheckedCreateNestedManyWithoutManagerInput
     projectMemberships?: ProjectUncheckedCreateNestedManyWithoutTeamMembersInput
     assignedTasks?: TaskUncheckedCreateNestedManyWithoutAssignedToInput
-    attendanceRequests?: AttendanceRequestUncheckedCreateNestedManyWithoutUserInput
+    attendanceRequest?: AttendanceRequestUncheckedCreateNestedManyWithoutUserInput
+    salaryStructure?: SalaryStructureUncheckedCreateNestedOneWithoutUserInput
+    payrolls?: PayrollUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -14724,7 +18730,9 @@ export namespace Prisma {
     managedProjects?: ProjectUpdateManyWithoutManagerNestedInput
     projectMemberships?: ProjectUpdateManyWithoutTeamMembersNestedInput
     assignedTasks?: TaskUpdateManyWithoutAssignedToNestedInput
-    attendanceRequests?: AttendanceRequestUpdateManyWithoutUserNestedInput
+    attendanceRequest?: AttendanceRequestUpdateManyWithoutUserNestedInput
+    salaryStructure?: SalaryStructureUpdateOneWithoutUserNestedInput
+    payrolls?: PayrollUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -14745,7 +18753,9 @@ export namespace Prisma {
     managedProjects?: ProjectUncheckedUpdateManyWithoutManagerNestedInput
     projectMemberships?: ProjectUncheckedUpdateManyWithoutTeamMembersNestedInput
     assignedTasks?: TaskUncheckedUpdateManyWithoutAssignedToNestedInput
-    attendanceRequests?: AttendanceRequestUncheckedUpdateManyWithoutUserNestedInput
+    attendanceRequest?: AttendanceRequestUncheckedUpdateManyWithoutUserNestedInput
+    salaryStructure?: SalaryStructureUncheckedUpdateOneWithoutUserNestedInput
+    payrolls?: PayrollUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -15440,7 +19450,7 @@ export namespace Prisma {
     adminRemarks?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    user: UserCreateNestedOneWithoutAttendanceRequestsInput
+    user: UserCreateNestedOneWithoutAttendanceRequestInput
   }
 
   export type AttendanceRequestUncheckedCreateInput = {
@@ -15468,7 +19478,7 @@ export namespace Prisma {
     adminRemarks?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutAttendanceRequestsNestedInput
+    user?: UserUpdateOneRequiredWithoutAttendanceRequestNestedInput
   }
 
   export type AttendanceRequestUncheckedUpdateInput = {
@@ -15524,6 +19534,343 @@ export namespace Prisma {
     adminRemarks?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SalaryStructureCreateInput = {
+    id?: string
+    basic?: number
+    hra?: number
+    allowances?: number
+    specialAllowance?: number
+    pf?: number
+    pt?: number
+    deductions?: number
+    netSalary?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutSalaryStructureInput
+  }
+
+  export type SalaryStructureUncheckedCreateInput = {
+    id?: string
+    userId: string
+    basic?: number
+    hra?: number
+    allowances?: number
+    specialAllowance?: number
+    pf?: number
+    pt?: number
+    deductions?: number
+    netSalary?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SalaryStructureUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    basic?: FloatFieldUpdateOperationsInput | number
+    hra?: FloatFieldUpdateOperationsInput | number
+    allowances?: FloatFieldUpdateOperationsInput | number
+    specialAllowance?: FloatFieldUpdateOperationsInput | number
+    pf?: FloatFieldUpdateOperationsInput | number
+    pt?: FloatFieldUpdateOperationsInput | number
+    deductions?: FloatFieldUpdateOperationsInput | number
+    netSalary?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutSalaryStructureNestedInput
+  }
+
+  export type SalaryStructureUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    basic?: FloatFieldUpdateOperationsInput | number
+    hra?: FloatFieldUpdateOperationsInput | number
+    allowances?: FloatFieldUpdateOperationsInput | number
+    specialAllowance?: FloatFieldUpdateOperationsInput | number
+    pf?: FloatFieldUpdateOperationsInput | number
+    pt?: FloatFieldUpdateOperationsInput | number
+    deductions?: FloatFieldUpdateOperationsInput | number
+    netSalary?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SalaryStructureCreateManyInput = {
+    id?: string
+    userId: string
+    basic?: number
+    hra?: number
+    allowances?: number
+    specialAllowance?: number
+    pf?: number
+    pt?: number
+    deductions?: number
+    netSalary?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SalaryStructureUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    basic?: FloatFieldUpdateOperationsInput | number
+    hra?: FloatFieldUpdateOperationsInput | number
+    allowances?: FloatFieldUpdateOperationsInput | number
+    specialAllowance?: FloatFieldUpdateOperationsInput | number
+    pf?: FloatFieldUpdateOperationsInput | number
+    pt?: FloatFieldUpdateOperationsInput | number
+    deductions?: FloatFieldUpdateOperationsInput | number
+    netSalary?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SalaryStructureUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    basic?: FloatFieldUpdateOperationsInput | number
+    hra?: FloatFieldUpdateOperationsInput | number
+    allowances?: FloatFieldUpdateOperationsInput | number
+    specialAllowance?: FloatFieldUpdateOperationsInput | number
+    pf?: FloatFieldUpdateOperationsInput | number
+    pt?: FloatFieldUpdateOperationsInput | number
+    deductions?: FloatFieldUpdateOperationsInput | number
+    netSalary?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PayrollCreateInput = {
+    id?: string
+    month: string
+    year: number
+    monthNumber: number
+    basic: number
+    hra: number
+    allowances: number
+    grossEarnings: number
+    pf: number
+    pt: number
+    deductions: number
+    totalDeductions: number
+    netSalary: number
+    totalDays: number
+    presentDays: number
+    absentDays: number
+    lopDays: number
+    lopAmount: number
+    status?: string
+    generatedAt?: Date | string
+    paidAt?: Date | string | null
+    user: UserCreateNestedOneWithoutPayrollsInput
+    items?: PayrollItemCreateNestedManyWithoutPayrollInput
+  }
+
+  export type PayrollUncheckedCreateInput = {
+    id?: string
+    userId: string
+    month: string
+    year: number
+    monthNumber: number
+    basic: number
+    hra: number
+    allowances: number
+    grossEarnings: number
+    pf: number
+    pt: number
+    deductions: number
+    totalDeductions: number
+    netSalary: number
+    totalDays: number
+    presentDays: number
+    absentDays: number
+    lopDays: number
+    lopAmount: number
+    status?: string
+    generatedAt?: Date | string
+    paidAt?: Date | string | null
+    items?: PayrollItemUncheckedCreateNestedManyWithoutPayrollInput
+  }
+
+  export type PayrollUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    month?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    monthNumber?: IntFieldUpdateOperationsInput | number
+    basic?: FloatFieldUpdateOperationsInput | number
+    hra?: FloatFieldUpdateOperationsInput | number
+    allowances?: FloatFieldUpdateOperationsInput | number
+    grossEarnings?: FloatFieldUpdateOperationsInput | number
+    pf?: FloatFieldUpdateOperationsInput | number
+    pt?: FloatFieldUpdateOperationsInput | number
+    deductions?: FloatFieldUpdateOperationsInput | number
+    totalDeductions?: FloatFieldUpdateOperationsInput | number
+    netSalary?: FloatFieldUpdateOperationsInput | number
+    totalDays?: IntFieldUpdateOperationsInput | number
+    presentDays?: FloatFieldUpdateOperationsInput | number
+    absentDays?: FloatFieldUpdateOperationsInput | number
+    lopDays?: FloatFieldUpdateOperationsInput | number
+    lopAmount?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    generatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user?: UserUpdateOneRequiredWithoutPayrollsNestedInput
+    items?: PayrollItemUpdateManyWithoutPayrollNestedInput
+  }
+
+  export type PayrollUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    month?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    monthNumber?: IntFieldUpdateOperationsInput | number
+    basic?: FloatFieldUpdateOperationsInput | number
+    hra?: FloatFieldUpdateOperationsInput | number
+    allowances?: FloatFieldUpdateOperationsInput | number
+    grossEarnings?: FloatFieldUpdateOperationsInput | number
+    pf?: FloatFieldUpdateOperationsInput | number
+    pt?: FloatFieldUpdateOperationsInput | number
+    deductions?: FloatFieldUpdateOperationsInput | number
+    totalDeductions?: FloatFieldUpdateOperationsInput | number
+    netSalary?: FloatFieldUpdateOperationsInput | number
+    totalDays?: IntFieldUpdateOperationsInput | number
+    presentDays?: FloatFieldUpdateOperationsInput | number
+    absentDays?: FloatFieldUpdateOperationsInput | number
+    lopDays?: FloatFieldUpdateOperationsInput | number
+    lopAmount?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    generatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    items?: PayrollItemUncheckedUpdateManyWithoutPayrollNestedInput
+  }
+
+  export type PayrollCreateManyInput = {
+    id?: string
+    userId: string
+    month: string
+    year: number
+    monthNumber: number
+    basic: number
+    hra: number
+    allowances: number
+    grossEarnings: number
+    pf: number
+    pt: number
+    deductions: number
+    totalDeductions: number
+    netSalary: number
+    totalDays: number
+    presentDays: number
+    absentDays: number
+    lopDays: number
+    lopAmount: number
+    status?: string
+    generatedAt?: Date | string
+    paidAt?: Date | string | null
+  }
+
+  export type PayrollUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    month?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    monthNumber?: IntFieldUpdateOperationsInput | number
+    basic?: FloatFieldUpdateOperationsInput | number
+    hra?: FloatFieldUpdateOperationsInput | number
+    allowances?: FloatFieldUpdateOperationsInput | number
+    grossEarnings?: FloatFieldUpdateOperationsInput | number
+    pf?: FloatFieldUpdateOperationsInput | number
+    pt?: FloatFieldUpdateOperationsInput | number
+    deductions?: FloatFieldUpdateOperationsInput | number
+    totalDeductions?: FloatFieldUpdateOperationsInput | number
+    netSalary?: FloatFieldUpdateOperationsInput | number
+    totalDays?: IntFieldUpdateOperationsInput | number
+    presentDays?: FloatFieldUpdateOperationsInput | number
+    absentDays?: FloatFieldUpdateOperationsInput | number
+    lopDays?: FloatFieldUpdateOperationsInput | number
+    lopAmount?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    generatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type PayrollUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    month?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    monthNumber?: IntFieldUpdateOperationsInput | number
+    basic?: FloatFieldUpdateOperationsInput | number
+    hra?: FloatFieldUpdateOperationsInput | number
+    allowances?: FloatFieldUpdateOperationsInput | number
+    grossEarnings?: FloatFieldUpdateOperationsInput | number
+    pf?: FloatFieldUpdateOperationsInput | number
+    pt?: FloatFieldUpdateOperationsInput | number
+    deductions?: FloatFieldUpdateOperationsInput | number
+    totalDeductions?: FloatFieldUpdateOperationsInput | number
+    netSalary?: FloatFieldUpdateOperationsInput | number
+    totalDays?: IntFieldUpdateOperationsInput | number
+    presentDays?: FloatFieldUpdateOperationsInput | number
+    absentDays?: FloatFieldUpdateOperationsInput | number
+    lopDays?: FloatFieldUpdateOperationsInput | number
+    lopAmount?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    generatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type PayrollItemCreateInput = {
+    id?: string
+    label: string
+    amount: number
+    type: string
+    payroll: PayrollCreateNestedOneWithoutItemsInput
+  }
+
+  export type PayrollItemUncheckedCreateInput = {
+    id?: string
+    payrollId: string
+    label: string
+    amount: number
+    type: string
+  }
+
+  export type PayrollItemUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    type?: StringFieldUpdateOperationsInput | string
+    payroll?: PayrollUpdateOneRequiredWithoutItemsNestedInput
+  }
+
+  export type PayrollItemUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    payrollId?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    type?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type PayrollItemCreateManyInput = {
+    id?: string
+    payrollId: string
+    label: string
+    amount: number
+    type: string
+  }
+
+  export type PayrollItemUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    type?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type PayrollItemUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    payrollId?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    type?: StringFieldUpdateOperationsInput | string
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -15722,6 +20069,17 @@ export namespace Prisma {
     none?: AttendanceRequestWhereInput
   }
 
+  export type SalaryStructureNullableRelationFilter = {
+    is?: SalaryStructureWhereInput | null
+    isNot?: SalaryStructureWhereInput | null
+  }
+
+  export type PayrollListRelationFilter = {
+    every?: PayrollWhereInput
+    some?: PayrollWhereInput
+    none?: PayrollWhereInput
+  }
+
   export type TimesheetOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -15739,6 +20097,10 @@ export namespace Prisma {
   }
 
   export type AttendanceRequestOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type PayrollOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -16279,6 +20641,265 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
+  export type SalaryStructureCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    basic?: SortOrder
+    hra?: SortOrder
+    allowances?: SortOrder
+    specialAllowance?: SortOrder
+    pf?: SortOrder
+    pt?: SortOrder
+    deductions?: SortOrder
+    netSalary?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SalaryStructureAvgOrderByAggregateInput = {
+    basic?: SortOrder
+    hra?: SortOrder
+    allowances?: SortOrder
+    specialAllowance?: SortOrder
+    pf?: SortOrder
+    pt?: SortOrder
+    deductions?: SortOrder
+    netSalary?: SortOrder
+  }
+
+  export type SalaryStructureMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    basic?: SortOrder
+    hra?: SortOrder
+    allowances?: SortOrder
+    specialAllowance?: SortOrder
+    pf?: SortOrder
+    pt?: SortOrder
+    deductions?: SortOrder
+    netSalary?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SalaryStructureMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    basic?: SortOrder
+    hra?: SortOrder
+    allowances?: SortOrder
+    specialAllowance?: SortOrder
+    pf?: SortOrder
+    pt?: SortOrder
+    deductions?: SortOrder
+    netSalary?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SalaryStructureSumOrderByAggregateInput = {
+    basic?: SortOrder
+    hra?: SortOrder
+    allowances?: SortOrder
+    specialAllowance?: SortOrder
+    pf?: SortOrder
+    pt?: SortOrder
+    deductions?: SortOrder
+    netSalary?: SortOrder
+  }
+
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
+  export type PayrollItemListRelationFilter = {
+    every?: PayrollItemWhereInput
+    some?: PayrollItemWhereInput
+    none?: PayrollItemWhereInput
+  }
+
+  export type PayrollItemOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type PayrollUserIdMonthCompoundUniqueInput = {
+    userId: string
+    month: string
+  }
+
+  export type PayrollCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    month?: SortOrder
+    year?: SortOrder
+    monthNumber?: SortOrder
+    basic?: SortOrder
+    hra?: SortOrder
+    allowances?: SortOrder
+    grossEarnings?: SortOrder
+    pf?: SortOrder
+    pt?: SortOrder
+    deductions?: SortOrder
+    totalDeductions?: SortOrder
+    netSalary?: SortOrder
+    totalDays?: SortOrder
+    presentDays?: SortOrder
+    absentDays?: SortOrder
+    lopDays?: SortOrder
+    lopAmount?: SortOrder
+    status?: SortOrder
+    generatedAt?: SortOrder
+    paidAt?: SortOrder
+  }
+
+  export type PayrollAvgOrderByAggregateInput = {
+    year?: SortOrder
+    monthNumber?: SortOrder
+    basic?: SortOrder
+    hra?: SortOrder
+    allowances?: SortOrder
+    grossEarnings?: SortOrder
+    pf?: SortOrder
+    pt?: SortOrder
+    deductions?: SortOrder
+    totalDeductions?: SortOrder
+    netSalary?: SortOrder
+    totalDays?: SortOrder
+    presentDays?: SortOrder
+    absentDays?: SortOrder
+    lopDays?: SortOrder
+    lopAmount?: SortOrder
+  }
+
+  export type PayrollMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    month?: SortOrder
+    year?: SortOrder
+    monthNumber?: SortOrder
+    basic?: SortOrder
+    hra?: SortOrder
+    allowances?: SortOrder
+    grossEarnings?: SortOrder
+    pf?: SortOrder
+    pt?: SortOrder
+    deductions?: SortOrder
+    totalDeductions?: SortOrder
+    netSalary?: SortOrder
+    totalDays?: SortOrder
+    presentDays?: SortOrder
+    absentDays?: SortOrder
+    lopDays?: SortOrder
+    lopAmount?: SortOrder
+    status?: SortOrder
+    generatedAt?: SortOrder
+    paidAt?: SortOrder
+  }
+
+  export type PayrollMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    month?: SortOrder
+    year?: SortOrder
+    monthNumber?: SortOrder
+    basic?: SortOrder
+    hra?: SortOrder
+    allowances?: SortOrder
+    grossEarnings?: SortOrder
+    pf?: SortOrder
+    pt?: SortOrder
+    deductions?: SortOrder
+    totalDeductions?: SortOrder
+    netSalary?: SortOrder
+    totalDays?: SortOrder
+    presentDays?: SortOrder
+    absentDays?: SortOrder
+    lopDays?: SortOrder
+    lopAmount?: SortOrder
+    status?: SortOrder
+    generatedAt?: SortOrder
+    paidAt?: SortOrder
+  }
+
+  export type PayrollSumOrderByAggregateInput = {
+    year?: SortOrder
+    monthNumber?: SortOrder
+    basic?: SortOrder
+    hra?: SortOrder
+    allowances?: SortOrder
+    grossEarnings?: SortOrder
+    pf?: SortOrder
+    pt?: SortOrder
+    deductions?: SortOrder
+    totalDeductions?: SortOrder
+    netSalary?: SortOrder
+    totalDays?: SortOrder
+    presentDays?: SortOrder
+    absentDays?: SortOrder
+    lopDays?: SortOrder
+    lopAmount?: SortOrder
+  }
+
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type PayrollRelationFilter = {
+    is?: PayrollWhereInput
+    isNot?: PayrollWhereInput
+  }
+
+  export type PayrollItemCountOrderByAggregateInput = {
+    id?: SortOrder
+    payrollId?: SortOrder
+    label?: SortOrder
+    amount?: SortOrder
+    type?: SortOrder
+  }
+
+  export type PayrollItemAvgOrderByAggregateInput = {
+    amount?: SortOrder
+  }
+
+  export type PayrollItemMaxOrderByAggregateInput = {
+    id?: SortOrder
+    payrollId?: SortOrder
+    label?: SortOrder
+    amount?: SortOrder
+    type?: SortOrder
+  }
+
+  export type PayrollItemMinOrderByAggregateInput = {
+    id?: SortOrder
+    payrollId?: SortOrder
+    label?: SortOrder
+    amount?: SortOrder
+    type?: SortOrder
+  }
+
+  export type PayrollItemSumOrderByAggregateInput = {
+    amount?: SortOrder
+  }
+
   export type UserCreateNestedManyWithoutRoleInput = {
     create?: XOR<UserCreateWithoutRoleInput, UserUncheckedCreateWithoutRoleInput> | UserCreateWithoutRoleInput[] | UserUncheckedCreateWithoutRoleInput[]
     connectOrCreate?: UserCreateOrConnectWithoutRoleInput | UserCreateOrConnectWithoutRoleInput[]
@@ -16431,6 +21052,19 @@ export namespace Prisma {
     connect?: AttendanceRequestWhereUniqueInput | AttendanceRequestWhereUniqueInput[]
   }
 
+  export type SalaryStructureCreateNestedOneWithoutUserInput = {
+    create?: XOR<SalaryStructureCreateWithoutUserInput, SalaryStructureUncheckedCreateWithoutUserInput>
+    connectOrCreate?: SalaryStructureCreateOrConnectWithoutUserInput
+    connect?: SalaryStructureWhereUniqueInput
+  }
+
+  export type PayrollCreateNestedManyWithoutUserInput = {
+    create?: XOR<PayrollCreateWithoutUserInput, PayrollUncheckedCreateWithoutUserInput> | PayrollCreateWithoutUserInput[] | PayrollUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PayrollCreateOrConnectWithoutUserInput | PayrollCreateOrConnectWithoutUserInput[]
+    createMany?: PayrollCreateManyUserInputEnvelope
+    connect?: PayrollWhereUniqueInput | PayrollWhereUniqueInput[]
+  }
+
   export type TimesheetUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<TimesheetCreateWithoutUserInput, TimesheetUncheckedCreateWithoutUserInput> | TimesheetCreateWithoutUserInput[] | TimesheetUncheckedCreateWithoutUserInput[]
     connectOrCreate?: TimesheetCreateOrConnectWithoutUserInput | TimesheetCreateOrConnectWithoutUserInput[]
@@ -16477,6 +21111,19 @@ export namespace Prisma {
     connectOrCreate?: AttendanceRequestCreateOrConnectWithoutUserInput | AttendanceRequestCreateOrConnectWithoutUserInput[]
     createMany?: AttendanceRequestCreateManyUserInputEnvelope
     connect?: AttendanceRequestWhereUniqueInput | AttendanceRequestWhereUniqueInput[]
+  }
+
+  export type SalaryStructureUncheckedCreateNestedOneWithoutUserInput = {
+    create?: XOR<SalaryStructureCreateWithoutUserInput, SalaryStructureUncheckedCreateWithoutUserInput>
+    connectOrCreate?: SalaryStructureCreateOrConnectWithoutUserInput
+    connect?: SalaryStructureWhereUniqueInput
+  }
+
+  export type PayrollUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<PayrollCreateWithoutUserInput, PayrollUncheckedCreateWithoutUserInput> | PayrollCreateWithoutUserInput[] | PayrollUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PayrollCreateOrConnectWithoutUserInput | PayrollCreateOrConnectWithoutUserInput[]
+    createMany?: PayrollCreateManyUserInputEnvelope
+    connect?: PayrollWhereUniqueInput | PayrollWhereUniqueInput[]
   }
 
   export type DateTimeFieldUpdateOperationsInput = {
@@ -16600,6 +21247,30 @@ export namespace Prisma {
     deleteMany?: AttendanceRequestScalarWhereInput | AttendanceRequestScalarWhereInput[]
   }
 
+  export type SalaryStructureUpdateOneWithoutUserNestedInput = {
+    create?: XOR<SalaryStructureCreateWithoutUserInput, SalaryStructureUncheckedCreateWithoutUserInput>
+    connectOrCreate?: SalaryStructureCreateOrConnectWithoutUserInput
+    upsert?: SalaryStructureUpsertWithoutUserInput
+    disconnect?: SalaryStructureWhereInput | boolean
+    delete?: SalaryStructureWhereInput | boolean
+    connect?: SalaryStructureWhereUniqueInput
+    update?: XOR<XOR<SalaryStructureUpdateToOneWithWhereWithoutUserInput, SalaryStructureUpdateWithoutUserInput>, SalaryStructureUncheckedUpdateWithoutUserInput>
+  }
+
+  export type PayrollUpdateManyWithoutUserNestedInput = {
+    create?: XOR<PayrollCreateWithoutUserInput, PayrollUncheckedCreateWithoutUserInput> | PayrollCreateWithoutUserInput[] | PayrollUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PayrollCreateOrConnectWithoutUserInput | PayrollCreateOrConnectWithoutUserInput[]
+    upsert?: PayrollUpsertWithWhereUniqueWithoutUserInput | PayrollUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: PayrollCreateManyUserInputEnvelope
+    set?: PayrollWhereUniqueInput | PayrollWhereUniqueInput[]
+    disconnect?: PayrollWhereUniqueInput | PayrollWhereUniqueInput[]
+    delete?: PayrollWhereUniqueInput | PayrollWhereUniqueInput[]
+    connect?: PayrollWhereUniqueInput | PayrollWhereUniqueInput[]
+    update?: PayrollUpdateWithWhereUniqueWithoutUserInput | PayrollUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: PayrollUpdateManyWithWhereWithoutUserInput | PayrollUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: PayrollScalarWhereInput | PayrollScalarWhereInput[]
+  }
+
   export type TimesheetUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<TimesheetCreateWithoutUserInput, TimesheetUncheckedCreateWithoutUserInput> | TimesheetCreateWithoutUserInput[] | TimesheetUncheckedCreateWithoutUserInput[]
     connectOrCreate?: TimesheetCreateOrConnectWithoutUserInput | TimesheetCreateOrConnectWithoutUserInput[]
@@ -16695,6 +21366,30 @@ export namespace Prisma {
     update?: AttendanceRequestUpdateWithWhereUniqueWithoutUserInput | AttendanceRequestUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: AttendanceRequestUpdateManyWithWhereWithoutUserInput | AttendanceRequestUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: AttendanceRequestScalarWhereInput | AttendanceRequestScalarWhereInput[]
+  }
+
+  export type SalaryStructureUncheckedUpdateOneWithoutUserNestedInput = {
+    create?: XOR<SalaryStructureCreateWithoutUserInput, SalaryStructureUncheckedCreateWithoutUserInput>
+    connectOrCreate?: SalaryStructureCreateOrConnectWithoutUserInput
+    upsert?: SalaryStructureUpsertWithoutUserInput
+    disconnect?: SalaryStructureWhereInput | boolean
+    delete?: SalaryStructureWhereInput | boolean
+    connect?: SalaryStructureWhereUniqueInput
+    update?: XOR<XOR<SalaryStructureUpdateToOneWithWhereWithoutUserInput, SalaryStructureUpdateWithoutUserInput>, SalaryStructureUncheckedUpdateWithoutUserInput>
+  }
+
+  export type PayrollUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<PayrollCreateWithoutUserInput, PayrollUncheckedCreateWithoutUserInput> | PayrollCreateWithoutUserInput[] | PayrollUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PayrollCreateOrConnectWithoutUserInput | PayrollCreateOrConnectWithoutUserInput[]
+    upsert?: PayrollUpsertWithWhereUniqueWithoutUserInput | PayrollUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: PayrollCreateManyUserInputEnvelope
+    set?: PayrollWhereUniqueInput | PayrollWhereUniqueInput[]
+    disconnect?: PayrollWhereUniqueInput | PayrollWhereUniqueInput[]
+    delete?: PayrollWhereUniqueInput | PayrollWhereUniqueInput[]
+    connect?: PayrollWhereUniqueInput | PayrollWhereUniqueInput[]
+    update?: PayrollUpdateWithWhereUniqueWithoutUserInput | PayrollUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: PayrollUpdateManyWithWhereWithoutUserInput | PayrollUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: PayrollScalarWhereInput | PayrollScalarWhereInput[]
   }
 
   export type CustomerCreateNestedOneWithoutProjectsInput = {
@@ -17057,18 +21752,110 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAttendanceInput, UserUpdateWithoutAttendanceInput>, UserUncheckedUpdateWithoutAttendanceInput>
   }
 
-  export type UserCreateNestedOneWithoutAttendanceRequestsInput = {
-    create?: XOR<UserCreateWithoutAttendanceRequestsInput, UserUncheckedCreateWithoutAttendanceRequestsInput>
-    connectOrCreate?: UserCreateOrConnectWithoutAttendanceRequestsInput
+  export type UserCreateNestedOneWithoutAttendanceRequestInput = {
+    create?: XOR<UserCreateWithoutAttendanceRequestInput, UserUncheckedCreateWithoutAttendanceRequestInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAttendanceRequestInput
     connect?: UserWhereUniqueInput
   }
 
-  export type UserUpdateOneRequiredWithoutAttendanceRequestsNestedInput = {
-    create?: XOR<UserCreateWithoutAttendanceRequestsInput, UserUncheckedCreateWithoutAttendanceRequestsInput>
-    connectOrCreate?: UserCreateOrConnectWithoutAttendanceRequestsInput
-    upsert?: UserUpsertWithoutAttendanceRequestsInput
+  export type UserUpdateOneRequiredWithoutAttendanceRequestNestedInput = {
+    create?: XOR<UserCreateWithoutAttendanceRequestInput, UserUncheckedCreateWithoutAttendanceRequestInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAttendanceRequestInput
+    upsert?: UserUpsertWithoutAttendanceRequestInput
     connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAttendanceRequestsInput, UserUpdateWithoutAttendanceRequestsInput>, UserUncheckedUpdateWithoutAttendanceRequestsInput>
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAttendanceRequestInput, UserUpdateWithoutAttendanceRequestInput>, UserUncheckedUpdateWithoutAttendanceRequestInput>
+  }
+
+  export type UserCreateNestedOneWithoutSalaryStructureInput = {
+    create?: XOR<UserCreateWithoutSalaryStructureInput, UserUncheckedCreateWithoutSalaryStructureInput>
+    connectOrCreate?: UserCreateOrConnectWithoutSalaryStructureInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutSalaryStructureNestedInput = {
+    create?: XOR<UserCreateWithoutSalaryStructureInput, UserUncheckedCreateWithoutSalaryStructureInput>
+    connectOrCreate?: UserCreateOrConnectWithoutSalaryStructureInput
+    upsert?: UserUpsertWithoutSalaryStructureInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSalaryStructureInput, UserUpdateWithoutSalaryStructureInput>, UserUncheckedUpdateWithoutSalaryStructureInput>
+  }
+
+  export type UserCreateNestedOneWithoutPayrollsInput = {
+    create?: XOR<UserCreateWithoutPayrollsInput, UserUncheckedCreateWithoutPayrollsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPayrollsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type PayrollItemCreateNestedManyWithoutPayrollInput = {
+    create?: XOR<PayrollItemCreateWithoutPayrollInput, PayrollItemUncheckedCreateWithoutPayrollInput> | PayrollItemCreateWithoutPayrollInput[] | PayrollItemUncheckedCreateWithoutPayrollInput[]
+    connectOrCreate?: PayrollItemCreateOrConnectWithoutPayrollInput | PayrollItemCreateOrConnectWithoutPayrollInput[]
+    createMany?: PayrollItemCreateManyPayrollInputEnvelope
+    connect?: PayrollItemWhereUniqueInput | PayrollItemWhereUniqueInput[]
+  }
+
+  export type PayrollItemUncheckedCreateNestedManyWithoutPayrollInput = {
+    create?: XOR<PayrollItemCreateWithoutPayrollInput, PayrollItemUncheckedCreateWithoutPayrollInput> | PayrollItemCreateWithoutPayrollInput[] | PayrollItemUncheckedCreateWithoutPayrollInput[]
+    connectOrCreate?: PayrollItemCreateOrConnectWithoutPayrollInput | PayrollItemCreateOrConnectWithoutPayrollInput[]
+    createMany?: PayrollItemCreateManyPayrollInputEnvelope
+    connect?: PayrollItemWhereUniqueInput | PayrollItemWhereUniqueInput[]
+  }
+
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type UserUpdateOneRequiredWithoutPayrollsNestedInput = {
+    create?: XOR<UserCreateWithoutPayrollsInput, UserUncheckedCreateWithoutPayrollsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPayrollsInput
+    upsert?: UserUpsertWithoutPayrollsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutPayrollsInput, UserUpdateWithoutPayrollsInput>, UserUncheckedUpdateWithoutPayrollsInput>
+  }
+
+  export type PayrollItemUpdateManyWithoutPayrollNestedInput = {
+    create?: XOR<PayrollItemCreateWithoutPayrollInput, PayrollItemUncheckedCreateWithoutPayrollInput> | PayrollItemCreateWithoutPayrollInput[] | PayrollItemUncheckedCreateWithoutPayrollInput[]
+    connectOrCreate?: PayrollItemCreateOrConnectWithoutPayrollInput | PayrollItemCreateOrConnectWithoutPayrollInput[]
+    upsert?: PayrollItemUpsertWithWhereUniqueWithoutPayrollInput | PayrollItemUpsertWithWhereUniqueWithoutPayrollInput[]
+    createMany?: PayrollItemCreateManyPayrollInputEnvelope
+    set?: PayrollItemWhereUniqueInput | PayrollItemWhereUniqueInput[]
+    disconnect?: PayrollItemWhereUniqueInput | PayrollItemWhereUniqueInput[]
+    delete?: PayrollItemWhereUniqueInput | PayrollItemWhereUniqueInput[]
+    connect?: PayrollItemWhereUniqueInput | PayrollItemWhereUniqueInput[]
+    update?: PayrollItemUpdateWithWhereUniqueWithoutPayrollInput | PayrollItemUpdateWithWhereUniqueWithoutPayrollInput[]
+    updateMany?: PayrollItemUpdateManyWithWhereWithoutPayrollInput | PayrollItemUpdateManyWithWhereWithoutPayrollInput[]
+    deleteMany?: PayrollItemScalarWhereInput | PayrollItemScalarWhereInput[]
+  }
+
+  export type PayrollItemUncheckedUpdateManyWithoutPayrollNestedInput = {
+    create?: XOR<PayrollItemCreateWithoutPayrollInput, PayrollItemUncheckedCreateWithoutPayrollInput> | PayrollItemCreateWithoutPayrollInput[] | PayrollItemUncheckedCreateWithoutPayrollInput[]
+    connectOrCreate?: PayrollItemCreateOrConnectWithoutPayrollInput | PayrollItemCreateOrConnectWithoutPayrollInput[]
+    upsert?: PayrollItemUpsertWithWhereUniqueWithoutPayrollInput | PayrollItemUpsertWithWhereUniqueWithoutPayrollInput[]
+    createMany?: PayrollItemCreateManyPayrollInputEnvelope
+    set?: PayrollItemWhereUniqueInput | PayrollItemWhereUniqueInput[]
+    disconnect?: PayrollItemWhereUniqueInput | PayrollItemWhereUniqueInput[]
+    delete?: PayrollItemWhereUniqueInput | PayrollItemWhereUniqueInput[]
+    connect?: PayrollItemWhereUniqueInput | PayrollItemWhereUniqueInput[]
+    update?: PayrollItemUpdateWithWhereUniqueWithoutPayrollInput | PayrollItemUpdateWithWhereUniqueWithoutPayrollInput[]
+    updateMany?: PayrollItemUpdateManyWithWhereWithoutPayrollInput | PayrollItemUpdateManyWithWhereWithoutPayrollInput[]
+    deleteMany?: PayrollItemScalarWhereInput | PayrollItemScalarWhereInput[]
+  }
+
+  export type PayrollCreateNestedOneWithoutItemsInput = {
+    create?: XOR<PayrollCreateWithoutItemsInput, PayrollUncheckedCreateWithoutItemsInput>
+    connectOrCreate?: PayrollCreateOrConnectWithoutItemsInput
+    connect?: PayrollWhereUniqueInput
+  }
+
+  export type PayrollUpdateOneRequiredWithoutItemsNestedInput = {
+    create?: XOR<PayrollCreateWithoutItemsInput, PayrollUncheckedCreateWithoutItemsInput>
+    connectOrCreate?: PayrollCreateOrConnectWithoutItemsInput
+    upsert?: PayrollUpsertWithoutItemsInput
+    connect?: PayrollWhereUniqueInput
+    update?: XOR<XOR<PayrollUpdateToOneWithWhereWithoutItemsInput, PayrollUpdateWithoutItemsInput>, PayrollUncheckedUpdateWithoutItemsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -17272,6 +22059,22 @@ export namespace Prisma {
     _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
+  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
   export type UserCreateWithoutRoleInput = {
     id?: string
     code?: string | null
@@ -17289,7 +22092,9 @@ export namespace Prisma {
     managedProjects?: ProjectCreateNestedManyWithoutManagerInput
     projectMemberships?: ProjectCreateNestedManyWithoutTeamMembersInput
     assignedTasks?: TaskCreateNestedManyWithoutAssignedToInput
-    attendanceRequests?: AttendanceRequestCreateNestedManyWithoutUserInput
+    attendanceRequest?: AttendanceRequestCreateNestedManyWithoutUserInput
+    salaryStructure?: SalaryStructureCreateNestedOneWithoutUserInput
+    payrolls?: PayrollCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutRoleInput = {
@@ -17309,7 +22114,9 @@ export namespace Prisma {
     managedProjects?: ProjectUncheckedCreateNestedManyWithoutManagerInput
     projectMemberships?: ProjectUncheckedCreateNestedManyWithoutTeamMembersInput
     assignedTasks?: TaskUncheckedCreateNestedManyWithoutAssignedToInput
-    attendanceRequests?: AttendanceRequestUncheckedCreateNestedManyWithoutUserInput
+    attendanceRequest?: AttendanceRequestUncheckedCreateNestedManyWithoutUserInput
+    salaryStructure?: SalaryStructureUncheckedCreateNestedOneWithoutUserInput
+    payrolls?: PayrollUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutRoleInput = {
@@ -17728,6 +22535,99 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type SalaryStructureCreateWithoutUserInput = {
+    id?: string
+    basic?: number
+    hra?: number
+    allowances?: number
+    specialAllowance?: number
+    pf?: number
+    pt?: number
+    deductions?: number
+    netSalary?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SalaryStructureUncheckedCreateWithoutUserInput = {
+    id?: string
+    basic?: number
+    hra?: number
+    allowances?: number
+    specialAllowance?: number
+    pf?: number
+    pt?: number
+    deductions?: number
+    netSalary?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SalaryStructureCreateOrConnectWithoutUserInput = {
+    where: SalaryStructureWhereUniqueInput
+    create: XOR<SalaryStructureCreateWithoutUserInput, SalaryStructureUncheckedCreateWithoutUserInput>
+  }
+
+  export type PayrollCreateWithoutUserInput = {
+    id?: string
+    month: string
+    year: number
+    monthNumber: number
+    basic: number
+    hra: number
+    allowances: number
+    grossEarnings: number
+    pf: number
+    pt: number
+    deductions: number
+    totalDeductions: number
+    netSalary: number
+    totalDays: number
+    presentDays: number
+    absentDays: number
+    lopDays: number
+    lopAmount: number
+    status?: string
+    generatedAt?: Date | string
+    paidAt?: Date | string | null
+    items?: PayrollItemCreateNestedManyWithoutPayrollInput
+  }
+
+  export type PayrollUncheckedCreateWithoutUserInput = {
+    id?: string
+    month: string
+    year: number
+    monthNumber: number
+    basic: number
+    hra: number
+    allowances: number
+    grossEarnings: number
+    pf: number
+    pt: number
+    deductions: number
+    totalDeductions: number
+    netSalary: number
+    totalDays: number
+    presentDays: number
+    absentDays: number
+    lopDays: number
+    lopAmount: number
+    status?: string
+    generatedAt?: Date | string
+    paidAt?: Date | string | null
+    items?: PayrollItemUncheckedCreateNestedManyWithoutPayrollInput
+  }
+
+  export type PayrollCreateOrConnectWithoutUserInput = {
+    where: PayrollWhereUniqueInput
+    create: XOR<PayrollCreateWithoutUserInput, PayrollUncheckedCreateWithoutUserInput>
+  }
+
+  export type PayrollCreateManyUserInputEnvelope = {
+    data: PayrollCreateManyUserInput | PayrollCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type RoleUpsertWithoutUsersInput = {
     update: XOR<RoleUpdateWithoutUsersInput, RoleUncheckedUpdateWithoutUsersInput>
     create: XOR<RoleCreateWithoutUsersInput, RoleUncheckedCreateWithoutUsersInput>
@@ -17985,6 +22885,89 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"AttendanceRequest"> | Date | string
   }
 
+  export type SalaryStructureUpsertWithoutUserInput = {
+    update: XOR<SalaryStructureUpdateWithoutUserInput, SalaryStructureUncheckedUpdateWithoutUserInput>
+    create: XOR<SalaryStructureCreateWithoutUserInput, SalaryStructureUncheckedCreateWithoutUserInput>
+    where?: SalaryStructureWhereInput
+  }
+
+  export type SalaryStructureUpdateToOneWithWhereWithoutUserInput = {
+    where?: SalaryStructureWhereInput
+    data: XOR<SalaryStructureUpdateWithoutUserInput, SalaryStructureUncheckedUpdateWithoutUserInput>
+  }
+
+  export type SalaryStructureUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    basic?: FloatFieldUpdateOperationsInput | number
+    hra?: FloatFieldUpdateOperationsInput | number
+    allowances?: FloatFieldUpdateOperationsInput | number
+    specialAllowance?: FloatFieldUpdateOperationsInput | number
+    pf?: FloatFieldUpdateOperationsInput | number
+    pt?: FloatFieldUpdateOperationsInput | number
+    deductions?: FloatFieldUpdateOperationsInput | number
+    netSalary?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SalaryStructureUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    basic?: FloatFieldUpdateOperationsInput | number
+    hra?: FloatFieldUpdateOperationsInput | number
+    allowances?: FloatFieldUpdateOperationsInput | number
+    specialAllowance?: FloatFieldUpdateOperationsInput | number
+    pf?: FloatFieldUpdateOperationsInput | number
+    pt?: FloatFieldUpdateOperationsInput | number
+    deductions?: FloatFieldUpdateOperationsInput | number
+    netSalary?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PayrollUpsertWithWhereUniqueWithoutUserInput = {
+    where: PayrollWhereUniqueInput
+    update: XOR<PayrollUpdateWithoutUserInput, PayrollUncheckedUpdateWithoutUserInput>
+    create: XOR<PayrollCreateWithoutUserInput, PayrollUncheckedCreateWithoutUserInput>
+  }
+
+  export type PayrollUpdateWithWhereUniqueWithoutUserInput = {
+    where: PayrollWhereUniqueInput
+    data: XOR<PayrollUpdateWithoutUserInput, PayrollUncheckedUpdateWithoutUserInput>
+  }
+
+  export type PayrollUpdateManyWithWhereWithoutUserInput = {
+    where: PayrollScalarWhereInput
+    data: XOR<PayrollUpdateManyMutationInput, PayrollUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type PayrollScalarWhereInput = {
+    AND?: PayrollScalarWhereInput | PayrollScalarWhereInput[]
+    OR?: PayrollScalarWhereInput[]
+    NOT?: PayrollScalarWhereInput | PayrollScalarWhereInput[]
+    id?: StringFilter<"Payroll"> | string
+    userId?: StringFilter<"Payroll"> | string
+    month?: StringFilter<"Payroll"> | string
+    year?: IntFilter<"Payroll"> | number
+    monthNumber?: IntFilter<"Payroll"> | number
+    basic?: FloatFilter<"Payroll"> | number
+    hra?: FloatFilter<"Payroll"> | number
+    allowances?: FloatFilter<"Payroll"> | number
+    grossEarnings?: FloatFilter<"Payroll"> | number
+    pf?: FloatFilter<"Payroll"> | number
+    pt?: FloatFilter<"Payroll"> | number
+    deductions?: FloatFilter<"Payroll"> | number
+    totalDeductions?: FloatFilter<"Payroll"> | number
+    netSalary?: FloatFilter<"Payroll"> | number
+    totalDays?: IntFilter<"Payroll"> | number
+    presentDays?: FloatFilter<"Payroll"> | number
+    absentDays?: FloatFilter<"Payroll"> | number
+    lopDays?: FloatFilter<"Payroll"> | number
+    lopAmount?: FloatFilter<"Payroll"> | number
+    status?: StringFilter<"Payroll"> | string
+    generatedAt?: DateTimeFilter<"Payroll"> | Date | string
+    paidAt?: DateTimeNullableFilter<"Payroll"> | Date | string | null
+  }
+
   export type CustomerCreateWithoutProjectsInput = {
     id?: string
     code: string
@@ -18029,7 +23012,9 @@ export namespace Prisma {
     attendance?: AttendanceCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectCreateNestedManyWithoutTeamMembersInput
     assignedTasks?: TaskCreateNestedManyWithoutAssignedToInput
-    attendanceRequests?: AttendanceRequestCreateNestedManyWithoutUserInput
+    attendanceRequest?: AttendanceRequestCreateNestedManyWithoutUserInput
+    salaryStructure?: SalaryStructureCreateNestedOneWithoutUserInput
+    payrolls?: PayrollCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutManagedProjectsInput = {
@@ -18049,7 +23034,9 @@ export namespace Prisma {
     attendance?: AttendanceUncheckedCreateNestedManyWithoutUserInput
     projectMemberships?: ProjectUncheckedCreateNestedManyWithoutTeamMembersInput
     assignedTasks?: TaskUncheckedCreateNestedManyWithoutAssignedToInput
-    attendanceRequests?: AttendanceRequestUncheckedCreateNestedManyWithoutUserInput
+    attendanceRequest?: AttendanceRequestUncheckedCreateNestedManyWithoutUserInput
+    salaryStructure?: SalaryStructureUncheckedCreateNestedOneWithoutUserInput
+    payrolls?: PayrollUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutManagedProjectsInput = {
@@ -18074,7 +23061,9 @@ export namespace Prisma {
     attendance?: AttendanceCreateNestedManyWithoutUserInput
     managedProjects?: ProjectCreateNestedManyWithoutManagerInput
     assignedTasks?: TaskCreateNestedManyWithoutAssignedToInput
-    attendanceRequests?: AttendanceRequestCreateNestedManyWithoutUserInput
+    attendanceRequest?: AttendanceRequestCreateNestedManyWithoutUserInput
+    salaryStructure?: SalaryStructureCreateNestedOneWithoutUserInput
+    payrolls?: PayrollCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutProjectMembershipsInput = {
@@ -18094,7 +23083,9 @@ export namespace Prisma {
     attendance?: AttendanceUncheckedCreateNestedManyWithoutUserInput
     managedProjects?: ProjectUncheckedCreateNestedManyWithoutManagerInput
     assignedTasks?: TaskUncheckedCreateNestedManyWithoutAssignedToInput
-    attendanceRequests?: AttendanceRequestUncheckedCreateNestedManyWithoutUserInput
+    attendanceRequest?: AttendanceRequestUncheckedCreateNestedManyWithoutUserInput
+    salaryStructure?: SalaryStructureUncheckedCreateNestedOneWithoutUserInput
+    payrolls?: PayrollUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutProjectMembershipsInput = {
@@ -18227,7 +23218,9 @@ export namespace Prisma {
     attendance?: AttendanceUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectUpdateManyWithoutTeamMembersNestedInput
     assignedTasks?: TaskUpdateManyWithoutAssignedToNestedInput
-    attendanceRequests?: AttendanceRequestUpdateManyWithoutUserNestedInput
+    attendanceRequest?: AttendanceRequestUpdateManyWithoutUserNestedInput
+    salaryStructure?: SalaryStructureUpdateOneWithoutUserNestedInput
+    payrolls?: PayrollUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutManagedProjectsInput = {
@@ -18247,7 +23240,9 @@ export namespace Prisma {
     attendance?: AttendanceUncheckedUpdateManyWithoutUserNestedInput
     projectMemberships?: ProjectUncheckedUpdateManyWithoutTeamMembersNestedInput
     assignedTasks?: TaskUncheckedUpdateManyWithoutAssignedToNestedInput
-    attendanceRequests?: AttendanceRequestUncheckedUpdateManyWithoutUserNestedInput
+    attendanceRequest?: AttendanceRequestUncheckedUpdateManyWithoutUserNestedInput
+    salaryStructure?: SalaryStructureUncheckedUpdateOneWithoutUserNestedInput
+    payrolls?: PayrollUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUpsertWithWhereUniqueWithoutProjectMembershipsInput = {
@@ -18329,7 +23324,9 @@ export namespace Prisma {
     managedProjects?: ProjectCreateNestedManyWithoutManagerInput
     projectMemberships?: ProjectCreateNestedManyWithoutTeamMembersInput
     assignedTasks?: TaskCreateNestedManyWithoutAssignedToInput
-    attendanceRequests?: AttendanceRequestCreateNestedManyWithoutUserInput
+    attendanceRequest?: AttendanceRequestCreateNestedManyWithoutUserInput
+    salaryStructure?: SalaryStructureCreateNestedOneWithoutUserInput
+    payrolls?: PayrollCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTimesheetsInput = {
@@ -18349,7 +23346,9 @@ export namespace Prisma {
     managedProjects?: ProjectUncheckedCreateNestedManyWithoutManagerInput
     projectMemberships?: ProjectUncheckedCreateNestedManyWithoutTeamMembersInput
     assignedTasks?: TaskUncheckedCreateNestedManyWithoutAssignedToInput
-    attendanceRequests?: AttendanceRequestUncheckedCreateNestedManyWithoutUserInput
+    attendanceRequest?: AttendanceRequestUncheckedCreateNestedManyWithoutUserInput
+    salaryStructure?: SalaryStructureUncheckedCreateNestedOneWithoutUserInput
+    payrolls?: PayrollUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTimesheetsInput = {
@@ -18415,7 +23414,9 @@ export namespace Prisma {
     managedProjects?: ProjectUpdateManyWithoutManagerNestedInput
     projectMemberships?: ProjectUpdateManyWithoutTeamMembersNestedInput
     assignedTasks?: TaskUpdateManyWithoutAssignedToNestedInput
-    attendanceRequests?: AttendanceRequestUpdateManyWithoutUserNestedInput
+    attendanceRequest?: AttendanceRequestUpdateManyWithoutUserNestedInput
+    salaryStructure?: SalaryStructureUpdateOneWithoutUserNestedInput
+    payrolls?: PayrollUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTimesheetsInput = {
@@ -18435,7 +23436,9 @@ export namespace Prisma {
     managedProjects?: ProjectUncheckedUpdateManyWithoutManagerNestedInput
     projectMemberships?: ProjectUncheckedUpdateManyWithoutTeamMembersNestedInput
     assignedTasks?: TaskUncheckedUpdateManyWithoutAssignedToNestedInput
-    attendanceRequests?: AttendanceRequestUncheckedUpdateManyWithoutUserNestedInput
+    attendanceRequest?: AttendanceRequestUncheckedUpdateManyWithoutUserNestedInput
+    salaryStructure?: SalaryStructureUncheckedUpdateOneWithoutUserNestedInput
+    payrolls?: PayrollUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type TimesheetEntryUpsertWithWhereUniqueWithoutTimesheetInput = {
@@ -18603,7 +23606,9 @@ export namespace Prisma {
     attendance?: AttendanceCreateNestedManyWithoutUserInput
     managedProjects?: ProjectCreateNestedManyWithoutManagerInput
     projectMemberships?: ProjectCreateNestedManyWithoutTeamMembersInput
-    attendanceRequests?: AttendanceRequestCreateNestedManyWithoutUserInput
+    attendanceRequest?: AttendanceRequestCreateNestedManyWithoutUserInput
+    salaryStructure?: SalaryStructureCreateNestedOneWithoutUserInput
+    payrolls?: PayrollCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAssignedTasksInput = {
@@ -18623,7 +23628,9 @@ export namespace Prisma {
     attendance?: AttendanceUncheckedCreateNestedManyWithoutUserInput
     managedProjects?: ProjectUncheckedCreateNestedManyWithoutManagerInput
     projectMemberships?: ProjectUncheckedCreateNestedManyWithoutTeamMembersInput
-    attendanceRequests?: AttendanceRequestUncheckedCreateNestedManyWithoutUserInput
+    attendanceRequest?: AttendanceRequestUncheckedCreateNestedManyWithoutUserInput
+    salaryStructure?: SalaryStructureUncheckedCreateNestedOneWithoutUserInput
+    payrolls?: PayrollUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAssignedTasksInput = {
@@ -18694,7 +23701,9 @@ export namespace Prisma {
     attendance?: AttendanceUpdateManyWithoutUserNestedInput
     managedProjects?: ProjectUpdateManyWithoutManagerNestedInput
     projectMemberships?: ProjectUpdateManyWithoutTeamMembersNestedInput
-    attendanceRequests?: AttendanceRequestUpdateManyWithoutUserNestedInput
+    attendanceRequest?: AttendanceRequestUpdateManyWithoutUserNestedInput
+    salaryStructure?: SalaryStructureUpdateOneWithoutUserNestedInput
+    payrolls?: PayrollUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAssignedTasksInput = {
@@ -18714,7 +23723,9 @@ export namespace Prisma {
     attendance?: AttendanceUncheckedUpdateManyWithoutUserNestedInput
     managedProjects?: ProjectUncheckedUpdateManyWithoutManagerNestedInput
     projectMemberships?: ProjectUncheckedUpdateManyWithoutTeamMembersNestedInput
-    attendanceRequests?: AttendanceRequestUncheckedUpdateManyWithoutUserNestedInput
+    attendanceRequest?: AttendanceRequestUncheckedUpdateManyWithoutUserNestedInput
+    salaryStructure?: SalaryStructureUncheckedUpdateOneWithoutUserNestedInput
+    payrolls?: PayrollUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ProjectUpsertWithoutTasksInput = {
@@ -18775,7 +23786,9 @@ export namespace Prisma {
     managedProjects?: ProjectCreateNestedManyWithoutManagerInput
     projectMemberships?: ProjectCreateNestedManyWithoutTeamMembersInput
     assignedTasks?: TaskCreateNestedManyWithoutAssignedToInput
-    attendanceRequests?: AttendanceRequestCreateNestedManyWithoutUserInput
+    attendanceRequest?: AttendanceRequestCreateNestedManyWithoutUserInput
+    salaryStructure?: SalaryStructureCreateNestedOneWithoutUserInput
+    payrolls?: PayrollCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutLeavesInput = {
@@ -18795,7 +23808,9 @@ export namespace Prisma {
     managedProjects?: ProjectUncheckedCreateNestedManyWithoutManagerInput
     projectMemberships?: ProjectUncheckedCreateNestedManyWithoutTeamMembersInput
     assignedTasks?: TaskUncheckedCreateNestedManyWithoutAssignedToInput
-    attendanceRequests?: AttendanceRequestUncheckedCreateNestedManyWithoutUserInput
+    attendanceRequest?: AttendanceRequestUncheckedCreateNestedManyWithoutUserInput
+    salaryStructure?: SalaryStructureUncheckedCreateNestedOneWithoutUserInput
+    payrolls?: PayrollUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutLeavesInput = {
@@ -18831,7 +23846,9 @@ export namespace Prisma {
     managedProjects?: ProjectUpdateManyWithoutManagerNestedInput
     projectMemberships?: ProjectUpdateManyWithoutTeamMembersNestedInput
     assignedTasks?: TaskUpdateManyWithoutAssignedToNestedInput
-    attendanceRequests?: AttendanceRequestUpdateManyWithoutUserNestedInput
+    attendanceRequest?: AttendanceRequestUpdateManyWithoutUserNestedInput
+    salaryStructure?: SalaryStructureUpdateOneWithoutUserNestedInput
+    payrolls?: PayrollUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutLeavesInput = {
@@ -18851,7 +23868,9 @@ export namespace Prisma {
     managedProjects?: ProjectUncheckedUpdateManyWithoutManagerNestedInput
     projectMemberships?: ProjectUncheckedUpdateManyWithoutTeamMembersNestedInput
     assignedTasks?: TaskUncheckedUpdateManyWithoutAssignedToNestedInput
-    attendanceRequests?: AttendanceRequestUncheckedUpdateManyWithoutUserNestedInput
+    attendanceRequest?: AttendanceRequestUncheckedUpdateManyWithoutUserNestedInput
+    salaryStructure?: SalaryStructureUncheckedUpdateOneWithoutUserNestedInput
+    payrolls?: PayrollUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutBranchInput = {
@@ -18871,7 +23890,9 @@ export namespace Prisma {
     managedProjects?: ProjectCreateNestedManyWithoutManagerInput
     projectMemberships?: ProjectCreateNestedManyWithoutTeamMembersInput
     assignedTasks?: TaskCreateNestedManyWithoutAssignedToInput
-    attendanceRequests?: AttendanceRequestCreateNestedManyWithoutUserInput
+    attendanceRequest?: AttendanceRequestCreateNestedManyWithoutUserInput
+    salaryStructure?: SalaryStructureCreateNestedOneWithoutUserInput
+    payrolls?: PayrollCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutBranchInput = {
@@ -18891,7 +23912,9 @@ export namespace Prisma {
     managedProjects?: ProjectUncheckedCreateNestedManyWithoutManagerInput
     projectMemberships?: ProjectUncheckedCreateNestedManyWithoutTeamMembersInput
     assignedTasks?: TaskUncheckedCreateNestedManyWithoutAssignedToInput
-    attendanceRequests?: AttendanceRequestUncheckedCreateNestedManyWithoutUserInput
+    attendanceRequest?: AttendanceRequestUncheckedCreateNestedManyWithoutUserInput
+    salaryStructure?: SalaryStructureUncheckedCreateNestedOneWithoutUserInput
+    payrolls?: PayrollUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutBranchInput = {
@@ -18937,7 +23960,9 @@ export namespace Prisma {
     managedProjects?: ProjectCreateNestedManyWithoutManagerInput
     projectMemberships?: ProjectCreateNestedManyWithoutTeamMembersInput
     assignedTasks?: TaskCreateNestedManyWithoutAssignedToInput
-    attendanceRequests?: AttendanceRequestCreateNestedManyWithoutUserInput
+    attendanceRequest?: AttendanceRequestCreateNestedManyWithoutUserInput
+    salaryStructure?: SalaryStructureCreateNestedOneWithoutUserInput
+    payrolls?: PayrollCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAttendanceInput = {
@@ -18957,7 +23982,9 @@ export namespace Prisma {
     managedProjects?: ProjectUncheckedCreateNestedManyWithoutManagerInput
     projectMemberships?: ProjectUncheckedCreateNestedManyWithoutTeamMembersInput
     assignedTasks?: TaskUncheckedCreateNestedManyWithoutAssignedToInput
-    attendanceRequests?: AttendanceRequestUncheckedCreateNestedManyWithoutUserInput
+    attendanceRequest?: AttendanceRequestUncheckedCreateNestedManyWithoutUserInput
+    salaryStructure?: SalaryStructureUncheckedCreateNestedOneWithoutUserInput
+    payrolls?: PayrollUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAttendanceInput = {
@@ -18993,7 +24020,9 @@ export namespace Prisma {
     managedProjects?: ProjectUpdateManyWithoutManagerNestedInput
     projectMemberships?: ProjectUpdateManyWithoutTeamMembersNestedInput
     assignedTasks?: TaskUpdateManyWithoutAssignedToNestedInput
-    attendanceRequests?: AttendanceRequestUpdateManyWithoutUserNestedInput
+    attendanceRequest?: AttendanceRequestUpdateManyWithoutUserNestedInput
+    salaryStructure?: SalaryStructureUpdateOneWithoutUserNestedInput
+    payrolls?: PayrollUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAttendanceInput = {
@@ -19013,10 +24042,12 @@ export namespace Prisma {
     managedProjects?: ProjectUncheckedUpdateManyWithoutManagerNestedInput
     projectMemberships?: ProjectUncheckedUpdateManyWithoutTeamMembersNestedInput
     assignedTasks?: TaskUncheckedUpdateManyWithoutAssignedToNestedInput
-    attendanceRequests?: AttendanceRequestUncheckedUpdateManyWithoutUserNestedInput
+    attendanceRequest?: AttendanceRequestUncheckedUpdateManyWithoutUserNestedInput
+    salaryStructure?: SalaryStructureUncheckedUpdateOneWithoutUserNestedInput
+    payrolls?: PayrollUncheckedUpdateManyWithoutUserNestedInput
   }
 
-  export type UserCreateWithoutAttendanceRequestsInput = {
+  export type UserCreateWithoutAttendanceRequestInput = {
     id?: string
     code?: string | null
     email: string
@@ -19034,9 +24065,11 @@ export namespace Prisma {
     managedProjects?: ProjectCreateNestedManyWithoutManagerInput
     projectMemberships?: ProjectCreateNestedManyWithoutTeamMembersInput
     assignedTasks?: TaskCreateNestedManyWithoutAssignedToInput
+    salaryStructure?: SalaryStructureCreateNestedOneWithoutUserInput
+    payrolls?: PayrollCreateNestedManyWithoutUserInput
   }
 
-  export type UserUncheckedCreateWithoutAttendanceRequestsInput = {
+  export type UserUncheckedCreateWithoutAttendanceRequestInput = {
     id?: string
     code?: string | null
     email: string
@@ -19054,25 +24087,27 @@ export namespace Prisma {
     managedProjects?: ProjectUncheckedCreateNestedManyWithoutManagerInput
     projectMemberships?: ProjectUncheckedCreateNestedManyWithoutTeamMembersInput
     assignedTasks?: TaskUncheckedCreateNestedManyWithoutAssignedToInput
+    salaryStructure?: SalaryStructureUncheckedCreateNestedOneWithoutUserInput
+    payrolls?: PayrollUncheckedCreateNestedManyWithoutUserInput
   }
 
-  export type UserCreateOrConnectWithoutAttendanceRequestsInput = {
+  export type UserCreateOrConnectWithoutAttendanceRequestInput = {
     where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutAttendanceRequestsInput, UserUncheckedCreateWithoutAttendanceRequestsInput>
+    create: XOR<UserCreateWithoutAttendanceRequestInput, UserUncheckedCreateWithoutAttendanceRequestInput>
   }
 
-  export type UserUpsertWithoutAttendanceRequestsInput = {
-    update: XOR<UserUpdateWithoutAttendanceRequestsInput, UserUncheckedUpdateWithoutAttendanceRequestsInput>
-    create: XOR<UserCreateWithoutAttendanceRequestsInput, UserUncheckedCreateWithoutAttendanceRequestsInput>
+  export type UserUpsertWithoutAttendanceRequestInput = {
+    update: XOR<UserUpdateWithoutAttendanceRequestInput, UserUncheckedUpdateWithoutAttendanceRequestInput>
+    create: XOR<UserCreateWithoutAttendanceRequestInput, UserUncheckedCreateWithoutAttendanceRequestInput>
     where?: UserWhereInput
   }
 
-  export type UserUpdateToOneWithWhereWithoutAttendanceRequestsInput = {
+  export type UserUpdateToOneWithWhereWithoutAttendanceRequestInput = {
     where?: UserWhereInput
-    data: XOR<UserUpdateWithoutAttendanceRequestsInput, UserUncheckedUpdateWithoutAttendanceRequestsInput>
+    data: XOR<UserUpdateWithoutAttendanceRequestInput, UserUncheckedUpdateWithoutAttendanceRequestInput>
   }
 
-  export type UserUpdateWithoutAttendanceRequestsInput = {
+  export type UserUpdateWithoutAttendanceRequestInput = {
     id?: StringFieldUpdateOperationsInput | string
     code?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
@@ -19090,9 +24125,11 @@ export namespace Prisma {
     managedProjects?: ProjectUpdateManyWithoutManagerNestedInput
     projectMemberships?: ProjectUpdateManyWithoutTeamMembersNestedInput
     assignedTasks?: TaskUpdateManyWithoutAssignedToNestedInput
+    salaryStructure?: SalaryStructureUpdateOneWithoutUserNestedInput
+    payrolls?: PayrollUpdateManyWithoutUserNestedInput
   }
 
-  export type UserUncheckedUpdateWithoutAttendanceRequestsInput = {
+  export type UserUncheckedUpdateWithoutAttendanceRequestInput = {
     id?: StringFieldUpdateOperationsInput | string
     code?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
@@ -19110,6 +24147,383 @@ export namespace Prisma {
     managedProjects?: ProjectUncheckedUpdateManyWithoutManagerNestedInput
     projectMemberships?: ProjectUncheckedUpdateManyWithoutTeamMembersNestedInput
     assignedTasks?: TaskUncheckedUpdateManyWithoutAssignedToNestedInput
+    salaryStructure?: SalaryStructureUncheckedUpdateOneWithoutUserNestedInput
+    payrolls?: PayrollUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutSalaryStructureInput = {
+    id?: string
+    code?: string | null
+    email: string
+    password: string
+    name?: string | null
+    image?: string | null
+    branchLegacy?: string | null
+    phone?: string | null
+    createdAt?: Date | string
+    role?: RoleCreateNestedOneWithoutUsersInput
+    branch?: BranchCreateNestedOneWithoutUsersInput
+    timesheets?: TimesheetCreateNestedManyWithoutUserInput
+    leaves?: LeaveCreateNestedManyWithoutUserInput
+    attendance?: AttendanceCreateNestedManyWithoutUserInput
+    managedProjects?: ProjectCreateNestedManyWithoutManagerInput
+    projectMemberships?: ProjectCreateNestedManyWithoutTeamMembersInput
+    assignedTasks?: TaskCreateNestedManyWithoutAssignedToInput
+    attendanceRequest?: AttendanceRequestCreateNestedManyWithoutUserInput
+    payrolls?: PayrollCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutSalaryStructureInput = {
+    id?: string
+    code?: string | null
+    email: string
+    password: string
+    name?: string | null
+    image?: string | null
+    roleId?: string | null
+    branchLegacy?: string | null
+    branchId?: string | null
+    phone?: string | null
+    createdAt?: Date | string
+    timesheets?: TimesheetUncheckedCreateNestedManyWithoutUserInput
+    leaves?: LeaveUncheckedCreateNestedManyWithoutUserInput
+    attendance?: AttendanceUncheckedCreateNestedManyWithoutUserInput
+    managedProjects?: ProjectUncheckedCreateNestedManyWithoutManagerInput
+    projectMemberships?: ProjectUncheckedCreateNestedManyWithoutTeamMembersInput
+    assignedTasks?: TaskUncheckedCreateNestedManyWithoutAssignedToInput
+    attendanceRequest?: AttendanceRequestUncheckedCreateNestedManyWithoutUserInput
+    payrolls?: PayrollUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutSalaryStructureInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutSalaryStructureInput, UserUncheckedCreateWithoutSalaryStructureInput>
+  }
+
+  export type UserUpsertWithoutSalaryStructureInput = {
+    update: XOR<UserUpdateWithoutSalaryStructureInput, UserUncheckedUpdateWithoutSalaryStructureInput>
+    create: XOR<UserCreateWithoutSalaryStructureInput, UserUncheckedCreateWithoutSalaryStructureInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutSalaryStructureInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutSalaryStructureInput, UserUncheckedUpdateWithoutSalaryStructureInput>
+  }
+
+  export type UserUpdateWithoutSalaryStructureInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    branchLegacy?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    role?: RoleUpdateOneWithoutUsersNestedInput
+    branch?: BranchUpdateOneWithoutUsersNestedInput
+    timesheets?: TimesheetUpdateManyWithoutUserNestedInput
+    leaves?: LeaveUpdateManyWithoutUserNestedInput
+    attendance?: AttendanceUpdateManyWithoutUserNestedInput
+    managedProjects?: ProjectUpdateManyWithoutManagerNestedInput
+    projectMemberships?: ProjectUpdateManyWithoutTeamMembersNestedInput
+    assignedTasks?: TaskUpdateManyWithoutAssignedToNestedInput
+    attendanceRequest?: AttendanceRequestUpdateManyWithoutUserNestedInput
+    payrolls?: PayrollUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutSalaryStructureInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    roleId?: NullableStringFieldUpdateOperationsInput | string | null
+    branchLegacy?: NullableStringFieldUpdateOperationsInput | string | null
+    branchId?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    timesheets?: TimesheetUncheckedUpdateManyWithoutUserNestedInput
+    leaves?: LeaveUncheckedUpdateManyWithoutUserNestedInput
+    attendance?: AttendanceUncheckedUpdateManyWithoutUserNestedInput
+    managedProjects?: ProjectUncheckedUpdateManyWithoutManagerNestedInput
+    projectMemberships?: ProjectUncheckedUpdateManyWithoutTeamMembersNestedInput
+    assignedTasks?: TaskUncheckedUpdateManyWithoutAssignedToNestedInput
+    attendanceRequest?: AttendanceRequestUncheckedUpdateManyWithoutUserNestedInput
+    payrolls?: PayrollUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutPayrollsInput = {
+    id?: string
+    code?: string | null
+    email: string
+    password: string
+    name?: string | null
+    image?: string | null
+    branchLegacy?: string | null
+    phone?: string | null
+    createdAt?: Date | string
+    role?: RoleCreateNestedOneWithoutUsersInput
+    branch?: BranchCreateNestedOneWithoutUsersInput
+    timesheets?: TimesheetCreateNestedManyWithoutUserInput
+    leaves?: LeaveCreateNestedManyWithoutUserInput
+    attendance?: AttendanceCreateNestedManyWithoutUserInput
+    managedProjects?: ProjectCreateNestedManyWithoutManagerInput
+    projectMemberships?: ProjectCreateNestedManyWithoutTeamMembersInput
+    assignedTasks?: TaskCreateNestedManyWithoutAssignedToInput
+    attendanceRequest?: AttendanceRequestCreateNestedManyWithoutUserInput
+    salaryStructure?: SalaryStructureCreateNestedOneWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutPayrollsInput = {
+    id?: string
+    code?: string | null
+    email: string
+    password: string
+    name?: string | null
+    image?: string | null
+    roleId?: string | null
+    branchLegacy?: string | null
+    branchId?: string | null
+    phone?: string | null
+    createdAt?: Date | string
+    timesheets?: TimesheetUncheckedCreateNestedManyWithoutUserInput
+    leaves?: LeaveUncheckedCreateNestedManyWithoutUserInput
+    attendance?: AttendanceUncheckedCreateNestedManyWithoutUserInput
+    managedProjects?: ProjectUncheckedCreateNestedManyWithoutManagerInput
+    projectMemberships?: ProjectUncheckedCreateNestedManyWithoutTeamMembersInput
+    assignedTasks?: TaskUncheckedCreateNestedManyWithoutAssignedToInput
+    attendanceRequest?: AttendanceRequestUncheckedCreateNestedManyWithoutUserInput
+    salaryStructure?: SalaryStructureUncheckedCreateNestedOneWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutPayrollsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutPayrollsInput, UserUncheckedCreateWithoutPayrollsInput>
+  }
+
+  export type PayrollItemCreateWithoutPayrollInput = {
+    id?: string
+    label: string
+    amount: number
+    type: string
+  }
+
+  export type PayrollItemUncheckedCreateWithoutPayrollInput = {
+    id?: string
+    label: string
+    amount: number
+    type: string
+  }
+
+  export type PayrollItemCreateOrConnectWithoutPayrollInput = {
+    where: PayrollItemWhereUniqueInput
+    create: XOR<PayrollItemCreateWithoutPayrollInput, PayrollItemUncheckedCreateWithoutPayrollInput>
+  }
+
+  export type PayrollItemCreateManyPayrollInputEnvelope = {
+    data: PayrollItemCreateManyPayrollInput | PayrollItemCreateManyPayrollInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserUpsertWithoutPayrollsInput = {
+    update: XOR<UserUpdateWithoutPayrollsInput, UserUncheckedUpdateWithoutPayrollsInput>
+    create: XOR<UserCreateWithoutPayrollsInput, UserUncheckedCreateWithoutPayrollsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutPayrollsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutPayrollsInput, UserUncheckedUpdateWithoutPayrollsInput>
+  }
+
+  export type UserUpdateWithoutPayrollsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    branchLegacy?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    role?: RoleUpdateOneWithoutUsersNestedInput
+    branch?: BranchUpdateOneWithoutUsersNestedInput
+    timesheets?: TimesheetUpdateManyWithoutUserNestedInput
+    leaves?: LeaveUpdateManyWithoutUserNestedInput
+    attendance?: AttendanceUpdateManyWithoutUserNestedInput
+    managedProjects?: ProjectUpdateManyWithoutManagerNestedInput
+    projectMemberships?: ProjectUpdateManyWithoutTeamMembersNestedInput
+    assignedTasks?: TaskUpdateManyWithoutAssignedToNestedInput
+    attendanceRequest?: AttendanceRequestUpdateManyWithoutUserNestedInput
+    salaryStructure?: SalaryStructureUpdateOneWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutPayrollsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    roleId?: NullableStringFieldUpdateOperationsInput | string | null
+    branchLegacy?: NullableStringFieldUpdateOperationsInput | string | null
+    branchId?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    timesheets?: TimesheetUncheckedUpdateManyWithoutUserNestedInput
+    leaves?: LeaveUncheckedUpdateManyWithoutUserNestedInput
+    attendance?: AttendanceUncheckedUpdateManyWithoutUserNestedInput
+    managedProjects?: ProjectUncheckedUpdateManyWithoutManagerNestedInput
+    projectMemberships?: ProjectUncheckedUpdateManyWithoutTeamMembersNestedInput
+    assignedTasks?: TaskUncheckedUpdateManyWithoutAssignedToNestedInput
+    attendanceRequest?: AttendanceRequestUncheckedUpdateManyWithoutUserNestedInput
+    salaryStructure?: SalaryStructureUncheckedUpdateOneWithoutUserNestedInput
+  }
+
+  export type PayrollItemUpsertWithWhereUniqueWithoutPayrollInput = {
+    where: PayrollItemWhereUniqueInput
+    update: XOR<PayrollItemUpdateWithoutPayrollInput, PayrollItemUncheckedUpdateWithoutPayrollInput>
+    create: XOR<PayrollItemCreateWithoutPayrollInput, PayrollItemUncheckedCreateWithoutPayrollInput>
+  }
+
+  export type PayrollItemUpdateWithWhereUniqueWithoutPayrollInput = {
+    where: PayrollItemWhereUniqueInput
+    data: XOR<PayrollItemUpdateWithoutPayrollInput, PayrollItemUncheckedUpdateWithoutPayrollInput>
+  }
+
+  export type PayrollItemUpdateManyWithWhereWithoutPayrollInput = {
+    where: PayrollItemScalarWhereInput
+    data: XOR<PayrollItemUpdateManyMutationInput, PayrollItemUncheckedUpdateManyWithoutPayrollInput>
+  }
+
+  export type PayrollItemScalarWhereInput = {
+    AND?: PayrollItemScalarWhereInput | PayrollItemScalarWhereInput[]
+    OR?: PayrollItemScalarWhereInput[]
+    NOT?: PayrollItemScalarWhereInput | PayrollItemScalarWhereInput[]
+    id?: StringFilter<"PayrollItem"> | string
+    payrollId?: StringFilter<"PayrollItem"> | string
+    label?: StringFilter<"PayrollItem"> | string
+    amount?: FloatFilter<"PayrollItem"> | number
+    type?: StringFilter<"PayrollItem"> | string
+  }
+
+  export type PayrollCreateWithoutItemsInput = {
+    id?: string
+    month: string
+    year: number
+    monthNumber: number
+    basic: number
+    hra: number
+    allowances: number
+    grossEarnings: number
+    pf: number
+    pt: number
+    deductions: number
+    totalDeductions: number
+    netSalary: number
+    totalDays: number
+    presentDays: number
+    absentDays: number
+    lopDays: number
+    lopAmount: number
+    status?: string
+    generatedAt?: Date | string
+    paidAt?: Date | string | null
+    user: UserCreateNestedOneWithoutPayrollsInput
+  }
+
+  export type PayrollUncheckedCreateWithoutItemsInput = {
+    id?: string
+    userId: string
+    month: string
+    year: number
+    monthNumber: number
+    basic: number
+    hra: number
+    allowances: number
+    grossEarnings: number
+    pf: number
+    pt: number
+    deductions: number
+    totalDeductions: number
+    netSalary: number
+    totalDays: number
+    presentDays: number
+    absentDays: number
+    lopDays: number
+    lopAmount: number
+    status?: string
+    generatedAt?: Date | string
+    paidAt?: Date | string | null
+  }
+
+  export type PayrollCreateOrConnectWithoutItemsInput = {
+    where: PayrollWhereUniqueInput
+    create: XOR<PayrollCreateWithoutItemsInput, PayrollUncheckedCreateWithoutItemsInput>
+  }
+
+  export type PayrollUpsertWithoutItemsInput = {
+    update: XOR<PayrollUpdateWithoutItemsInput, PayrollUncheckedUpdateWithoutItemsInput>
+    create: XOR<PayrollCreateWithoutItemsInput, PayrollUncheckedCreateWithoutItemsInput>
+    where?: PayrollWhereInput
+  }
+
+  export type PayrollUpdateToOneWithWhereWithoutItemsInput = {
+    where?: PayrollWhereInput
+    data: XOR<PayrollUpdateWithoutItemsInput, PayrollUncheckedUpdateWithoutItemsInput>
+  }
+
+  export type PayrollUpdateWithoutItemsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    month?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    monthNumber?: IntFieldUpdateOperationsInput | number
+    basic?: FloatFieldUpdateOperationsInput | number
+    hra?: FloatFieldUpdateOperationsInput | number
+    allowances?: FloatFieldUpdateOperationsInput | number
+    grossEarnings?: FloatFieldUpdateOperationsInput | number
+    pf?: FloatFieldUpdateOperationsInput | number
+    pt?: FloatFieldUpdateOperationsInput | number
+    deductions?: FloatFieldUpdateOperationsInput | number
+    totalDeductions?: FloatFieldUpdateOperationsInput | number
+    netSalary?: FloatFieldUpdateOperationsInput | number
+    totalDays?: IntFieldUpdateOperationsInput | number
+    presentDays?: FloatFieldUpdateOperationsInput | number
+    absentDays?: FloatFieldUpdateOperationsInput | number
+    lopDays?: FloatFieldUpdateOperationsInput | number
+    lopAmount?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    generatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user?: UserUpdateOneRequiredWithoutPayrollsNestedInput
+  }
+
+  export type PayrollUncheckedUpdateWithoutItemsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    month?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    monthNumber?: IntFieldUpdateOperationsInput | number
+    basic?: FloatFieldUpdateOperationsInput | number
+    hra?: FloatFieldUpdateOperationsInput | number
+    allowances?: FloatFieldUpdateOperationsInput | number
+    grossEarnings?: FloatFieldUpdateOperationsInput | number
+    pf?: FloatFieldUpdateOperationsInput | number
+    pt?: FloatFieldUpdateOperationsInput | number
+    deductions?: FloatFieldUpdateOperationsInput | number
+    totalDeductions?: FloatFieldUpdateOperationsInput | number
+    netSalary?: FloatFieldUpdateOperationsInput | number
+    totalDays?: IntFieldUpdateOperationsInput | number
+    presentDays?: FloatFieldUpdateOperationsInput | number
+    absentDays?: FloatFieldUpdateOperationsInput | number
+    lopDays?: FloatFieldUpdateOperationsInput | number
+    lopAmount?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    generatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type UserCreateManyRoleInput = {
@@ -19142,7 +24556,9 @@ export namespace Prisma {
     managedProjects?: ProjectUpdateManyWithoutManagerNestedInput
     projectMemberships?: ProjectUpdateManyWithoutTeamMembersNestedInput
     assignedTasks?: TaskUpdateManyWithoutAssignedToNestedInput
-    attendanceRequests?: AttendanceRequestUpdateManyWithoutUserNestedInput
+    attendanceRequest?: AttendanceRequestUpdateManyWithoutUserNestedInput
+    salaryStructure?: SalaryStructureUpdateOneWithoutUserNestedInput
+    payrolls?: PayrollUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRoleInput = {
@@ -19162,7 +24578,9 @@ export namespace Prisma {
     managedProjects?: ProjectUncheckedUpdateManyWithoutManagerNestedInput
     projectMemberships?: ProjectUncheckedUpdateManyWithoutTeamMembersNestedInput
     assignedTasks?: TaskUncheckedUpdateManyWithoutAssignedToNestedInput
-    attendanceRequests?: AttendanceRequestUncheckedUpdateManyWithoutUserNestedInput
+    attendanceRequest?: AttendanceRequestUncheckedUpdateManyWithoutUserNestedInput
+    salaryStructure?: SalaryStructureUncheckedUpdateOneWithoutUserNestedInput
+    payrolls?: PayrollUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutRoleInput = {
@@ -19303,6 +24721,30 @@ export namespace Prisma {
     adminRemarks?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+  }
+
+  export type PayrollCreateManyUserInput = {
+    id?: string
+    month: string
+    year: number
+    monthNumber: number
+    basic: number
+    hra: number
+    allowances: number
+    grossEarnings: number
+    pf: number
+    pt: number
+    deductions: number
+    totalDeductions: number
+    netSalary: number
+    totalDays: number
+    presentDays: number
+    absentDays: number
+    lopDays: number
+    lopAmount: number
+    status?: string
+    generatedAt?: Date | string
+    paidAt?: Date | string | null
   }
 
   export type TimesheetUpdateWithoutUserInput = {
@@ -19575,6 +25017,80 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type PayrollUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    month?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    monthNumber?: IntFieldUpdateOperationsInput | number
+    basic?: FloatFieldUpdateOperationsInput | number
+    hra?: FloatFieldUpdateOperationsInput | number
+    allowances?: FloatFieldUpdateOperationsInput | number
+    grossEarnings?: FloatFieldUpdateOperationsInput | number
+    pf?: FloatFieldUpdateOperationsInput | number
+    pt?: FloatFieldUpdateOperationsInput | number
+    deductions?: FloatFieldUpdateOperationsInput | number
+    totalDeductions?: FloatFieldUpdateOperationsInput | number
+    netSalary?: FloatFieldUpdateOperationsInput | number
+    totalDays?: IntFieldUpdateOperationsInput | number
+    presentDays?: FloatFieldUpdateOperationsInput | number
+    absentDays?: FloatFieldUpdateOperationsInput | number
+    lopDays?: FloatFieldUpdateOperationsInput | number
+    lopAmount?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    generatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    items?: PayrollItemUpdateManyWithoutPayrollNestedInput
+  }
+
+  export type PayrollUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    month?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    monthNumber?: IntFieldUpdateOperationsInput | number
+    basic?: FloatFieldUpdateOperationsInput | number
+    hra?: FloatFieldUpdateOperationsInput | number
+    allowances?: FloatFieldUpdateOperationsInput | number
+    grossEarnings?: FloatFieldUpdateOperationsInput | number
+    pf?: FloatFieldUpdateOperationsInput | number
+    pt?: FloatFieldUpdateOperationsInput | number
+    deductions?: FloatFieldUpdateOperationsInput | number
+    totalDeductions?: FloatFieldUpdateOperationsInput | number
+    netSalary?: FloatFieldUpdateOperationsInput | number
+    totalDays?: IntFieldUpdateOperationsInput | number
+    presentDays?: FloatFieldUpdateOperationsInput | number
+    absentDays?: FloatFieldUpdateOperationsInput | number
+    lopDays?: FloatFieldUpdateOperationsInput | number
+    lopAmount?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    generatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    items?: PayrollItemUncheckedUpdateManyWithoutPayrollNestedInput
+  }
+
+  export type PayrollUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    month?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    monthNumber?: IntFieldUpdateOperationsInput | number
+    basic?: FloatFieldUpdateOperationsInput | number
+    hra?: FloatFieldUpdateOperationsInput | number
+    allowances?: FloatFieldUpdateOperationsInput | number
+    grossEarnings?: FloatFieldUpdateOperationsInput | number
+    pf?: FloatFieldUpdateOperationsInput | number
+    pt?: FloatFieldUpdateOperationsInput | number
+    deductions?: FloatFieldUpdateOperationsInput | number
+    totalDeductions?: FloatFieldUpdateOperationsInput | number
+    netSalary?: FloatFieldUpdateOperationsInput | number
+    totalDays?: IntFieldUpdateOperationsInput | number
+    presentDays?: FloatFieldUpdateOperationsInput | number
+    absentDays?: FloatFieldUpdateOperationsInput | number
+    lopDays?: FloatFieldUpdateOperationsInput | number
+    lopAmount?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    generatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
   export type TimesheetEntryCreateManyProjectInput = {
     id?: string
     timesheetId: string
@@ -19614,7 +25130,9 @@ export namespace Prisma {
     attendance?: AttendanceUpdateManyWithoutUserNestedInput
     managedProjects?: ProjectUpdateManyWithoutManagerNestedInput
     assignedTasks?: TaskUpdateManyWithoutAssignedToNestedInput
-    attendanceRequests?: AttendanceRequestUpdateManyWithoutUserNestedInput
+    attendanceRequest?: AttendanceRequestUpdateManyWithoutUserNestedInput
+    salaryStructure?: SalaryStructureUpdateOneWithoutUserNestedInput
+    payrolls?: PayrollUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutProjectMembershipsInput = {
@@ -19634,7 +25152,9 @@ export namespace Prisma {
     attendance?: AttendanceUncheckedUpdateManyWithoutUserNestedInput
     managedProjects?: ProjectUncheckedUpdateManyWithoutManagerNestedInput
     assignedTasks?: TaskUncheckedUpdateManyWithoutAssignedToNestedInput
-    attendanceRequests?: AttendanceRequestUncheckedUpdateManyWithoutUserNestedInput
+    attendanceRequest?: AttendanceRequestUncheckedUpdateManyWithoutUserNestedInput
+    salaryStructure?: SalaryStructureUncheckedUpdateOneWithoutUserNestedInput
+    payrolls?: PayrollUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutProjectMembershipsInput = {
@@ -19787,7 +25307,9 @@ export namespace Prisma {
     managedProjects?: ProjectUpdateManyWithoutManagerNestedInput
     projectMemberships?: ProjectUpdateManyWithoutTeamMembersNestedInput
     assignedTasks?: TaskUpdateManyWithoutAssignedToNestedInput
-    attendanceRequests?: AttendanceRequestUpdateManyWithoutUserNestedInput
+    attendanceRequest?: AttendanceRequestUpdateManyWithoutUserNestedInput
+    salaryStructure?: SalaryStructureUpdateOneWithoutUserNestedInput
+    payrolls?: PayrollUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutBranchInput = {
@@ -19807,7 +25329,9 @@ export namespace Prisma {
     managedProjects?: ProjectUncheckedUpdateManyWithoutManagerNestedInput
     projectMemberships?: ProjectUncheckedUpdateManyWithoutTeamMembersNestedInput
     assignedTasks?: TaskUncheckedUpdateManyWithoutAssignedToNestedInput
-    attendanceRequests?: AttendanceRequestUncheckedUpdateManyWithoutUserNestedInput
+    attendanceRequest?: AttendanceRequestUncheckedUpdateManyWithoutUserNestedInput
+    salaryStructure?: SalaryStructureUncheckedUpdateOneWithoutUserNestedInput
+    payrolls?: PayrollUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutBranchInput = {
@@ -19821,6 +25345,34 @@ export namespace Prisma {
     branchLegacy?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PayrollItemCreateManyPayrollInput = {
+    id?: string
+    label: string
+    amount: number
+    type: string
+  }
+
+  export type PayrollItemUpdateWithoutPayrollInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    type?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type PayrollItemUncheckedUpdateWithoutPayrollInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    type?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type PayrollItemUncheckedUpdateManyWithoutPayrollInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    label?: StringFieldUpdateOperationsInput | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    type?: StringFieldUpdateOperationsInput | string
   }
 
 
@@ -19852,6 +25404,10 @@ export namespace Prisma {
      * @deprecated Use BranchCountOutputTypeDefaultArgs instead
      */
     export type BranchCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = BranchCountOutputTypeDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use PayrollCountOutputTypeDefaultArgs instead
+     */
+    export type PayrollCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = PayrollCountOutputTypeDefaultArgs<ExtArgs>
     /**
      * @deprecated Use RoleDefaultArgs instead
      */
@@ -19896,6 +25452,18 @@ export namespace Prisma {
      * @deprecated Use AttendanceRequestDefaultArgs instead
      */
     export type AttendanceRequestArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = AttendanceRequestDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use SalaryStructureDefaultArgs instead
+     */
+    export type SalaryStructureArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = SalaryStructureDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use PayrollDefaultArgs instead
+     */
+    export type PayrollArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = PayrollDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use PayrollItemDefaultArgs instead
+     */
+    export type PayrollItemArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = PayrollItemDefaultArgs<ExtArgs>
 
   /**
    * Batch Payload for updateMany & deleteMany & createMany

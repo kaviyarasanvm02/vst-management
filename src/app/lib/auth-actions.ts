@@ -48,7 +48,7 @@ export async function registerUser(prevState: any, formData: FormData) {
                 email,
                 password: hashedPassword,
                 roleId: employeeRole.id,
-                branch: 'Bangalore', // Default branch
+                branchLegacy: 'Bangalore', // Default legacy branch
             }
         });
 
