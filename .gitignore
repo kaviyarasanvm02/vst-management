@@ -40,6 +40,10 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-/src/generated/prisma
-
-.vercel
+/src/generated/client
+*.log
+ts-errors.txt
+build_failure.txt
+prisma_gen_error.txt
+*.tmp*
+query-engine-*
