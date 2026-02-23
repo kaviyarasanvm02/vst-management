@@ -40,7 +40,7 @@ const links = [
     // Admin Reports
     { name: 'Reports', href: '/admin/reports/attendance', icon: ChartBarIcon },
     { name: 'Payroll', href: '/admin/payroll', icon: CurrencyRupeeIcon },
-    { name: 'Location Reports', href: '/admin/reports/location', icon: MapPinIcon },
+    // { name: 'Location Reports', href: '/admin/reports/location', icon: MapPinIcon },
     // Employee-only
     { name: 'Assign Tasks', href: '/admin/management/tasks', icon: ArrowRightOnRectangleIcon },
     { name: 'My Tasks', href: '/dashboard/tasks', icon: ClipboardDocumentListIcon },

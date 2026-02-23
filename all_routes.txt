@@ -1,0 +1,17 @@
+﻿F:\vst_timesheet\src\app\admin\management\[type]\page.tsx
+F:\vst_timesheet\src\app\admin\master\[type]\page.tsx
+F:\vst_timesheet\src\app\admin\master\page.tsx
+F:\vst_timesheet\src\app\admin\payroll\process\page.tsx
+F:\vst_timesheet\src\app\admin\payroll\structure\page.tsx
+F:\vst_timesheet\src\app\admin\payroll\page.tsx
+F:\vst_timesheet\src\app\admin\reports\location\page.tsx
+F:\vst_timesheet\src\app\admin\reports\[type]\page.tsx
+F:\vst_timesheet\src\app\admin\reports\page.tsx
+F:\vst_timesheet\src\app\api\auth\[...nextauth]\route.ts
+F:\vst_timesheet\src\app\api\reports\[type]\route.ts
+F:\vst_timesheet\src\app\auth\login\page.tsx
+F:\vst_timesheet\src\app\auth\signup\page.tsx
+F:\vst_timesheet\src\app\dashboard\timesheets\[[...slug]]\page.tsx
+F:\vst_timesheet\src\app\dashboard\[type]\page.tsx
+F:\vst_timesheet\src\app\dashboard\page.tsx
+F:\vst_timesheet\src\app\page.tsx
