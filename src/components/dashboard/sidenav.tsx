@@ -79,7 +79,7 @@ export default function SideNav({ isAdmin, userName, roleName, userImage }: Side
                     {/* Brand Icon */}
                     <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white shadow-lg shadow-indigo-500/20 group-hover:scale-110 transition-transform duration-300 overflow-hidden">
                         <Image
-                            src="/vedhasoft_technologies_logo.jpg"
+                            src="/logo.jpg"
                             alt="Vedhasoft Logo"
                             width={40}
                             height={40}

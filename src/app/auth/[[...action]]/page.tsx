@@ -41,7 +41,7 @@ export default async function ConsolidatedAuthPage({
                     <div className="mb-8 flex justify-center">
                         <div className="bg-white p-4 rounded-2xl shadow-lg border border-slate-100">
                             <Image
-                                src="/vedhasoft_technologies_logo.jpg"
+                                src="/logo.jpg"
                                 alt="Vedhasoft Logo"
                                 width={200}
                                 height={80}

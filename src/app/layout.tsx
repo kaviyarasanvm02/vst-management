@@ -19,7 +19,23 @@ export const metadata: Metadata = {
   title: "VST Timesheet",
   description: "Timesheet Management System",
   icons: {
-    icon: '/vedhasoft_technologies_logo.jpg',
+    icon: '/logo.jpg',
+    apple: '/logo.jpg',
+  },
+  openGraph: {
+    title: 'VST Timesheet',
+    description: 'Timesheet Management System',
+    url: 'https://vsttimesheet.vercel.app',
+    siteName: 'VST Timesheet',
+    images: [
+      {
+        url: '/logo.jpg',
+        width: 800,
+        height: 600,
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
   },
 };
 
