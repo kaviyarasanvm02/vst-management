@@ -7,9 +7,9 @@ import {
 
 export async function GET(
     request: NextRequest,
-    { params }: { params: { type: string } }
+    { params }: { params: Promise<{ type: string }> }
 ) {
-    const { type } = params;
+    const { type } = await params;
     const { searchParams } = new URL(request.url);
 
     if (type === 'employee-csv') {
