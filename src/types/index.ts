@@ -1,8 +1,8 @@
 
-import { Prisma } from '@/generated/client';
+import { Prisma } from '@prisma/client';
 
 // Re-export Prisma types for convenience
-export * from '@/generated/client';
+export * from '@prisma/client';
 
 // Define the shape of a Timesheet with its relations included
 export type TimesheetWithDetails = Prisma.TimesheetGetPayload<{

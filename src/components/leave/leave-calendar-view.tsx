@@ -4,7 +4,7 @@ import { useState, useMemo } from 'react';
 import { startOfMonth, endOfMonth, startOfWeek, endOfWeek, eachDayOfInterval, format, isSameMonth, isSameDay, addMonths, subMonths } from 'date-fns';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
-import { Leave } from '@/generated/client';
+import { Leave } from '@prisma/client';
 
 interface LeaveCalendarViewProps {
     leaves: Leave[];

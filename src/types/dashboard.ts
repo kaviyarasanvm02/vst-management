@@ -1,4 +1,4 @@
-import { Project, Timesheet, TimesheetEntry, User, Role, Customer } from '@/generated/client';
+import { Project, Timesheet, TimesheetEntry, User, Role, Customer } from '@prisma/client';
 import { TimesheetWithDetails } from '@/types';
 
 export interface EmployeeWithStats extends User {
