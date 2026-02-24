@@ -1,4 +1,3 @@
-import prisma from '@/lib/db';
 import { getCurrentUser } from '@/app/lib/session';
 import { redirect, notFound } from 'next/navigation';
 import { format, startOfMonth, endOfMonth } from 'date-fns';
@@ -12,6 +11,8 @@ import {
     FolderOpenIcon
 } from '@heroicons/react/24/outline';
 import {
+    EmployeeMonthlyReport,
+    ProjectTimesheetEntry,
     fetchAllEmployeesForReport,
     fetchProjectsForFilter,
     fetchEmployeeMonthlyReport,
@@ -60,18 +61,15 @@ export default async function ConsolidatedReportsPage({
     return notFound();
 }
 
+import { AttendanceService } from '@/services/attendance-service';
+import { AttendanceWithUser } from '@/types';
+
 async function AttendanceReport() {
     const user = await getCurrentUser();
     if (!user) redirect('/auth/login');
 
-    const start = startOfMonth(new Date());
-    const end = endOfMonth(new Date());
-
-    const attendance = await prisma.attendance.findMany({
-        where: { date: { gte: start, lte: end } },
-        include: { user: { include: { branch: true } } },
-        orderBy: { date: 'desc' },
-    });
+    const attendance: AttendanceWithUser[] = await AttendanceService.getAttendanceByMonth();
+    const stats = AttendanceService.getAttendanceStats(attendance);
 
     return (
         <div className="space-y-6 pb-12">
@@ -89,15 +87,15 @@ async function AttendanceReport() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
                     <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Total Present</p>
-                    <p className="text-2xl font-bold text-emerald-600 mt-2">{attendance.filter((a: any) => a.status === 'PRESENT' || a.status === 'LATE').length}</p>
+                    <p className="text-2xl font-bold text-emerald-600 mt-2">{stats.totalPresent}</p>
                 </div>
                 <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
                     <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Total Late</p>
-                    <p className="text-2xl font-bold text-amber-500 mt-2">{attendance.filter((a: any) => a.status === 'LATE').length}</p>
+                    <p className="text-2xl font-bold text-amber-500 mt-2">{stats.totalLate}</p>
                 </div>
                 <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
                     <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Early Departures</p>
-                    <p className="text-2xl font-bold text-orange-500 mt-2">{attendance.filter((a: any) => a.status === 'LEFT_EARLY').length}</p>
+                    <p className="text-2xl font-bold text-orange-500 mt-2">{stats.earlyDepartures}</p>
                 </div>
             </div>
 
@@ -116,7 +114,7 @@ async function AttendanceReport() {
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-100">
-                            {attendance.map((a: any) => (
+                            {attendance.map((a: AttendanceWithUser) => (
                                 <tr key={a.id} className="hover:bg-slate-50/50 transition-colors">
                                     <td className="px-6 py-4 font-medium text-slate-900">{a.user.name}</td>
                                     <td className="px-6 py-4 text-slate-600">{a.user.branch?.name || '—'}</td>
@@ -157,14 +155,14 @@ async function AttendanceReport() {
     );
 }
 
-async function EmployeeReport({ searchParams }: { searchParams: any }) {
+async function EmployeeReport({ searchParams }: { searchParams: { userId?: string, month?: string, year?: string } }) {
     const now = new Date();
     const selectedMonth = searchParams.month || String(now.getMonth() + 1);
     const selectedYear = searchParams.year || String(now.getFullYear());
     const selectedUserId = searchParams.userId || '';
 
     const employees = await fetchAllEmployeesForReport();
-    const report = selectedUserId
+    const report: EmployeeMonthlyReport | null = selectedUserId
         ? await fetchEmployeeMonthlyReport(selectedUserId, selectedMonth, selectedYear)
         : null;
 
@@ -358,14 +356,14 @@ async function EmployeeReport({ searchParams }: { searchParams: any }) {
     );
 }
 
-async function ProjectReport({ searchParams }: { searchParams: any }) {
+async function ProjectReport({ searchParams }: { searchParams: { projectId?: string, month?: string, year?: string } }) {
     const now = new Date();
     const selectedProject = searchParams.projectId || '';
     const selectedMonth = searchParams.month || String(now.getMonth() + 1);
     const selectedYear = searchParams.year || String(now.getFullYear());
 
     const projects = await fetchProjectsForFilter();
-    const entries = selectedProject
+    const entries: ProjectTimesheetEntry[] = selectedProject
         ? await fetchTimesheetsByProject(selectedProject, selectedMonth, selectedYear)
         : [];
 

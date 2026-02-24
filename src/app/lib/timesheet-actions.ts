@@ -6,13 +6,10 @@ import { revalidatePath } from 'next/cache';
 import { createError } from '@/lib/api';
 import { redirect } from 'next/navigation';
 import { auth } from '@/lib/auth';
-import { TimesheetWithDetails } from '@/types';
+import { ActionResult, TimesheetWithDetails } from '@/types';
 import { getDistanceFromLatLonInMeters } from '@/lib/geo';
 
-
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export async function createTimesheet(prevState: any, formData: FormData) {
+export async function createTimesheet(prevState: ActionResult, formData: FormData): Promise<ActionResult> {
     const session = await auth();
     if (!session?.user?.id) {
         return createError('Not authenticated');
@@ -22,7 +19,7 @@ export async function createTimesheet(prevState: any, formData: FormData) {
     // Converting FormData to object for easier handling
     const rawData = {
         date: formData.get('date'),
-        projectName: formData.get('projectName'), // Changed from projectId
+        projectId: formData.get('projectId'),
         description: formData.get('description'),
         activity: formData.get('activity'),
         location: formData.get('location'),
@@ -33,32 +30,23 @@ export async function createTimesheet(prevState: any, formData: FormData) {
     const validatedFields = CreateTimesheetSchema.safeParse(rawData);
 
     if (!validatedFields.success) {
-        return createError('Missing Fields. Failed to Create Timesheet.', validatedFields.error.flatten().fieldErrors);
+        return {
+            error: 'Missing Fields. Failed to Create Timesheet.',
+            fieldErrors: validatedFields.error.flatten().fieldErrors,
+        };
     }
 
-    const { date, projectName, description, activity, location, hours } = validatedFields.data;
+    const { date, projectId, description, activity, location, hours } = validatedFields.data;
     const dateObj = new Date(date);
 
     try {
-        // Find or Create Project
-        let project = await prisma.project.findFirst({
-            where: {
-                name: {
-                    equals: projectName,
-                    mode: 'insensitive', // Case-insensitive match
-                }
-            }
+        // Verify Project exists
+        const project = await prisma.project.findUnique({
+            where: { id: projectId }
         });
 
         if (!project) {
-            project = await prisma.project.create({
-                data: {
-                    name: projectName,
-                    code: projectName.toUpperCase().replace(/[^A-Z0-9]/g, '_'), // Generate code from name
-                    isActive: true,
-                    // client: 'Internal' // Removed as it's not in schema
-                }
-            });
+            return { error: 'Project not found.' };
         }
 
         // Check if timesheet for date exists for user
@@ -95,20 +83,24 @@ export async function createTimesheet(prevState: any, formData: FormData) {
         const allEntries = await prisma.timesheetEntry.findMany({
             where: { timesheetId: timesheet.id }
         });
-        const total = allEntries.reduce((acc, curr) => acc + curr.hours, 0);
+        const total = allEntries.reduce((acc: number, curr: any) => acc + curr.hours, 0);
 
         await prisma.timesheet.update({
             where: { id: timesheet.id },
             data: { totalHours: total }
         });
 
+        revalidatePath('/dashboard/timesheets');
+        return { success: 'Timesheet created successfully.' };
+
     } catch (error) {
         console.error("Create Timesheet Error:", error);
-        return createError('Database Error: Failed to Create Timesheet.');
+        return { error: 'Database Error: Failed to Create Timesheet.' };
     }
 
     revalidatePath('/dashboard/timesheets');
-    redirect('/dashboard/timesheets');
+    // redirect('/dashboard/timesheets'); // No redirect needed if using useActionState with toast
+    return { success: 'Timesheet Entry Saved!' };
 }
 
 export async function fetchProjects() {
@@ -184,10 +176,10 @@ export async function fetchPendingTimesheets(): Promise<TimesheetWithDetails[]> 
     });
 }
 
-export async function updateTimesheetStatus(id: string, status: 'APPROVED' | 'REJECTED') {
+export async function updateTimesheetStatus(id: string, status: 'APPROVED' | 'REJECTED'): Promise<ActionResult> {
     const session = await auth();
     // Verify admin role
-    if (!session?.user?.id) return { message: 'Unauthorized' };
+    if ((session?.user as any)?.role?.code !== 'ADMIN') return { error: 'Unauthorized' };
 
     try {
         await prisma.timesheet.update({
@@ -196,8 +188,9 @@ export async function updateTimesheetStatus(id: string, status: 'APPROVED' | 'RE
         });
         revalidatePath('/admin/approvals');
         revalidatePath('/dashboard/timesheets');
+        return { success: `Status updated to ${status}` };
     } catch (error) {
-        return { message: 'Failed to update status' };
+        return { error: 'Failed to update status' };
     }
 }
 
@@ -274,8 +267,8 @@ async function _fetchDashboardData(userId: string, isAdmin: boolean): Promise<Da
         const d = new Date();
         d.setDate(d.getDate() - i);
         const dateString = d.toISOString().split('T')[0];
-        const dayEntries = chartTimesheets.filter(t => t.date.toISOString().startsWith(dateString));
-        const total = dayEntries.reduce((acc, t) => acc + (t.totalHours || 0), 0);
+        const dayEntries = chartTimesheets.filter((t: any) => t.date.toISOString().startsWith(dateString));
+        const total = dayEntries.reduce((acc: number, t: any) => acc + (t.totalHours || 0), 0);
         chartData.push({ name: days[d.getDay()], hours: total });
     }
 
@@ -353,8 +346,8 @@ export async function fetchEmployeesWithStats(month?: string, year?: string): Pr
     });
 
     // Calculate stats and location
-    return users.map(user => {
-        const totalHours = user.timesheets.reduce((acc, ts) => acc + ts.totalHours, 0);
+    return users.map((user: any) => {
+        const totalHours = user.timesheets.reduce((acc: number, ts: any) => acc + ts.totalHours, 0);
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { timesheets, attendance, ...userCore } = user;
 
@@ -428,7 +421,7 @@ export async function fetchUserTimesheetsById(userId: string) {
 }
 
 // ─── Copy Yesterday's Entries ─────────────────────────────────────────────────
-export async function copyYesterdayEntries(): Promise<{ success?: string; error?: string }> {
+export async function copyYesterdayEntries(): Promise<ActionResult> {
     const session = await auth();
     if (!session?.user?.id) return { error: 'Not authenticated' };
 
@@ -457,7 +450,7 @@ export async function copyYesterdayEntries(): Promise<{ success?: string; error?
         return { error: 'You already have a timesheet entry for today' };
     }
 
-    const totalHours = lastTimesheet.entries.reduce((acc, e) => acc + e.hours, 0);
+    const totalHours = lastTimesheet.entries.reduce((acc: number, e: any) => acc + e.hours, 0);
 
     const newTimesheet = await prisma.timesheet.create({
         data: {
@@ -465,7 +458,7 @@ export async function copyYesterdayEntries(): Promise<{ success?: string; error?
             date: today,
             totalHours,
             entries: {
-                create: lastTimesheet.entries.map(e => ({
+                create: lastTimesheet.entries.map((e: any) => ({
                     projectId: e.projectId,
                     description: e.description,
                     activity: e.activity,
@@ -477,5 +470,5 @@ export async function copyYesterdayEntries(): Promise<{ success?: string; error?
     });
 
     revalidatePath('/dashboard/timesheets');
-    return { success: `Copied ${lastTimesheet.entries.length} entries from ${lastTimesheet.date.toDateString()} (${newTimesheet.id})` };
+    return { success: `Copied ${lastTimesheet.entries.length} entries from ${lastTimesheet.date.toDateString()}` };
 }

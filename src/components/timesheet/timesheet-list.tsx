@@ -67,7 +67,7 @@ export function TimesheetList({ timesheets }: TimesheetListProps) {
                                             <div className="flex items-center gap-3">
                                                 <div className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-slate-100 text-slate-700 text-sm font-bold">
                                                     <ClockIcon className="h-4 w-4 text-slate-500" />
-                                                    {entry.hours}h
+                                                    {Number(entry.hours).toFixed(2)}h
                                                 </div>
                                                 <StatusBadge status={ts.status} />
                                             </div>

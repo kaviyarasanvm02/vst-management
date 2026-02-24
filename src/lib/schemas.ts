@@ -17,7 +17,7 @@ export const RegisterSchema = z.object({
 
 export const CreateTimesheetSchema = z.object({
     date: z.string(),
-    projectName: z.string().min(1, "Project name is required"),
+    projectId: z.string().min(1, "Project is required"),
     description: z.string().min(1, "Description is required"),
     activity: z.string().optional(),
     location: z.string().optional(),

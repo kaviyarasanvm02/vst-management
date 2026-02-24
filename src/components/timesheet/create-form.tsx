@@ -4,13 +4,14 @@ import { createTimesheet } from '@/app/lib/timesheet-actions';
 import { useFormStatus } from 'react-dom';
 import { Button } from '@/components/ui/button';
 import { useActionState } from 'react';
+import { ActionResult } from '@/types';
 import { BriefcaseIcon, MapPinIcon, ClockIcon, PencilSquareIcon, CalendarIcon } from '@heroicons/react/24/outline';
 import { useState, useEffect } from 'react';
 import dayjs from 'dayjs';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function CreateTimesheetForm({ projects }: { projects: any[] }) {
-    const initialState = { message: '', errors: {} };
+    const initialState: ActionResult = {};
     const [state, dispatch] = useActionState(createTimesheet, initialState);
 
     // Controlled state
@@ -20,7 +21,7 @@ export default function CreateTimesheetForm({ projects }: { projects: any[] }) {
     const [hours, setHours] = useState<string>('');
 
     // Project state
-    const [projectName, setProjectName] = useState<string>('');
+    const [projectId, setProjectId] = useState<string>('');
     const [location, setLocation] = useState<string>('KalayarKoil office');
 
     // Calculate hours helper
@@ -46,6 +47,7 @@ export default function CreateTimesheetForm({ projects }: { projects: any[] }) {
             {/* Hidden Inputs for Server Action 'FormData' */}
             <input type="hidden" name="date" value={date} />
             <input type="hidden" name="hours" value={hours} />
+            <input type="hidden" name="projectId" value={projectId} />
 
             <div className="glass-card rounded-2xl overflow-hidden p-1 bg-white shadow-xl border border-slate-100">
                 <div className="bg-gradient-to-r from-indigo-50 to-violet-50 px-8 py-6 border-b border-indigo-100/50">
@@ -78,40 +80,41 @@ export default function CreateTimesheetForm({ projects }: { projects: any[] }) {
                                     onChange={(e) => setDate(e.target.value)}
                                     className="block w-full rounded-xl border-slate-200 bg-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm py-2.5"
                                 />
-                                {state?.errors?.date && (
-                                    <p className="mt-1 text-sm text-red-600">{state.errors.date}</p>
+                                {state?.fieldErrors?.date && (
+                                    <p className="mt-1 text-sm text-red-600">{state.fieldErrors.date[0]}</p>
                                 )}
                             </div>
 
                             {/* Project */}
-                            <div className="md:col-span-2">
-                                <label htmlFor="projectName" className="block text-sm font-bold text-slate-700 mb-2">Project</label>
-                                <div className="relative">
-                                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                        <BriefcaseIcon className="h-5 w-5 text-slate-400" />
-                                    </div>
-                                    <input
-                                        id="projectName"
-                                        name="projectName"
-                                        type="text"
-                                        list="projects-list"
-                                        required
-                                        placeholder="Type project name..."
-                                        value={projectName}
-                                        onChange={(e) => setProjectName(e.target.value)}
-                                        className="block w-full pl-10 rounded-xl border-slate-200 bg-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm py-2.5"
-                                    />
-                                    <datalist id="projects-list">
-                                        {projects.map((p) => (
-                                            <option key={p.code} value={p.name} />
-                                        ))}
-                                    </datalist>
+                            <label htmlFor="projectId" className="block text-sm font-bold text-slate-700 mb-2">Project</label>
+                            <div className="relative">
+                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <BriefcaseIcon className="h-5 w-5 text-slate-400" />
                                 </div>
-                                <p className="text-xs text-slate-500 mt-1.5 ml-1">Type matching name or enter a new one to create it.</p>
-                                {state?.errors?.projectName && (
-                                    <p className="mt-1 text-sm text-red-600">{state.errors.projectName}</p>
-                                )}
+                                <select
+                                    id="projectId"
+                                    name="projectId"
+                                    required
+                                    value={projectId}
+                                    onChange={(e) => setProjectId(e.target.value)}
+                                    className="block w-full pl-10 rounded-xl border-slate-200 bg-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm py-2.5 appearance-none"
+                                >
+                                    <option value="">Select a project...</option>
+                                    {projects.map((p) => (
+                                        <option key={p.id} value={p.id}>
+                                            {p.name} ({p.code})
+                                        </option>
+                                    ))}
+                                </select>
+                                <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                    <svg className="h-4 w-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                    </svg>
+                                </div>
                             </div>
+                            {state?.fieldErrors?.projectId && (
+                                <p className="mt-1 text-sm text-red-600">{state.fieldErrors.projectId[0]}</p>
+                            )}
                         </div>
                     </div>
 
@@ -235,12 +238,20 @@ export default function CreateTimesheetForm({ projects }: { projects: any[] }) {
 
                     {/* Errors & Actions */}
                     <div id="status-error" aria-live="polite" aria-atomic="true">
-                        {state.message && (
+                        {state.error && (
                             <div className="p-4 bg-red-50 border border-red-100 rounded-xl flex items-center gap-3 animate-pulse">
                                 <div className="flex-shrink-0 h-8 w-8 rounded-full bg-red-100 flex items-center justify-center text-red-600">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" /></svg>
                                 </div>
-                                <p className="text-sm font-medium text-red-800">{state.message}</p>
+                                <p className="text-sm font-medium text-red-800">{state.error}</p>
+                            </div>
+                        )}
+                        {state.success && (
+                            <div className="p-4 bg-green-50 border border-green-100 rounded-xl flex items-center gap-3">
+                                <div className="flex-shrink-0 h-8 w-8 rounded-full bg-green-100 flex items-center justify-center text-green-600">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+                                </div>
+                                <p className="text-sm font-medium text-green-800">{state.success}</p>
                             </div>
                         )}
                     </div>

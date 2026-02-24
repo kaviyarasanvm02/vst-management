@@ -1,65 +1,74 @@
+import { Role, User, Branch, Customer, Project, Timesheet, TimesheetEntry, Attendance, Leave, Payroll } from "@prisma/client";
 
-import { Prisma } from '@prisma/client';
-
-// Re-export Prisma types for convenience
-export * from '@prisma/client';
-
-// Define the shape of a Timesheet with its relations included
-export type TimesheetWithDetails = Prisma.TimesheetGetPayload<{
-    include: {
-        entries: {
-            include: {
-                project: {
-                    include: {
-                        customer: true;
-                    };
-                };
-            };
-        };
-        user: {
-            include: {
-                role: true;
-            };
-        };
-    };
-}>;
-
-export type TimesheetEntryWithProject = Prisma.TimesheetEntryGetPayload<{
-    include: {
-        project: {
-            include: {
-                customer: true;
-            };
-        };
-    };
-}>;
+export type {
+    Role,
+    User,
+    Branch,
+    Customer,
+    Project,
+    Timesheet,
+    TimesheetEntry,
+    Attendance,
+    Leave,
+    Payroll
+};
 
 export enum TimesheetStatus {
     PENDING = 'PENDING',
     APPROVED = 'APPROVED',
-    REJECTED = 'REJECTED',
+    REJECTED = 'REJECTED'
 }
 
-/** Shared type for a Task with its project and assignee relations. */
-export interface TaskWithDetails {
-    id: string;
-    title: string;
-    description: string | null;
-    status: string;
-    priority: string;
-    dueDate: Date | null;
-    createdAt: Date;
-    assignedTo: { id: string; name: string | null };
-    project: {
-        id: string;
-        name: string;
-        customer: { name: string } | null;
+export type ActionResult = {
+    success?: string;
+    error?: string;
+    fieldErrors?: Record<string, string[]>;
+};
+
+export type UserWithRoleAndBranch = User & {
+    role: Role | null;
+    branch: Branch | null;
+};
+
+export type AttendanceWithUser = Attendance & {
+    user: User & {
+        branch: Branch | null;
+    };
+};
+
+export type TimesheetWithDetails = Timesheet & {
+    user?: User | null;
+    entries: (TimesheetEntry & {
+        project: Project & {
+            customer: Customer | null;
+        };
+    })[];
+};
+
+export type ProjectWithCustomerAndManager = Project & {
+    customer: Customer | null;
+    manager: User | null;
+};
+
+export interface EmployeeWithStats extends User {
+    role: Role | null;
+    totalHours: number;
+    currentLocation?: string;
+    _count: {
+        timesheets: number;
     };
 }
 
-/** Generic server action response type — replaces `any` for prevState params. */
-export type ActionState = {
-    message?: string;
-    error?: string;
-    errors?: Record<string, string[]>;
-} | null;
+export interface DashboardStats {
+    isAdmin: boolean;
+    totalHoursThisWeek: number;
+    totalOrgHoursThisWeek?: number;
+    activeProjects: number;
+    pendingTimesheets?: number;
+    totalEmployees?: number;
+    recentActivity: TimesheetWithDetails[];
+    chartData: {
+        name: string;
+        hours: number;
+    }[];
+}

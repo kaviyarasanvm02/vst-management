@@ -3,7 +3,8 @@
 import prisma from '@/lib/db';
 import { revalidatePath } from 'next/cache';
 import { getCurrentUser } from './session';
-import { startOfMonth, endOfMonth, getDaysInMonth } from 'date-fns';
+import { startOfMonth, endOfMonth, getDaysInMonth, startOfDay } from 'date-fns';
+import { PayrollService } from '@/services/payroll-service';
 
 // --- Types ---
 export type SalaryStructureData = {
@@ -60,107 +61,54 @@ export async function calculatePayroll(month: string, year: number) {
     const user = await getCurrentUser();
     if (!user || user.role?.code !== 'ADMIN') return { error: 'Unauthorized' };
 
-    // Format month for DB: "YYYY-MM"
     const monthStr = `${year}-${month.padStart(2, '0')}`;
     const startDate = startOfMonth(new Date(year, parseInt(month) - 1));
     const endDate = endOfMonth(startDate);
     const totalDays = getDaysInMonth(startDate);
 
     try {
-        // 1. Get all employees (excluding Admins maybe? No, paying Admins is fine too)
         const employees = await prisma.user.findMany({
-            // where: { isActive: true }, 
             include: { salaryStructure: true }
         });
 
         let processedCount = 0;
 
         for (const emp of employees) {
-            if (!emp.salaryStructure) continue; // Skip if no salary structure defined
-
-            // 2. Get Attendance Stats
-            const attendance = await prisma.attendance.findMany({
-                where: {
-                    userId: emp.id,
-                    date: {
-                        gte: startDate,
-                        lte: endDate
-                    }
-                }
-            });
-
-            // Count days (Simplified Logic)
-            // Present, Half Day, etc.
-            let presentDays = 0;
-            attendance.forEach(a => {
-                if (a.status === 'PRESENT') presentDays += 1;
-                else if (a.status === 'HALF_DAY') presentDays += 0.5;
-                // Add logic for LEAVE/HOLIDAY if integrated
-            });
-
-            // Calculate LOP (Loss of Pay)
-            // Assuming default working days = totalDays - Weekends? 
-            // For simplicity: Absent = TotalDays - PresentDays. 
-            // Better: We should check Leaves.
-            const absentDays = Math.max(0, totalDays - presentDays); // Very crude. 
-            // In a real system, we'd check holidays + weekends.
-            // Let's assume standard month is 30 days for calculation or use actual totalDays.
-
             if (!emp.salaryStructure) continue;
-            const structure = emp.salaryStructure;
-            const gross = structure.basic + structure.hra + structure.allowances;
-            const perDaySalary = gross / totalDays;
 
-            const lopAmount = absentDays * perDaySalary;
+            const { presentDays, absentDays } = await PayrollService.calculateAttendanceStats(
+                emp.id, startDate, endDate, totalDays
+            );
 
-            const grossEarnings = gross - lopAmount;
-            const totalDeductions = structure.pf + structure.pt + structure.deductions;
-            const netSalary = grossEarnings - totalDeductions;
+            const components = PayrollService.calculateSalaryComponents(
+                emp.salaryStructure, totalDays, absentDays
+            );
 
-            // 3. Create Payroll Record
             await prisma.payroll.upsert({
-                where: {
-                    userId_month: {
-                        userId: emp.id,
-                        month: monthStr
-                    }
-                },
+                where: { userId_month: { userId: emp.id, month: monthStr } },
                 create: {
                     userId: emp.id,
                     month: monthStr,
                     year,
                     monthNumber: parseInt(month),
-                    basic: structure.basic,
-                    hra: structure.hra,
-                    allowances: structure.allowances,
-                    grossEarnings,
-                    pf: structure.pf,
-                    pt: structure.pt,
-                    deductions: structure.deductions,
-                    totalDeductions,
-                    netSalary,
+                    basic: emp.salaryStructure.basic,
+                    hra: emp.salaryStructure.hra,
+                    allowances: emp.salaryStructure.allowances,
+                    grossEarnings: components.grossEarnings,
+                    pf: emp.salaryStructure.pf,
+                    pt: emp.salaryStructure.pt,
+                    deductions: emp.salaryStructure.deductions,
+                    totalDeductions: components.totalDeductions,
+                    netSalary: components.netSalary,
                     totalDays,
                     presentDays,
                     absentDays,
-                    lopDays: absentDays,
-                    lopAmount,
+                    lopDays: components.lopDays,
+                    lopAmount: components.lopAmount,
                     status: 'DRAFT'
                 },
                 update: {
-                    basic: structure.basic,
-                    hra: structure.hra,
-                    allowances: structure.allowances,
-                    grossEarnings,
-                    pf: structure.pf,
-                    pt: structure.pt,
-                    deductions: structure.deductions,
-                    totalDeductions,
-                    netSalary,
-                    totalDays,
-                    presentDays,
-                    absentDays,
-                    lopDays: absentDays,
-                    lopAmount,
+                    ...components,
                     status: 'DRAFT',
                     generatedAt: new Date()
                 }
@@ -170,12 +118,12 @@ export async function calculatePayroll(month: string, year: number) {
 
         revalidatePath('/admin/payroll');
         return { success: `Payroll calculated for ${processedCount} employees.` };
-
     } catch (error) {
         console.error('Calculate Payroll Error:', error);
         return { error: 'Failed to calculate payroll.' };
     }
 }
+
 
 export async function getPayrolls(month: string) {
     const user = await getCurrentUser();

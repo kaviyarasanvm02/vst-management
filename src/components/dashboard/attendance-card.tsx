@@ -1,25 +1,21 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useOptimistic, useTransition } from 'react';
 import { punchIn, punchOut, type PunchResult } from '@/app/lib/attendance-actions';
 import { getDistanceFromLatLonInMeters } from '@/lib/geo';
 import { MapPinIcon, ClockIcon } from '@heroicons/react/24/outline';
 import toast from 'react-hot-toast';
-import clsx from 'clsx'; // Assuming clsx is installed
+import clsx from 'clsx';
 import { format } from 'date-fns';
+import { Attendance, Branch } from '@/types';
 
 type AttendanceCardProps = {
-    todayAttendance: any; // Using any for simplicity for now, ideally strictly typed
-    userBranch: {
-        name: string;
-        latitude: number;
-        longitude: number;
-        radius: number;
-    } | null;
+    todayAttendance: Attendance | null;
+    branches: Branch[];
 };
 
-export function AttendanceCard({ todayAttendance, branches }: { todayAttendance: any, branches: any[] }) {
-    const [loading, setLoading] = useState(false);
+export function AttendanceCard({ todayAttendance, branches }: AttendanceCardProps) {
+    const [isPending, startTransition] = useTransition();
     const [currentTime, setCurrentTime] = useState(new Date());
     const [location, setLocation] = useState<{ lat: number; lng: number } | null>(null);
     const [nearestBranch, setNearestBranch] = useState<any | null>(null);
@@ -27,6 +23,11 @@ export function AttendanceCard({ todayAttendance, branches }: { todayAttendance:
     const [geoError, setGeoError] = useState<string | null>(null);
     const [punchMode, setPunchMode] = useState('OFFICE');
     const [note, setNote] = useState('');
+
+    const [optimisticAttendance, addOptimisticAttendance] = useOptimistic(
+        todayAttendance,
+        (state, newAttendance: Attendance | null) => newAttendance
+    );
 
     // Clock
     useEffect(() => {
@@ -46,13 +47,10 @@ export function AttendanceCard({ todayAttendance, branches }: { todayAttendance:
             return;
         }
 
-        console.log(`Requesting location (High Accuracy: ${highAccuracy})...`);
-
         navigator.geolocation.getCurrentPosition(
             (position) => {
                 const lat = position.coords.latitude;
                 const lng = position.coords.longitude;
-                console.log('Location received:', lat, lng);
                 setLocation({ lat, lng });
                 setGeoError(null);
 
@@ -73,33 +71,11 @@ export function AttendanceCard({ todayAttendance, branches }: { todayAttendance:
                 }
             },
             (error) => {
-                // Log detailed error info to console
-                console.error('Geolocation Error Details:', {
-                    code: error.code,
-                    message: error.message,
-                    originalError: error
-                });
-
                 if (highAccuracy) {
-                    console.log('High accuracy failed, retrying with low accuracy...');
-                    getLocation(false); // Retry with low accuracy
+                    getLocation(false);
                     return;
                 }
-
-                switch (error.code) {
-                    case 1: // PERMISSION_DENIED
-                        setGeoError('Location permission denied. Please enable it in your browser settings.');
-                        break;
-                    case 2: // POSITION_UNAVAILABLE
-                        setGeoError('Location information is unavailable. Try moving to an open area.');
-                        break;
-                    case 3: // TIMEOUT
-                        setGeoError('The request to get user location timed out.');
-                        break;
-                    default:
-                        setGeoError(`Location Error: ${error.message || 'Unknown error'}`);
-                        break;
-                }
+                setGeoError(`Location Error: ${error.message || 'Unknown error'}`);
             },
             { enableHighAccuracy: highAccuracy, timeout: 10000, maximumAge: 0 }
         );
@@ -108,9 +84,8 @@ export function AttendanceCard({ todayAttendance, branches }: { todayAttendance:
     // Refresh location periodically
     useEffect(() => {
         getLocation();
-        const interval = setInterval(getLocation, 30000); // Check every 30s
+        const interval = setInterval(getLocation, 30000);
         return () => clearInterval(interval);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [branches]);
 
     const handlePunchIn = async () => {
@@ -120,32 +95,51 @@ export function AttendanceCard({ todayAttendance, branches }: { todayAttendance:
             return;
         }
 
-        // Optional Frontend check - REMOVED strictly for "Too Far" blocking
-        // We now allow punching in from anywhere.
-        // if (punchMode === 'OFFICE' && nearestBranch && distance !== null && distance > nearestBranch.radius) {
-        //     toast.error(`You are too far from ${nearestBranch.name} (${Math.round(distance)}m).`);
-        //     return;
-        // }
-
         if (!note.trim()) {
             toast.error('Please enter your daily goal.');
             return;
         }
 
-        setLoading(true);
-        try {
-            const result: PunchResult = await punchIn(location.lat, location.lng, punchMode, note);
-            if (result.error) {
-                toast.error(result.error);
-            } else {
-                toast.success(result.success || 'Punched In!');
-                setNote('');
-            }
-        } catch (e) {
-            toast.error('Something went wrong.');
-        } finally {
-            setLoading(false);
+        // Haptic feedback
+        if (typeof navigator !== 'undefined' && navigator.vibrate) {
+            navigator.vibrate([50]);
         }
+
+        startTransition(async () => {
+            // Optimistic update
+            const tempAttendance: Attendance = {
+                id: 'temp-id',
+                userId: 'temp-user',
+                date: new Date(),
+                clockIn: new Date(),
+                clockOut: null,
+                punchMode,
+                status: 'PRESENT',
+                createdAt: new Date(),
+                updatedAt: new Date(),
+                clockInLat: location.lat,
+                clockInLng: location.lng,
+                clockOutLat: null,
+                clockOutLng: null,
+                ipAddress: '0.0.0.0',
+                punchInNote: note,
+                punchOutNote: null,
+            };
+
+            addOptimisticAttendance(tempAttendance);
+
+            try {
+                const result: PunchResult = await punchIn(location.lat, location.lng, punchMode, note);
+                if (result.error) {
+                    toast.error(result.error);
+                } else {
+                    toast.success(result.success || 'Punched In!');
+                    setNote('');
+                }
+            } catch (e) {
+                toast.error('Something went wrong.');
+            }
+        });
     };
 
     const handlePunchOut = async () => {
@@ -155,24 +149,37 @@ export function AttendanceCard({ todayAttendance, branches }: { todayAttendance:
             return;
         }
 
-        setLoading(true);
-        try {
-            const result: PunchResult = await punchOut(location.lat, location.lng, note);
-            if (result.error) {
-                toast.error(result.error);
-            } else {
-                toast.success(result.success || 'Punched Out!');
-                setNote('');
-            }
-        } catch (e) {
-            toast.error('Something went wrong.');
-        } finally {
-            setLoading(false);
+        // Haptic feedback
+        if (typeof navigator !== 'undefined' && navigator.vibrate) {
+            navigator.vibrate([50, 30, 50]);
         }
+
+        startTransition(async () => {
+            // Optimistic update
+            if (optimisticAttendance) {
+                addOptimisticAttendance({
+                    ...optimisticAttendance,
+                    clockOut: new Date(),
+                    punchOutNote: note
+                });
+            }
+
+            try {
+                const result: PunchResult = await punchOut(location.lat, location.lng, note);
+                if (result.error) {
+                    toast.error(result.error);
+                } else {
+                    toast.success(result.success || 'Punched Out!');
+                    setNote('');
+                }
+            } catch (e) {
+                toast.error('Something went wrong.');
+            }
+        });
     };
 
-    const isPunchedIn = !!todayAttendance && !todayAttendance.clockOut;
-    const isPunchedOut = !!todayAttendance && !!todayAttendance.clockOut;
+    const isPunchedIn = !!optimisticAttendance && !optimisticAttendance.clockOut;
+    const isPunchedOut = !!optimisticAttendance && !!optimisticAttendance.clockOut;
 
     return (
         <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 flex flex-col md:flex-row items-center justify-between gap-6 overflow-hidden relative">
@@ -180,35 +187,38 @@ export function AttendanceCard({ todayAttendance, branches }: { todayAttendance:
             <div className="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-indigo-50 rounded-full opacity-50 blur-3xl pointer-events-none"></div>
 
             {/* Time & Location Info */}
-            <div className="flex flex-col gap-2 z-10 w-full md:w-auto">
-                <div className="flex items-center gap-2 text-indigo-600 font-medium text-sm bg-indigo-50 w-fit px-3 py-1 rounded-full">
-                    <ClockIcon className="h-4 w-4" />
-                    <span>{format(currentTime, 'EEEE, d MMMM')}</span>
+            <div className="flex flex-col gap-3 z-10 w-full md:w-auto">
+                <div className="flex items-center gap-2 text-indigo-600 font-bold text-[10px] bg-indigo-50 w-fit px-3 py-1.5 rounded-full uppercase tracking-widest shadow-sm">
+                    <ClockIcon className="h-3.5 w-3.5" />
+                    <span>{format(currentTime, 'EEEE, d MMM')}</span>
                 </div>
-                <h2 className="text-4xl font-bold text-slate-900 tracking-tight">
-                    {format(currentTime, 'h:mm:ss a')}
+                <h2 className="text-5xl font-black text-slate-900 tracking-tighter tabular-nums drop-shadow-sm">
+                    {format(currentTime, 'hh:mm:ss')}
+                    <span className="text-lg font-bold text-slate-400 ml-1 uppercase">{format(currentTime, 'a')}</span>
                 </h2>
 
                 {/* Branch Info */}
-                <div className="flex items-start gap-2 text-sm text-slate-500 mt-1">
-                    <MapPinIcon className="h-4 w-4 mt-0.5 shrink-0" />
+                <div className="flex items-start gap-2.5 text-sm text-slate-500 bg-slate-50/50 p-3 rounded-2xl border border-slate-100">
+                    <div className="p-2 bg-white rounded-xl shadow-sm border border-slate-100">
+                        <MapPinIcon className="h-5 w-5 text-indigo-500 shrink-0" />
+                    </div>
                     <div className="flex flex-col">
-                        <span className="font-semibold text-slate-700">
+                        <span className="font-bold text-slate-800 leading-tight">
                             {nearestBranch ? nearestBranch.name : 'Locating Branch...'}
                         </span>
                         {/* Distance / Status */}
                         {geoError ? (
-                            <span className="text-red-500 text-xs">{geoError}</span>
+                            <span className="text-rose-500 text-[10px] font-bold mt-0.5">{geoError}</span>
                         ) : (
                             <span className={clsx(
-                                "text-xs font-medium",
+                                "text-[10px] font-bold uppercase tracking-wider mt-0.5",
                                 distance !== null && nearestBranch && distance <= nearestBranch.radius ? "text-emerald-600" : "text-amber-600"
                             )}>
                                 {location ? (
                                     nearestBranch ?
-                                        `${distance ? Math.round(distance) : 0}m away ${distance && distance > nearestBranch.radius ? '(Too Far)' : '(In Range)'}`
-                                        : 'Locating...'
-                                ) : 'Getting location...'}
+                                        `${distance ? Math.round(distance) : 0}m • ${distance && distance > nearestBranch.radius ? 'Out of Range' : 'In Range'}`
+                                        : 'Determining...'
+                                ) : 'Accessing GPS...'}
                             </span>
                         )}
                     </div>
@@ -222,8 +232,8 @@ export function AttendanceCard({ todayAttendance, branches }: { todayAttendance:
                         <p className="text-slate-500 text-sm font-medium">Shift Completed</p>
                         <p className="text-slate-900 font-bold text-lg">See you tomorrow!</p>
                         <div className="mt-2 text-xs text-slate-400">
-                            In: {format(new Date(todayAttendance.clockIn), 'h:mm a')} •
-                            Out: {format(new Date(todayAttendance.clockOut), 'h:mm a')}
+                            In: {optimisticAttendance?.clockIn ? format(new Date(optimisticAttendance.clockIn), 'h:mm a') : 'N/A'} •
+                            Out: {optimisticAttendance?.clockOut ? format(new Date(optimisticAttendance.clockOut), 'h:mm a') : 'N/A'}
                         </div>
                     </div>
                 ) : isPunchedIn ? (
@@ -231,10 +241,10 @@ export function AttendanceCard({ todayAttendance, branches }: { todayAttendance:
                         <div className="text-center">
                             <p className="text-xs text-slate-500 uppercase tracking-wide font-bold mb-1">Current Session</p>
                             <p className="text-emerald-600 font-bold text-2xl animate-pulse">
-                                Active ({todayAttendance.punchMode})
+                                Active ({optimisticAttendance?.punchMode})
                             </p>
                             <p className="text-xs text-slate-400 mt-1">
-                                Started at {format(new Date(todayAttendance.clockIn), 'h:mm a')}
+                                Started at {optimisticAttendance?.clockIn ? format(new Date(optimisticAttendance.clockIn), 'h:mm a') : 'N/A'}
                             </p>
                         </div>
 
@@ -250,14 +260,14 @@ export function AttendanceCard({ todayAttendance, branches }: { todayAttendance:
 
                         <button
                             onClick={handlePunchOut}
-                            disabled={loading || !note.trim()}
+                            disabled={isPending || !note.trim()}
                             className={clsx(
                                 "w-full rounded-xl py-3 px-6 font-bold text-white shadow-lg transition-all transform active:scale-95",
                                 "bg-red-500 hover:bg-red-600 shadow-red-500/30",
-                                (loading || !note.trim()) && "opacity-70 cursor-not-allowed"
+                                (isPending || !note.trim()) && "opacity-70 cursor-not-allowed"
                             )}
                         >
-                            {loading ? 'Punching Out...' : 'Punch Out'}
+                            {isPending ? 'Punching Out...' : 'Punch Out'}
                         </button>
                     </div>
                 ) : (
@@ -292,16 +302,16 @@ export function AttendanceCard({ todayAttendance, branches }: { todayAttendance:
 
                         <button
                             onClick={handlePunchIn}
-                            disabled={loading || !!geoError || !note.trim()}
+                            disabled={isPending || !!geoError || !note.trim()}
                             className={clsx(
                                 "w-full rounded-xl py-4 px-8 font-bold text-white text-lg shadow-lg transition-all transform hover:-translate-y-1 active:scale-95",
-                                !(loading || !!geoError || !note.trim())
+                                !(isPending || !!geoError || !note.trim())
                                     ? "bg-indigo-600 hover:bg-indigo-700 shadow-indigo-600/30"
                                     : "bg-slate-300 cursor-not-allowed transform-none hover:translate-y-0 active:scale-100 shadow-none",
-                                loading && "opacity-70"
+                                isPending && "opacity-70"
                             )}
                         >
-                            {loading ? 'Punching In...' : 'Punch In'}
+                            {isPending ? 'Punching In...' : 'Punch In'}
                         </button>
                         {punchMode === 'OFFICE' && distance !== null && nearestBranch && distance > nearestBranch.radius && (
                             <p className="text-center text-xs text-amber-600 mt-2 font-medium">
@@ -314,3 +324,4 @@ export function AttendanceCard({ todayAttendance, branches }: { todayAttendance:
         </div>
     );
 }
+

@@ -4,10 +4,13 @@ import {
     UserIcon,
     AtSymbolIcon,
     KeyIcon,
+    CheckCircleIcon,
     ExclamationCircleIcon,
-    ArrowRightIcon
+    ArrowRightIcon,
+    EyeIcon,
+    EyeSlashIcon
 } from '@heroicons/react/24/outline';
-import { useActionState } from 'react';
+import { useActionState, useState } from 'react';
 import { useFormStatus } from 'react-dom';
 import { registerUser } from '@/app/lib/auth-actions';
 import Link from 'next/link';
@@ -16,6 +19,8 @@ export default function SignupForm() {
     const initialState = { message: null, errors: {} };
     // @ts-expect-error - useActionState types can be tricky with server actions
     const [state, dispatch] = useActionState(registerUser, initialState);
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
     return (
         <form action={dispatch} className="space-y-5">
@@ -72,12 +77,23 @@ export default function SignupForm() {
                     <input
                         id="password"
                         name="password"
-                        type="password"
+                        type={showPassword ? 'text' : 'password'}
                         required
-                        className="peer block w-full rounded-lg border border-slate-300 bg-white py-3 pl-10 text-sm text-slate-900 placeholder:text-slate-400 focus:border-slate-500 focus:ring-2 focus:ring-slate-500/20 focus:outline-none transition-all"
+                        className="peer block w-full rounded-lg border border-slate-300 bg-white py-3 pl-10 pr-10 text-sm text-slate-900 placeholder:text-slate-400 focus:border-slate-500 focus:ring-2 focus:ring-slate-500/20 focus:outline-none transition-all"
                         placeholder="••••••••"
                     />
                     <KeyIcon className="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400 peer-focus:text-slate-500 transition-colors" />
+                    <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 focus:outline-none transition-colors"
+                    >
+                        {showPassword ? (
+                            <EyeSlashIcon className="h-5 w-5" />
+                        ) : (
+                            <EyeIcon className="h-5 w-5" />
+                        )}
+                    </button>
                 </div>
                 <div aria-live="polite" aria-atomic="true">
                     {state?.errors?.password && (
@@ -94,12 +110,23 @@ export default function SignupForm() {
                     <input
                         id="confirmPassword"
                         name="confirmPassword"
-                        type="password"
+                        type={showConfirmPassword ? 'text' : 'password'}
                         required
-                        className="peer block w-full rounded-lg border border-slate-300 bg-white py-3 pl-10 text-sm text-slate-900 placeholder:text-slate-400 focus:border-slate-500 focus:ring-2 focus:ring-slate-500/20 focus:outline-none transition-all"
+                        className="peer block w-full rounded-lg border border-slate-300 bg-white py-3 pl-10 pr-10 text-sm text-slate-900 placeholder:text-slate-400 focus:border-slate-500 focus:ring-2 focus:ring-slate-500/20 focus:outline-none transition-all"
                         placeholder="••••••••"
                     />
                     <KeyIcon className="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400 peer-focus:text-slate-500 transition-colors" />
+                    <button
+                        type="button"
+                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 focus:outline-none transition-colors"
+                    >
+                        {showConfirmPassword ? (
+                            <EyeSlashIcon className="h-5 w-5" />
+                        ) : (
+                            <EyeIcon className="h-5 w-5" />
+                        )}
+                    </button>
                 </div>
                 <div aria-live="polite" aria-atomic="true">
                     {state?.errors?.confirmPassword && (

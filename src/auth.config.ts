@@ -9,13 +9,13 @@ export const authConfig = {
         async session({ session, token }) {
             if (token.sub && session.user) {
                 session.user.id = token.sub
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 session.user.role = token.role as any
-                session.user.branch = token.branch as string | null
-                session.user.image = token.image as string | null // Pass image to session
+                session.user.branch = token.branch as any
+                session.user.image = (token.image as string) ?? null
             }
             return session
         },
+
         async jwt({ token }) {
             return token
         },

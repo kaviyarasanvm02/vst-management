@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import clsx from 'clsx';
+import { logout } from '@/app/lib/actions'; // Added this import
 import {
     HomeIcon,
     DocumentDuplicateIcon,
@@ -70,14 +71,28 @@ export default function SideNav({ isAdmin, userName, roleName, userImage }: Side
 
     return (
         <div className="flex h-full flex-col bg-[#0f172a] text-white border-r border-slate-800 shadow-2xl relative z-20 transition-all duration-300">
-            {/* Logo Section & Mobile Toggle */}
-            <div className="flex items-center justify-between p-4 md:p-0 md:block border-b border-slate-800/60 bg-[#0f172a]">
+            {/* Logo Section */}
+            <div className="flex items-center justify-between px-4 md:px-0 md:block border-b border-slate-800/60 bg-[#0f172a] h-16 md:h-24">
+                {/* Mobile Hamburger Toggle */}
+                <div className="flex-1 md:hidden">
+                    <button
+                        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                        className="p-2 rounded-lg text-slate-400 hover:text-white active:scale-95 transition-all"
+                    >
+                        {isMobileMenuOpen ? (
+                            <XMarkIcon className="w-6 h-6" />
+                        ) : (
+                            <Bars3Icon className="w-6 h-6" />
+                        )}
+                    </button>
+                </div>
+
                 <Link
-                    className="relative flex items-center gap-3 md:h-24 md:px-6 group transition-colors hover:bg-slate-900/50"
+                    className="relative flex items-center gap-3 md:px-6 group transition-colors"
                     href="/"
                 >
                     {/* Brand Icon */}
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white shadow-lg shadow-indigo-500/20 group-hover:scale-110 transition-transform duration-300 overflow-hidden">
+                    <div className="flex h-9 w-9 md:h-10 md:w-10 shrink-0 items-center justify-center rounded-xl bg-white shadow-lg shadow-indigo-500/20 group-hover:scale-110 transition-transform duration-300 overflow-hidden">
                         <Image
                             src="/logo.jpg"
                             alt="Vedhasoft Logo"
@@ -88,26 +103,23 @@ export default function SideNav({ isAdmin, userName, roleName, userImage }: Side
                     </div>
                     {/* Brand Text */}
                     <div className="flex flex-col">
-                        <span className="font-display text-lg font-bold text-white tracking-tight leading-none group-hover:text-indigo-100 transition-colors">
+                        <span className="font-display text-base md:text-lg font-bold text-white tracking-tight leading-none group-hover:text-indigo-100 transition-colors">
                             Vedhasoft
                         </span>
-                        <span className="text-[10px] font-medium text-slate-500 uppercase tracking-widest group-hover:text-slate-400 transition-colors">
+                        <span className="text-[9px] md:text-[10px] font-medium text-slate-500 uppercase tracking-widest group-hover:text-slate-400 transition-colors">
                             Technologies
                         </span>
                     </div>
                 </Link>
 
-                {/* Mobile Menu Button */}
-                <button
-                    onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                    className="md:hidden p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/50 transition-colors"
-                >
-                    {isMobileMenuOpen ? (
-                        <XMarkIcon className="w-6 h-6" />
-                    ) : (
-                        <Bars3Icon className="w-6 h-6" />
-                    )}
-                </button>
+                {/* Quick Logout on Mobile */}
+                <div className="flex-1 flex justify-end md:hidden">
+                    <form action={logout}>
+                        <button className="p-2 rounded-lg text-slate-400 hover:text-white active:scale-90 transition-all">
+                            <ArrowRightOnRectangleIcon className="w-5 h-5" />
+                        </button>
+                    </form>
+                </div>
             </div>
 
             {/* Navigation Links - Hidden on mobile unless open, always visible on desktop */}

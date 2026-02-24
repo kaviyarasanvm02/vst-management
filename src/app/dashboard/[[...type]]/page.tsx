@@ -15,16 +15,19 @@ import {
     ExclamationCircleIcon,
     CalendarIcon,
     ExclamationTriangleIcon,
-    BuildingOffice2Icon
+    BuildingOffice2Icon,
+    ArrowRightOnRectangleIcon
 } from '@heroicons/react/24/outline';
 
 // Actions & Data Fetching
+import { logout } from '@/app/lib/actions';
 import { fetchDashboardStats } from '@/app/lib/timesheet-actions';
 import { getTodayAttendance, getAllBranches, getAttendanceHistory, getMyAttendanceRequests } from '@/app/lib/attendance-actions';
 import { fetchMyLeaves } from '@/app/lib/leave-actions';
 import { fetchCurrentUser } from '@/app/lib/profile-actions';
 import { fetchReportStats } from '@/app/lib/report-actions';
 import { fetchMyTasks } from '@/app/lib/task-actions';
+import { fetchUserTimesheets, fetchProjects } from '@/app/lib/timesheet-actions';
 
 // Components
 import WeeklyActivityChart from '@/components/dashboard/weekly-chart';
@@ -37,8 +40,24 @@ import { AdminLeaveTable } from '@/components/leave/admin-leave-table';
 import { ProfileForm } from '@/components/profile/profile-form';
 import { AvatarUpload } from '@/components/profile/avatar-upload';
 import MyTaskList from '@/components/tasks/my-task-list';
+import { TimesheetList } from '@/components/timesheet/timesheet-list';
+import CreateTimesheetForm from '@/components/timesheet/create-form';
+import { Suspense } from 'react';
 
-export default async function ConsolidatedDashboardPage({
+// UI Components
+import { DashboardErrorBoundary } from '@/components/dashboard/error-boundary';
+import { ExportButton } from '@/components/dashboard/export-button';
+import { DashboardClientView } from '@/components/dashboard/dashboard-client-view';
+import { BadgeManager } from '@/components/ui/badge-manager';
+import {
+    SkeletonKPIs,
+    SkeletonChart,
+    SkeletonRecentActivity,
+    SkeletonAttendanceCard,
+    SkeletonStatCard
+} from '@/components/ui/skeletons';
+
+export default async function DashboardPage({
     params: paramsPromise,
     searchParams: searchParamsPromise,
 }: {
@@ -57,12 +76,12 @@ export default async function ConsolidatedDashboardPage({
 
     // Default to Overview if no type specified
     if (pathSegments.length === 0) {
-        return <DashboardOverview session={session} />;
+        return <DashboardView session={session} />;
     }
 
     const type = pathSegments[0];
 
-    if (!['attendance', 'leave', 'profile', 'reports', 'tasks'].includes(type)) {
+    if (!['attendance', 'leave', 'profile', 'reports', 'tasks', 'timesheets'].includes(type)) {
         notFound();
     }
 
@@ -71,6 +90,7 @@ export default async function ConsolidatedDashboardPage({
     if (type === 'profile') return <ProfileView />;
     if (type === 'reports') return <ReportsView />;
     if (type === 'tasks') return <TasksView />;
+    if (type === 'timesheets') return <TimesheetsView pathSegments={pathSegments} />;
 
     return notFound();
 }
@@ -104,123 +124,191 @@ function StatCard({
 }
 
 // ─── Overview View ────────────────────────────────────────────────────────────
-async function DashboardOverview({ session }: { session: any }) {
+async function DashboardView({ session }: { session: any }) {
+    const isAdmin = session?.user?.role?.code === 'ADMIN';
+
+    return (
+        <DashboardClientView>
+            <Suspense fallback={
+                <div className="space-y-8 animate-pulse">
+                    <div className="h-16 w-1/3 bg-slate-200 rounded-xl mb-8" />
+                    <SkeletonAttendanceCard />
+                    <div className="pt-4">
+                        <SkeletonKPIs count={isAdmin ? 4 : 3} />
+                    </div>
+                </div>
+            }>
+                <DashboardOverviewContent session={session} />
+            </Suspense>
+        </DashboardClientView>
+    );
+}
+
+async function DashboardOverviewContent({ session }: { session: any }) {
+    const userName = session?.user?.name || 'User';
+    const isAdmin = session?.user?.role?.code === 'ADMIN';
     const stats = await fetchDashboardStats();
+    const pendingCount = isAdmin ? (stats?.pendingTimesheets || 0) : (stats?.recentActivity?.length || 0);
+
+    return (
+        <div className="space-y-8 animate-float-in">
+            <BadgeManager count={pendingCount} />
+            <DashboardHeader isAdmin={isAdmin} userName={userName} />
+
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <div className="lg:col-span-8 animate-float-in stagger-1">
+                    <Suspense fallback={<SkeletonAttendanceCard />}>
+                        <AttendanceSection />
+                    </Suspense>
+                </div>
+                <div className="lg:col-span-4 animate-float-in stagger-2">
+                    <Suspense fallback={<SkeletonKPIs count={isAdmin ? 4 : 3} />}>
+                        <KPISection isAdmin={isAdmin} />
+                    </Suspense>
+                </div>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <div className="lg:col-span-7 animate-float-in stagger-3">
+                    <Suspense fallback={<SkeletonChart />}>
+                        <ChartSection isAdmin={isAdmin} />
+                    </Suspense>
+                </div>
+                <div className="lg:col-span-5 animate-float-in stagger-4">
+                    <Suspense fallback={<SkeletonRecentActivity />}>
+                        <RecentActivitySection isAdmin={isAdmin} />
+                    </Suspense>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+function DashboardHeader({ isAdmin, userName }: { isAdmin: boolean, userName: string }) {
+    const currentDate = new Date();
+    return (
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-4 border-b border-slate-200">
+            <div>
+                <p className="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-1">
+                    {format(currentDate, 'EEEE, MMMM d, yyyy')}
+                </p>
+                <h1 className="text-2xl font-bold text-slate-900">
+                    {isAdmin ? `Admin Overview` : `Welcome back, ${userName}`}
+                </h1>
+            </div>
+            <div className="flex items-center gap-3">
+                {!isAdmin && (
+                    <Link href="/dashboard/attendance" className="inline-flex items-center gap-2 px-3 py-2 text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors">
+                        <ClockIcon className="h-4 w-4" />
+                        History
+                    </Link>
+                )}
+                <Link
+                    href={isAdmin ? "/dashboard/timesheets" : "/dashboard/timesheets/create"}
+                    className="inline-flex items-center gap-2 rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-indigo-700 transition-colors shadow-sm"
+                >
+                    {isAdmin ? <DocumentTextIcon className="h-4 w-4" /> : <PlusIcon className="h-4 w-4" />}
+                    {isAdmin ? "Review Timesheets" : "Log Time"}
+                </Link>
+            </div>
+        </div>
+    );
+}
+
+async function AttendanceSection() {
     const [todayAttendance, branches] = await Promise.all([
         getTodayAttendance(),
         getAllBranches(),
     ]);
+    return <AttendanceCard todayAttendance={todayAttendance} branches={branches} />;
+}
 
+async function KPISection({ isAdmin }: { isAdmin: boolean }) {
+    const stats = await fetchDashboardStats();
     if (!stats) return null;
 
-    const currentDate = new Date();
-    const userName = session?.user?.name || 'User';
-    const isAdmin = stats.isAdmin;
+    return (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4">
+            <StatCard
+                label={isAdmin ? "Org Hours This Week" : "My Hours This Week"}
+                value={Math.round(isAdmin ? (stats.totalOrgHoursThisWeek ?? 0) : stats.totalHoursThisWeek)}
+                unit="hrs"
+                sub={isAdmin ? "All employees combined" : `${Math.min(Math.round((stats.totalHoursThisWeek / 40) * 100), 100)}% of 40h target`}
+                icon={ClockIcon}
+                accent="bg-indigo-600"
+            />
+            <StatCard
+                label={isAdmin ? "Pending Approvals" : "Active Projects"}
+                value={isAdmin ? (stats.pendingTimesheets ?? 0) : stats.activeProjects}
+                sub={isAdmin ? "Timesheets awaiting review" : "Currently running"}
+                icon={isAdmin ? ExclamationCircleIcon : FolderOpenIcon}
+                accent={isAdmin ? (stats.pendingTimesheets ? 'bg-amber-500' : 'bg-slate-400') : 'bg-emerald-600'}
+            />
+            {isAdmin ? (
+                <>
+                    <StatCard label="Total Employees" value={stats.totalEmployees ?? 0} sub="Registered users" icon={UsersIcon} accent="bg-violet-600" />
+                    <StatCard label="Active Projects" value={stats.activeProjects} sub="Currently running" icon={FolderOpenIcon} accent="bg-emerald-600" />
+                </>
+            ) : (
+                <StatCard label="Recent Entries" value={stats.recentActivity.length} sub="Last submissions" icon={DocumentTextIcon} accent="bg-violet-600" />
+            )}
+        </div>
+    );
+}
+
+async function ChartSection({ isAdmin }: { isAdmin: boolean }) {
+    const stats = await fetchDashboardStats();
+    if (!stats) return null;
 
     return (
-        <main className="max-w-7xl mx-auto space-y-6 pb-10">
-            {/* Header */}
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-4 border-b border-slate-200">
-                <div>
-                    <p className="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-1">
-                        {format(currentDate, 'EEEE, MMMM d, yyyy')}
-                    </p>
-                    <h1 className="text-2xl font-bold text-slate-900">
-                        {isAdmin ? `Admin Overview` : `Welcome back, ${userName}`}
-                    </h1>
-                </div>
-                <div className="flex items-center gap-3">
-                    {!isAdmin && (
-                        <Link href="/dashboard/attendance" className="inline-flex items-center gap-2 px-3 py-2 text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors">
-                            <ClockIcon className="h-4 w-4" />
-                            History
-                        </Link>
-                    )}
-                    <Link
-                        href={isAdmin ? "/dashboard/timesheets" : "/dashboard/timesheets/create"}
-                        className="inline-flex items-center gap-2 rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-indigo-700 transition-colors shadow-sm"
-                    >
-                        {isAdmin ? <DocumentTextIcon className="h-4 w-4" /> : <PlusIcon className="h-4 w-4" />}
-                        {isAdmin ? "Review Timesheets" : "Log Time"}
-                    </Link>
-                </div>
+        <div className="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden h-full">
+            <div className="px-6 py-4 border-b border-slate-100 flex items-center gap-2">
+                <ChartBarIcon className="h-5 w-5 text-indigo-600" />
+                <h2 className="text-sm font-bold text-slate-900">{isAdmin ? 'Team Activity' : 'My Activity'} (This Week)</h2>
             </div>
+            <div className="p-6">
+                <WeeklyActivityChart data={stats.chartData} />
+            </div>
+        </div>
+    );
+}
 
-            {/* Attendance (Employee) */}
-            {!isAdmin && <AttendanceCard todayAttendance={todayAttendance} branches={branches} />}
+async function RecentActivitySection({ isAdmin }: { isAdmin: boolean }) {
+    const stats = await fetchDashboardStats();
+    if (!stats) return null;
 
-            {/* KPIs */}
-            <div className={`grid grid-cols-1 sm:grid-cols-2 ${isAdmin ? 'xl:grid-cols-4' : 'xl:grid-cols-3'} gap-4`}>
-                <StatCard
-                    label={isAdmin ? "Org Hours This Week" : "My Hours This Week"}
-                    value={Math.round(isAdmin ? (stats.totalOrgHoursThisWeek ?? 0) : stats.totalHoursThisWeek)}
-                    unit="hrs"
-                    sub={isAdmin ? "All employees combined" : `${Math.min(Math.round((stats.totalHoursThisWeek / 40) * 100), 100)}% of 40h target`}
-                    icon={ClockIcon}
-                    accent="bg-indigo-600"
-                />
-                <StatCard
-                    label={isAdmin ? "Pending Approvals" : "Active Projects"}
-                    value={isAdmin ? (stats.pendingTimesheets ?? 0) : stats.activeProjects}
-                    sub={isAdmin ? "Timesheets awaiting review" : "Currently running"}
-                    icon={isAdmin ? ExclamationCircleIcon : FolderOpenIcon}
-                    accent={isAdmin ? (stats.pendingTimesheets ? 'bg-amber-500' : 'bg-slate-400') : 'bg-emerald-600'}
-                />
-                {isAdmin ? (
-                    <>
-                        <StatCard label="Total Employees" value={stats.totalEmployees ?? 0} sub="Registered users" icon={UsersIcon} accent="bg-violet-600" />
-                        <StatCard label="Active Projects" value={stats.activeProjects} sub="Currently running" icon={FolderOpenIcon} accent="bg-emerald-600" />
-                    </>
+    return (
+        <div className="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden h-full">
+            <div className="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
+                <h2 className="text-sm font-bold text-slate-900">{isAdmin ? 'Recent Submissions' : 'Recent Entries'}</h2>
+                <Link href="/dashboard/timesheets" className="text-xs font-semibold text-indigo-600 hover:text-indigo-700 flex items-center gap-1">
+                    View all <ArrowRightIcon className="h-3.5 w-3.5" />
+                </Link>
+            </div>
+            <div className="divide-y divide-slate-100">
+                {stats.recentActivity.length > 0 ? (
+                    stats.recentActivity.slice(0, 5).flatMap(ts => ts.entries.map(entry => (
+                        <div key={entry.id} className="flex items-start gap-3 px-5 py-3.5 hover:bg-slate-50 transition-colors">
+                            <div className="h-8 w-8 rounded-lg bg-indigo-50 text-indigo-700 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">
+                                {format(new Date(ts.date), 'dd')}
+                            </div>
+                            <div className="min-w-0 flex-1">
+                                <div className="flex items-center justify-between gap-2">
+                                    <p className="text-sm font-semibold text-slate-900 truncate">{entry.project.name}</p>
+                                    <span className="text-xs font-bold text-slate-500 shrink-0">{entry.hours}h</span>
+                                </div>
+                                {isAdmin && <p className="text-xs font-medium text-indigo-600 truncate">{ts.user?.name || ts.user?.email}</p>}
+                                <p className="text-xs text-slate-400 mt-0.5 truncate">{entry.description}</p>
+                            </div>
+                        </div>
+                    )))
                 ) : (
-                    <StatCard label="Recent Entries" value={stats.recentActivity.length} sub="Last submissions" icon={DocumentTextIcon} accent="bg-violet-600" />
+                    <div className="py-12 text-center px-5">
+                        <p className="text-sm text-slate-500">No entries yet</p>
+                    </div>
                 )}
             </div>
-
-            {/* Chart + Activity */}
-            <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
-                <div className="xl:col-span-2 bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
-                    <div className="px-6 py-4 border-b border-slate-100 flex items-center gap-2">
-                        <ChartBarIcon className="h-5 w-5 text-indigo-600" />
-                        <h2 className="text-sm font-bold text-slate-900">{isAdmin ? 'Team Activity' : 'My Activity'} (This Week)</h2>
-                    </div>
-                    <div className="p-6">
-                        <WeeklyActivityChart data={stats.chartData} />
-                    </div>
-                </div>
-
-                <div className="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
-                    <div className="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
-                        <h2 className="text-sm font-bold text-slate-900">{isAdmin ? 'Recent Submissions' : 'Recent Entries'}</h2>
-                        <Link href="/dashboard/timesheets" className="text-xs font-semibold text-indigo-600 hover:text-indigo-700 flex items-center gap-1">
-                            View all <ArrowRightIcon className="h-3.5 w-3.5" />
-                        </Link>
-                    </div>
-                    <div className="divide-y divide-slate-100">
-                        {stats.recentActivity.length > 0 ? (
-                            stats.recentActivity.slice(0, 5).flatMap(ts => ts.entries.map(entry => (
-                                <div key={entry.id} className="flex items-start gap-3 px-5 py-3.5 hover:bg-slate-50 transition-colors">
-                                    <div className="h-8 w-8 rounded-lg bg-indigo-50 text-indigo-700 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">
-                                        {format(new Date(ts.date), 'dd')}
-                                    </div>
-                                    <div className="min-w-0 flex-1">
-                                        <div className="flex items-center justify-between gap-2">
-                                            <p className="text-sm font-semibold text-slate-900 truncate">{entry.project.name}</p>
-                                            <span className="text-xs font-bold text-slate-500 shrink-0">{entry.hours}h</span>
-                                        </div>
-                                        {isAdmin && <p className="text-xs font-medium text-indigo-600 truncate">{ts.user?.name || ts.user?.email}</p>}
-                                        <p className="text-xs text-slate-400 mt-0.5 truncate">{entry.description}</p>
-                                    </div>
-                                </div>
-                            )))
-                        ) : (
-                            <div className="py-12 text-center px-5">
-                                <p className="text-sm text-slate-500">No entries yet</p>
-                            </div>
-                        )}
-                    </div>
-                </div>
-            </div>
-        </main>
+        </div>
     );
 }
 
@@ -232,7 +320,10 @@ async function AttendanceView() {
 
     return (
         <div className="w-full max-w-5xl mx-auto space-y-8 pb-10">
-            <h1 className="text-2xl font-bold text-slate-900">My Attendance</h1>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <h1 className="text-2xl font-bold text-slate-900">My Attendance</h1>
+                <ExportButton data={history} filename="my-attendance.pdf" title="Personal Attendance Report" />
+            </div>
             {pendingRequests.length > 0 && (
                 <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 flex gap-3">
                     <ExclamationTriangleIcon className="h-5 w-5 text-amber-600 shrink-0" />
@@ -277,13 +368,31 @@ async function ProfileView() {
     const user = await fetchCurrentUser();
     if (!user) return null;
     return (
-        <div className="w-full max-w-3xl mx-auto space-y-6 pb-10">
-            <h1 className="text-2xl font-bold text-slate-900">My Profile</h1>
+        <div className="w-full max-w-3xl mx-auto space-y-6 pb-20">
+            <div className="flex items-center justify-between">
+                <h1 className="text-2xl font-bold text-slate-900">My Profile</h1>
+                <form action={logout} className="md:hidden">
+                    <button className="flex items-center gap-2 px-4 py-2 rounded-xl bg-red-50 text-red-600 text-sm font-bold active:scale-95 transition-all">
+                        <ArrowRightOnRectangleIcon className="h-4 w-4" />
+                        Sign Out
+                    </button>
+                </form>
+            </div>
             <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
                 <AvatarUpload name={user.name} image={user.image} />
                 <p className="text-xs text-slate-500 mt-3">{user.email} · {user.role?.name || 'User'}</p>
             </div>
             <ProfileForm user={user} />
+
+            {/* Desktop Logout (Hidden if sidebar is present, but sidebar already has logout) */}
+            <div className="hidden md:block pt-4 border-t border-slate-200">
+                <form action={logout}>
+                    <button className="flex items-center gap-2 px-6 py-3 rounded-xl bg-slate-100 text-slate-600 hover:bg-red-50 hover:text-red-600 transition-all font-bold">
+                        <ArrowRightOnRectangleIcon className="h-5 w-5" />
+                        Sign Out from Account
+                    </button>
+                </form>
+            </div>
         </div>
     );
 }
@@ -291,11 +400,16 @@ async function ProfileView() {
 // ─── Reports View ─────────────────────────────────────────────────────────────
 async function ReportsView() {
     const stats = await fetchReportStats();
+    const history = await getAttendanceHistory(); // Use history as a proxy for export data for now
+
     if (!stats) return <p className="text-center py-20 text-slate-500">No report data accessible.</p>;
 
     return (
         <div className="w-full max-w-7xl mx-auto space-y-8 pb-12">
-            <h1 className="text-3xl font-bold text-slate-900 tracking-tight">Reports & Analytics</h1>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <h1 className="text-3xl font-bold text-slate-900 tracking-tight">Reports & Analytics</h1>
+                <ExportButton data={history} filename="work-report.pdf" title="Full Work Report" />
+            </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
                     <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Total Hours</p>
@@ -306,13 +420,62 @@ async function ReportsView() {
     );
 }
 
-// ─── Tasks View ───────────────────────────────────────────────────────────────
+// ─── Tasks View ──────────────────────────────────────────────────────────────
 async function TasksView() {
     const tasks = await fetchMyTasks();
     return (
         <div className="w-full max-w-5xl mx-auto space-y-6 pb-8">
             <h1 className="text-2xl font-bold text-slate-900">My Tasks</h1>
             <MyTaskList tasks={tasks} />
+        </div>
+    );
+}
+
+// ─── Timesheets View ─────────────────────────────────────────────────────────
+async function TimesheetsView({ pathSegments }: { pathSegments: string[] }) {
+    const session = await auth();
+    const isAdmin = session?.user?.role?.code === 'ADMIN';
+    const isCreate = pathSegments[1] === 'create';
+
+    if (isCreate) {
+        if (isAdmin) redirect('/dashboard/timesheets');
+
+        const projects = await fetchProjects();
+        return (
+            <div className="w-full max-w-5xl mx-auto space-y-8 pb-10">
+                <div className="flex items-center gap-4">
+                    <Link href="/dashboard/timesheets" className="p-2 rounded-xl bg-white border border-slate-200 text-slate-400 hover:text-indigo-600 hover:border-indigo-100 transition-all">
+                        <ArrowRightIcon className="h-5 w-5 rotate-180" />
+                    </Link>
+                    <h1 className="text-2xl font-bold text-slate-900">Log Activity</h1>
+                </div>
+                <CreateTimesheetForm projects={projects} />
+            </div>
+        );
+    }
+
+    const { timesheets } = await fetchUserTimesheets();
+
+    return (
+        <div className="w-full max-w-5xl mx-auto space-y-8 pb-10">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                    <h1 className="text-2xl font-bold text-slate-900">Timesheets</h1>
+                    <p className="text-sm text-slate-500 mt-1">
+                        {isAdmin ? "Review and manage organization-wide work hours." : "Review and manage your logged work hours."}
+                    </p>
+                </div>
+                {!isAdmin && (
+                    <Link
+                        href="/dashboard/timesheets/create"
+                        className="inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-5 py-2.5 text-sm font-bold text-white hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-500/20 active:scale-95"
+                    >
+                        <PlusIcon className="h-4 w-4" />
+                        New Entry
+                    </Link>
+                )}
+            </div>
+            <TimesheetList timesheets={timesheets} />
         </div>
     );
 }

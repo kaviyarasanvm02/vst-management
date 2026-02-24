@@ -1,10 +1,12 @@
 import type { Metadata, Viewport } from "next";
 
 export const viewport: Viewport = {
-  themeColor: "#ffffff",
+  themeColor: "#0f172a",
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
+  userScalable: false,
+  viewportFit: 'cover',
 };
 import { Inter } from "next/font/google";
 import "./globals.css";
@@ -37,9 +39,22 @@ export const metadata: Metadata = {
     locale: 'en_US',
     type: 'website',
   },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: 'VST Timesheet',
+    startupImage: [
+      {
+        url: '/logo.jpg',
+        media: '(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3)',
+      },
+    ],
+  },
 };
 
 import { Providers } from "@/components/providers";
+import { OfflineIndicator } from "@/components/ui/offline-indicator";
+import { InstallPrompt } from "@/components/ui/install-prompt";
 
 export default function RootLayout({
   children,
@@ -51,7 +66,11 @@ export default function RootLayout({
       <body
         className={`${inter.variable} antialiased font-sans bg-slate-50 text-slate-900`}
       >
-        <Providers>{children}</Providers>
+        <Providers>
+          <OfflineIndicator />
+          <InstallPrompt />
+          {children}
+        </Providers>
       </body>
     </html>
   );

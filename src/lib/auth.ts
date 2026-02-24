@@ -33,6 +33,7 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
                     token.id = dbUser.id
                     token.role = dbUser.role
                     token.branch = dbUser.branch?.name || dbUser.branchLegacy
+                    token.branchId = dbUser.branchId
                     token.image = dbUser.image
                 }
             }
@@ -55,6 +56,7 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
                         return {
                             ...user,
                             branch: user.branch?.name || user.branchLegacy || null,
+                            branchId: user.branchId,
                         }
                     }
                 }

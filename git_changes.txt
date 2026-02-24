@@ -1,0 +1,31 @@
+﻿ M src/app/admin/reports/[[...type]]/page.tsx
+ M src/app/lib/attendance-actions.ts
+ M src/app/lib/payroll-actions.ts
+ M src/app/lib/timesheet-actions.ts
+ M src/app/lib/types.ts
+ M src/auth.config.ts
+ M src/components/dashboard/attendance-card.tsx
+ M src/components/timesheet/create-form.tsx
+ M src/lib/auth.ts
+ M src/lib/schemas.ts
+ D src/types/dashboard.ts
+ M src/types/index.ts
+ M src/types/next-auth.d.ts
+?? git_changes.txt
+?? src/app/admin/master/customer/
+?? src/app/admin/master/page.tsx
+?? src/app/admin/master/project/
+?? src/app/admin/master/role/
+?? src/app/admin/master/team-user/
+?? src/app/admin/reports/attendance/
+?? src/app/admin/reports/employee/
+?? src/app/admin/reports/location/
+?? src/app/admin/reports/project/
+?? src/app/dashboard/attendance/
+?? src/app/dashboard/leave/
+?? src/app/dashboard/page.tsx
+?? src/app/dashboard/profile/
+?? src/app/dashboard/reports/
+?? src/app/dashboard/tasks/
+?? src/lib/rbac.ts
+?? src/services/

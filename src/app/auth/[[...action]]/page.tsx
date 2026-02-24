@@ -68,6 +68,20 @@ export default async function ConsolidatedAuthPage({
             {/* Right Side - Form */}
             <div className="w-full lg:w-1/2 flex items-center justify-center p-8 lg:p-12">
                 <div className="w-full max-w-md space-y-8 bg-white p-10 rounded-2xl shadow-xl border border-slate-100">
+                    {/* Mobile Logo */}
+                    <div className="flex justify-center lg:hidden mb-6">
+                        <div className="bg-white p-3 rounded-xl shadow-md border border-slate-100">
+                            <Image
+                                src="/logo.jpg"
+                                alt="Vedhasoft Logo"
+                                width={120}
+                                height={48}
+                                className="object-contain"
+                                priority
+                            />
+                        </div>
+                    </div>
+
                     <div className="text-center lg:text-left">
                         <h2 className="text-2xl font-bold tracking-tight text-slate-900">
                             {isLogin ? 'Welcome back' : 'Create your account'}

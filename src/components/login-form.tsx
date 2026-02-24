@@ -5,9 +5,11 @@ import {
     KeyIcon,
     ExclamationCircleIcon,
     ArrowRightIcon,
-    CheckCircleIcon
+    CheckCircleIcon,
+    EyeIcon,
+    EyeSlashIcon
 } from '@heroicons/react/24/outline';
-import { useActionState } from 'react';
+import { useActionState, useState } from 'react';
 import { useFormStatus } from 'react-dom';
 import { authenticate } from '@/app/lib/actions';
 import { useSearchParams } from 'next/navigation';
@@ -15,6 +17,7 @@ import Link from 'next/link';
 
 export default function LoginForm() {
     const [errorMessage, dispatch] = useActionState(authenticate, undefined);
+    const [showPassword, setShowPassword] = useState(false);
     const searchParams = useSearchParams();
     const isRegistered = searchParams.get('registered') === 'true';
 
@@ -56,15 +59,27 @@ export default function LoginForm() {
                 </label>
                 <div className="relative">
                     <input
-                        className="peer block w-full rounded-lg border border-slate-300 bg-white py-3 pl-10 text-sm text-slate-900 placeholder:text-slate-400 focus:border-slate-500 focus:ring-2 focus:ring-slate-500/20 focus:outline-none transition-all"
+                        className="peer block w-full rounded-lg border border-slate-300 bg-white py-3 pl-10 pr-10 text-sm text-slate-900 placeholder:text-slate-400 focus:border-slate-500 focus:ring-2 focus:ring-slate-500/20 focus:outline-none transition-all"
                         id="password"
-                        type="password"
+                        type={showPassword ? 'text' : 'password'}
                         name="password"
                         placeholder="Enter password"
                         required
                         minLength={6}
                     />
                     <KeyIcon className="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400 peer-focus:text-slate-500 transition-colors" />
+                    <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 focus:outline-none transition-colors"
+                        aria-label={showPassword ? "Hide password" : "Show password"}
+                    >
+                        {showPassword ? (
+                            <EyeSlashIcon className="h-5 w-5" />
+                        ) : (
+                            <EyeIcon className="h-5 w-5" />
+                        )}
+                    </button>
                 </div>
                 <div className="flex justify-end mt-1">
                     <Link href="#" className="text-xs font-medium text-slate-600 hover:text-slate-500">
